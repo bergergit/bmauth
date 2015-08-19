@@ -4,11 +4,22 @@ angular.module('megafunk', [
   'megafunk.home',
   'megafunk.navigation'
 ]).
-config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
-  $routeProvider.otherwise({redirectTo: '/'});
-  $translateProvider.useSanitizeValueStrategy('escape');
-  $translateProvider.useUrlLoader('messageBundle');
-  $translateProvider.preferredLanguage('en');
-  $translateProvider.fallbackLanguage('en');
+config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
+	// routes configuration
+	$routeProvider.when('/', { 
+		  templateUrl: 'fragments/home/login.html',
+		  controller: 'LoginCtrl'
+	}).when('/home', { 
+		  templateUrl: 'fragments/home/home.html'
+	}).otherwise({redirectTo: '/'});
+	
+	// translation configuration
+	$translateProvider.useSanitizeValueStrategy('escape');
+	$translateProvider.useUrlLoader('messageBundle');
+	$translateProvider.preferredLanguage('en');
+	$translateProvider.fallbackLanguage('en');
+	
+	// support natural routes
+	$locationProvider.html5Mode(true);
 }]);
 

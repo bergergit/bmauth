@@ -12,27 +12,15 @@ import java.util.List;
  */
 @Entity
 @Table(name="system")
-public class System implements Serializable {
+public class System extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="system_id")
-	private int systemId;
+	private Integer systemId;
 
 	private short active;
-
-	@Column(name="created_by")
-	private int createdBy;
-
-	@Column(name="creation_date")
-	private Timestamp creationDate;
-
-	@Column(name="last_update_date")
-	private Timestamp lastUpdateDate;
-
-	@Column(name="last_updated_by")
-	private int lastUpdatedBy;
 
 	@Column(name="mandatory_contract")
 	private short mandatoryContract;
@@ -56,11 +44,11 @@ public class System implements Serializable {
 	public System() {
 	}
 
-	public int getSystemId() {
+	public Integer getSystemId() {
 		return this.systemId;
 	}
 
-	public void setSystemId(int systemId) {
+	public void setSystemId(Integer systemId) {
 		this.systemId = systemId;
 	}
 
@@ -70,38 +58,6 @@ public class System implements Serializable {
 
 	public void setActive(short active) {
 		this.active = active;
-	}
-
-	public int getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public Timestamp getLastUpdateDate() {
-		return this.lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(Timestamp lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public int getLastUpdatedBy() {
-		return this.lastUpdatedBy;
-	}
-
-	public void setLastUpdatedBy(int lastUpdatedBy) {
-		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 	public short getMandatoryContract() {

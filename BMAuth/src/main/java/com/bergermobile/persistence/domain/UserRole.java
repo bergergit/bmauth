@@ -20,26 +20,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="user_role")
-public class UserRole implements Serializable {
+public class UserRole extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="user_role_id")
-	private int userRoleId;
+	private Integer userRoleId;
 	
-	@Column(name="created_by")
-	private int createdBy;
-
-	@Column(name="creation_date")
-	private Timestamp creationDate;
-
-	@Column(name="last_update_date")
-	private Timestamp lastUpdateDate;
-
-	@Column(name="last_updated_by")
-	private int lastUpdatedBy;
-
 	//bi-directional many-to-one association to Role
 	@ManyToOne
 	@JoinColumn(name="role_id")
@@ -49,50 +37,16 @@ public class UserRole implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
-
 	
-	
-	public int getUserRoleId() {
+	public Integer getUserRoleId() {
 		return userRoleId;
 	}
 
-	public void setUserRoleId(int userRoleId) {
+	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
 	}
 
 	public UserRole() {
-	}
-
-	public int getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public Timestamp getLastUpdateDate() {
-		return this.lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(Timestamp lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public int getLastUpdatedBy() {
-		return this.lastUpdatedBy;
-	}
-
-	public void setLastUpdatedBy(int lastUpdatedBy) {
-		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 	public Role getRole() {

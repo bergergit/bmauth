@@ -1,10 +1,19 @@
 package com.bergermobile.persistence.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -13,38 +22,26 @@ import java.util.List;
  */
 @Entity
 @Table(name="user")
-public class User implements Serializable {
+public class User extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="user_id")
-	private int userId;
+	private Integer userId;
 
 	private short active;
 
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
-	@Column(name="created_by")
-	private int createdBy;
-
-	@Column(name="creation_date")
-	private Timestamp creationDate;
-
 	@Column(name="document_number")
 	private String documentNumber;
 
 	private String email;
 
-	@Column(name="last_update_date")
-	private Timestamp lastUpdateDate;
-
-	@Column(name="last_updated_by")
-	private int lastUpdatedBy;
-
 	@Column(name="login_type")
-	private int loginType;
+	private Short loginType;
 
 	private String name;
 
@@ -66,11 +63,11 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -90,22 +87,6 @@ public class User implements Serializable {
 		this.birthday = birthday;
 	}
 
-	public int getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
-
 	public String getDocumentNumber() {
 		return this.documentNumber;
 	}
@@ -122,27 +103,11 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public Timestamp getLastUpdateDate() {
-		return this.lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(Timestamp lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public int getLastUpdatedBy() {
-		return this.lastUpdatedBy;
-	}
-
-	public void setLastUpdatedBy(int lastUpdatedBy) {
-		this.lastUpdatedBy = lastUpdatedBy;
-	}
-
-	public int getLoginType() {
+	public Short getLoginType() {
 		return this.loginType;
 	}
 
-	public void setLoginType(int loginType) {
+	public void setLoginType(Short loginType) {
 		this.loginType = loginType;
 	}
 

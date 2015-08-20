@@ -17,7 +17,7 @@ public class Config implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="config_id")
-	private int configId;
+	private Integer configId;
 
 	@Column(name="config_code")
 	private String configCode;
@@ -31,11 +31,11 @@ public class Config implements Serializable {
 	public Config() {
 	}
 
-	public int getConfigId() {
+	public Integer getConfigId() {
 		return this.configId;
 	}
 
-	public void setConfigId(int configId) {
+	public void setConfigId(Integer configId) {
 		this.configId = configId;
 	}
 

@@ -12,31 +12,19 @@ import java.util.List;
  */
 @Entity
 @Table(name="online_contract")
-public class OnlineContract implements Serializable {
+public class OnlineContract extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="online_contract_id")
-	private int onlineContractId;
+	private Integer onlineContractId;
 
 	@Column(name="contract_version")
 	private String contractVersion;
 
-	@Column(name="created_by")
-	private int createdBy;
-
-	@Column(name="creation_date")
-	private Timestamp creationDate;
-
 	@Lob
 	private String description;
-
-	@Column(name="last_update_date")
-	private Timestamp lastUpdateDate;
-
-	@Column(name="last_updated_by")
-	private int lastUpdatedBy;
 
 	//bi-directional many-to-one association to ContractUser
 	@OneToMany(mappedBy="onlineContract")
@@ -53,11 +41,11 @@ public class OnlineContract implements Serializable {
 	public OnlineContract() {
 	}
 
-	public int getOnlineContractId() {
+	public Integer getOnlineContractId() {
 		return this.onlineContractId;
 	}
 
-	public void setOnlineContractId(int onlineContractId) {
+	public void setOnlineContractId(Integer onlineContractId) {
 		this.onlineContractId = onlineContractId;
 	}
 
@@ -69,44 +57,12 @@ public class OnlineContract implements Serializable {
 		this.contractVersion = contractVersion;
 	}
 
-	public int getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
-
 	public String getDescription() {
 		return this.description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Timestamp getLastUpdateDate() {
-		return this.lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(Timestamp lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public int getLastUpdatedBy() {
-		return this.lastUpdatedBy;
-	}
-
-	public void setLastUpdatedBy(int lastUpdatedBy) {
-		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 	public List<ContractUser> getContractUsers() {

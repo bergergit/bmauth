@@ -2,6 +2,7 @@ package com.bergermobile.persistence.domain.fixture;
 
 
 import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -55,10 +56,8 @@ public class PersistenceFixture {
 		Date DOB = format.parse("21/01/1981");
 				
 		// Take current time
-		Calendar cal = Calendar.getInstance();
-		java.util.Date date = cal.getTime();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(
-				date.getTime());
+				new Date().getTime());
 
 		user.setLoginType(LoginType.FACEBOOK.getValue());
 		user.setUsername("token:67890");

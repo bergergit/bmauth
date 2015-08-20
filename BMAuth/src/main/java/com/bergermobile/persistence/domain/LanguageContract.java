@@ -11,31 +11,19 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="language_contract")
-public class LanguageContract implements Serializable {
+public class LanguageContract extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="language_contract_id")
-	private int languageContractId;
-
-	@Column(name="created_by")
-	private int createdBy;
-
-	@Column(name="creation_date")
-	private Timestamp creationDate;
+	private Integer languageContractId;
 
 	@Lob
 	@Column(name="html_contract")
 	private String htmlContract;
 
 	private String language;
-
-	@Column(name="last_update_date")
-	private Timestamp lastUpdateDate;
-
-	@Column(name="last_updated_by")
-	private int lastUpdatedBy;
 
 	//bi-directional many-to-one association to OnlineContract
 	@ManyToOne
@@ -45,28 +33,12 @@ public class LanguageContract implements Serializable {
 	public LanguageContract() {
 	}
 
-	public int getLanguageContractId() {
+	public Integer getLanguageContractId() {
 		return this.languageContractId;
 	}
 
-	public void setLanguageContractId(int languageContractId) {
+	public void setLanguageContractId(Integer languageContractId) {
 		this.languageContractId = languageContractId;
-	}
-
-	public int getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
 	}
 
 	public String getHtmlContract() {
@@ -83,22 +55,6 @@ public class LanguageContract implements Serializable {
 
 	public void setLanguage(String language) {
 		this.language = language;
-	}
-
-	public Timestamp getLastUpdateDate() {
-		return this.lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(Timestamp lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public int getLastUpdatedBy() {
-		return this.lastUpdatedBy;
-	}
-
-	public void setLastUpdatedBy(int lastUpdatedBy) {
-		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 	public OnlineContract getOnlineContract() {

@@ -11,30 +11,18 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="contract_user")
-public class ContractUser implements Serializable {
+public class ContractUser extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="contract_user_id")
-	private int contractUserId;
-
-	@Column(name="created_by")
-	private int createdBy;
-
-	@Column(name="creation_date")
-	private Timestamp creationDate;
+	private Integer contractUserId;
 
 	@Lob
 	private String headers;
 
 	private String ip;
-
-	@Column(name="last_update_date")
-	private Timestamp lastUpdateDate;
-
-	@Column(name="last_updated_by")
-	private int lastUpdatedBy;
 
 	@Column(name="signed_date")
 	private Timestamp signedDate;
@@ -51,29 +39,14 @@ public class ContractUser implements Serializable {
 	public ContractUser() {
 	}
 
-	public int getContractUserId() {
+	public Integer getContractUserId() {
 		return this.contractUserId;
 	}
 
-	public void setContractUserId(int contractUserId) {
+	public void setContractUserId(Integer contractUserId) {
 		this.contractUserId = contractUserId;
 	}
 
-	public int getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
 
 	public String getHeaders() {
 		return this.headers;
@@ -89,22 +62,6 @@ public class ContractUser implements Serializable {
 
 	public void setIp(String ip) {
 		this.ip = ip;
-	}
-
-	public Timestamp getLastUpdateDate() {
-		return this.lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(Timestamp lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public int getLastUpdatedBy() {
-		return this.lastUpdatedBy;
-	}
-
-	public void setLastUpdatedBy(int lastUpdatedBy) {
-		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 	public Timestamp getSignedDate() {

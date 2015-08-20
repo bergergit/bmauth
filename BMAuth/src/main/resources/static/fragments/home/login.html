@@ -1,5 +1,11 @@
 <form class="form-signin" role="form">
-	<h3 class="form-signin-heading">{{ 'login.header' | translate}}</h3>
+<!-- 	<h3 class="form-signin-heading">{{ 'login.header' | translate}}</h3> -->
+	<a href="/users/auth/facebook" class="btn btn-primary btn-block btn-large hidden-phone" id="facebookSignup">
+		<i class="fa fa-facebook-square"></i> 
+		<strong>Entre com o Facebook</strong>
+	</a>
+	<p class="text-center">ou</p>
+	
 	<input type="text" name="username" class="form-control"	placeholder="Usuário" required="required" autofocus="autofocus" /> 
 	<input type="password" name="password" class="form-control" placeholder="Senha" required="required" /> 
 	<div class="checkbox">

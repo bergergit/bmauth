@@ -2,6 +2,7 @@
 <groups xmlns="http://www.isdc.ro/wro">
 	<group name="libs" abstract="true">
 		<css>webjar:bootstrap/${bootstrap.version}/less/bootstrap.less</css>
+		<css>webjar:font-awesome/${font-awesome.version}/less/font-awesome.less</css>
 		<js>webjar:jquery/${jquery.version}/jquery.min.js</js>
 		<js>webjar:angularjs/${angular.version}/angular.min.js</js>
     	<js>webjar:angularjs/${angular.version}/angular-route.min.js</js>

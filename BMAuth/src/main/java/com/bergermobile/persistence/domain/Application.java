@@ -7,26 +7,26 @@ import java.util.List;
 
 
 /**
- * The persistent class for the system database table.
+ * The persistent class for the Application database table.
  * 
  */
 @Entity
-@Table(name="system")
-public class System extends BaseTable implements Serializable {
+@Table(name="application")
+public class Application extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="system_id")
-	private Integer systemId;
+	@Column(name="application_id")
+	private Integer applicationId;
 
 	private short active;
 
 	@Column(name="mandatory_contract")
 	private short mandatoryContract;
 
-	@Column(name="system_name")
-	private String systemName;
+	@Column(name="application_name")
+	private String ApplicationName;
 
 	@Column(name="test_mode")
 	private short testMode;
@@ -34,22 +34,22 @@ public class System extends BaseTable implements Serializable {
 	private String url;
 
 	//bi-directional many-to-one association to OnlineContract
-	@OneToMany(mappedBy="system")
+	@OneToMany(mappedBy="application", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
 	private List<OnlineContract> onlineContracts;
 
 	//bi-directional many-to-one association to Role
-	@OneToMany(mappedBy="system")
+	@OneToMany(mappedBy="application", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
 	private List<Role> roles;
 
-	public System() {
+	public Application() {
 	}
 
-	public Integer getSystemId() {
-		return this.systemId;
+	public Integer getApplicationId() {
+		return this.applicationId;
 	}
 
-	public void setSystemId(Integer systemId) {
-		this.systemId = systemId;
+	public void setApplicationId(Integer applicationId) {
+		this.applicationId = applicationId;
 	}
 
 	public short getActive() {
@@ -68,12 +68,12 @@ public class System extends BaseTable implements Serializable {
 		this.mandatoryContract = mandatoryContract;
 	}
 
-	public String getSystemName() {
-		return this.systemName;
+	public String getApplicationName() {
+		return this.ApplicationName;
 	}
 
-	public void setSystemName(String systemName) {
-		this.systemName = systemName;
+	public void setApplicationName(String ApplicationName) {
+		this.ApplicationName = ApplicationName;
 	}
 
 	public short getTestMode() {
@@ -102,14 +102,14 @@ public class System extends BaseTable implements Serializable {
 
 	public OnlineContract addOnlineContract(OnlineContract onlineContract) {
 		getOnlineContracts().add(onlineContract);
-		onlineContract.setSystem(this);
+		onlineContract.setApplication(this);
 
 		return onlineContract;
 	}
 
 	public OnlineContract removeOnlineContract(OnlineContract onlineContract) {
 		getOnlineContracts().remove(onlineContract);
-		onlineContract.setSystem(null);
+		onlineContract.setApplication(null);
 
 		return onlineContract;
 	}
@@ -124,14 +124,14 @@ public class System extends BaseTable implements Serializable {
 
 	public Role addRole(Role role) {
 		getRoles().add(role);
-		role.setSystem(this);
+		role.setApplication(this);
 
 		return role;
 	}
 
 	public Role removeRole(Role role) {
 		getRoles().remove(role);
-		role.setSystem(null);
+		role.setApplication(null);
 
 		return role;
 	}

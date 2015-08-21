@@ -48,7 +48,7 @@ public class MappingIntegrationTest {
 		assertTableExists(manager, "log");
 		assertTableExists(manager, "online_contract");
 		assertTableExists(manager, "role");
-		assertTableExists(manager, "system");
+		assertTableExists(manager, "application");
 		assertTableExists(manager, "user");
 		assertTableExists(manager, "user_role");
 	}
@@ -98,7 +98,7 @@ public class MappingIntegrationTest {
 		assertTableHasColumn(manager,"online_contract","online_contract_id");
 		assertTableHasColumn(manager,"online_contract","contract_version");
 		assertTableHasColumn(manager,"online_contract","description");
-		assertTableHasColumn(manager,"online_contract","system_system_id");
+		assertTableHasColumn(manager,"online_contract","application_id");
 		assertTableHasColumn(manager,"online_contract","creation_date");
 		assertTableHasColumn(manager,"online_contract","created_by");
 		assertTableHasColumn(manager,"online_contract","last_update_date");
@@ -106,22 +106,22 @@ public class MappingIntegrationTest {
 
 		assertTableHasColumn(manager,"role","role_id");
 		assertTableHasColumn(manager,"role","role_name");
-		assertTableHasColumn(manager,"role","system_system_id");
+		assertTableHasColumn(manager,"role","application_id");
 		assertTableHasColumn(manager,"role","creation_date");
 		assertTableHasColumn(manager,"role","created_by");
 		assertTableHasColumn(manager,"role","last_update_date");
 		assertTableHasColumn(manager,"role","last_updated_by");
 
-		assertTableHasColumn(manager,"system","system_id");
-		assertTableHasColumn(manager,"system","system_name");
-		assertTableHasColumn(manager,"system","url");
-		assertTableHasColumn(manager,"system","test_mode");
-		assertTableHasColumn(manager,"system","mandatory_contract");
-		assertTableHasColumn(manager,"system","active");
-		assertTableHasColumn(manager,"system","creation_date");
-		assertTableHasColumn(manager,"system","created_by");
-		assertTableHasColumn(manager,"system","last_update_date");
-		assertTableHasColumn(manager,"system","last_updated_by");
+		assertTableHasColumn(manager,"application","application_id");
+		assertTableHasColumn(manager,"application","application_name");
+		assertTableHasColumn(manager,"application","url");
+		assertTableHasColumn(manager,"application","test_mode");
+		assertTableHasColumn(manager,"application","mandatory_contract");
+		assertTableHasColumn(manager,"application","active");
+		assertTableHasColumn(manager,"application","creation_date");
+		assertTableHasColumn(manager,"application","created_by");
+		assertTableHasColumn(manager,"application","last_update_date");
+		assertTableHasColumn(manager,"application","last_updated_by");
 
 		assertTableHasColumn(manager,"user","user_id");
 		assertTableHasColumn(manager,"user","login_type");

@@ -23,12 +23,12 @@ public class Role extends BaseTable implements Serializable {
 	@Column(name="role_name")
 	private String roleName;
 
-	//bi-directional many-to-one association to System
+	//bi-directional many-to-one association to Application
 	@ManyToOne
-	private System system;
+	private Application application;
 
 	//bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy="role")
+	@OneToMany(mappedBy="role", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
 	private List<UserRole> userRoles;
 
 	public Role() {
@@ -50,12 +50,12 @@ public class Role extends BaseTable implements Serializable {
 		this.roleName = roleName;
 	}
 
-	public System getSystem() {
-		return this.system;
+	public Application getApplication() {
+		return this.application;
 	}
 
-	public void setSystem(System system) {
-		this.system = system;
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
 	public List<UserRole> getUserRoles() {

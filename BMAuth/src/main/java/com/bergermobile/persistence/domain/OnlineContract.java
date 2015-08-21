@@ -31,12 +31,12 @@ public class OnlineContract extends BaseTable implements Serializable {
 	private List<ContractUser> contractUsers;
 
 	//bi-directional many-to-one association to LanguageContract
-	@OneToMany(mappedBy="onlineContract")
+	@OneToMany(mappedBy="onlineContract", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
 	private List<LanguageContract> languageContracts;
 
-	//bi-directional many-to-one association to System
+	//bi-directional many-to-one association to Application
 	@ManyToOne
-	private System system;
+	private Application application;
 
 	public OnlineContract() {
 	}
@@ -109,12 +109,12 @@ public class OnlineContract extends BaseTable implements Serializable {
 		return languageContract;
 	}
 
-	public System getSystem() {
-		return this.system;
+	public Application getApplication() {
+		return this.application;
 	}
 
-	public void setSystem(System system) {
-		this.system = system;
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
 }

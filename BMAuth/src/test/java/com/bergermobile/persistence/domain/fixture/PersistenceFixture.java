@@ -12,11 +12,9 @@ import java.util.Locale;
 import com.bergermobile.persistence.domain.Active;
 import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.LanguageContract;
-import com.bergermobile.persistence.domain.LoginType;
 import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
-import com.bergermobile.persistence.domain.UserType;
 
 public class PersistenceFixture {
 
@@ -43,10 +41,10 @@ public class PersistenceFixture {
 
 		// Take current time
 		Timestamp timestamp = timestamp();
-
-		user.setLoginType(LoginType.FACEBOOK.getValue());
+		
+		user.setLoginType(User.LoginType.FACEBOOK.getValue());
 		user.setUsername("token:12345");
-		user.setUserType(UserType.CPF.getValue());
+		user.setUserType(User.UserType.CPF.getValue());
 		user.setDocumentNumber("123.456.786-00");
 		user.setName("Facebook User Active");
 		user.setEmail("facebook_user_active@gmail.com");
@@ -72,9 +70,9 @@ public class PersistenceFixture {
 		// Take current time
 		Timestamp timestamp = timestamp();
 
-		user.setLoginType(LoginType.FACEBOOK.getValue());
+		user.setLoginType(User.LoginType.FACEBOOK.getValue());
 		user.setUsername("token:67890");
-		user.setUserType(UserType.CPF.getValue());
+		user.setUserType(User.UserType.CPF.getValue());
 		user.setDocumentNumber("098.765.543-11");
 		user.setName("Facebook User Inactive");
 		user.setEmail("facebook_user_inactive@gmail.com");
@@ -100,9 +98,9 @@ public class PersistenceFixture {
 		// Take current time
 		Timestamp timestamp = timestamp();
 
-		user.setLoginType(LoginType.GOOGLE_PLUS.getValue());
+		user.setLoginType(User.LoginType.GOOGLE_PLUS.getValue());
 		user.setUsername("token:12345");
-		user.setUserType(UserType.CPF.getValue());
+		user.setUserType(User.UserType.CPF.getValue());
 		user.setDocumentNumber("123.456.786-00");
 		user.setName("Google Plus User Active");
 		user.setEmail("googleplus_user_active@gmail.com");
@@ -128,9 +126,9 @@ public class PersistenceFixture {
 		// Take current time
 		Timestamp timestamp = timestamp();
 
-		user.setLoginType(LoginType.GOOGLE_PLUS.getValue()); // Google+
+		user.setLoginType(User.LoginType.GOOGLE_PLUS.getValue()); // Google+
 		user.setUsername("token:67890");
-		user.setUserType(UserType.CPF.getValue());
+		user.setUserType(User.UserType.CPF.getValue());
 		user.setDocumentNumber("098.765.543-11");
 		user.setName("Google Plus User Inactive");
 		user.setEmail("googleplus_user_inactive@gmail.com");

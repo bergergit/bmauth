@@ -162,5 +162,56 @@ public class UserRest extends BaseTableRest implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	public static enum LoginType {
+
+		FACEBOOK((short) 1, "Facebook"), GOOGLE_PLUS((short) 2, "Google +"), INTERNO((short) 3, "Login Interno");
+
+		private final short loginTypeValue;
+		private final String description;
+
+		LoginType(short loginTypeValue, String description) {
+
+			this.loginTypeValue = loginTypeValue;
+			this.description = description;
+
+		}
+
+		public short getValue() {
+
+			return this.loginTypeValue;
+		}
+
+		public String getDescription() {
+
+			return this.description;
+		}
+	}
+
+	public static enum UserType {
+
+		CPF((short) 1, "CPF"), CNPJ((short) 2, "CNPJ");
+
+		private final short userTypeValue;
+		private final String description;
+
+		UserType(short userTypeValue, String description) {
+
+			this.userTypeValue = userTypeValue;
+			this.description = description;
+
+		}
+
+		public short getValue() {
+
+			return this.userTypeValue;
+		}
+
+		public String getDescription() {
+
+			return this.description;
+		}
+
+	}
+
 }

@@ -17,7 +17,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.BmAuthApplication;
-import com.bergermobile.persistence.domain.LoginType;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
 
@@ -69,7 +68,7 @@ public class UserRepositoryTest {
 
 		assertNotNull(savedUser);
 
-		User foundUser = userRepository.findByUserTypeAndUsername(LoginType.FACEBOOK.getValue(), "token:12345");
+		User foundUser = userRepository.findByUserTypeAndUsername(User.LoginType.FACEBOOK.getValue(), "token:12345");
 
 		// check if returns the same record
 		assertEquals(foundUser, user);

@@ -15,19 +15,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the user database table.
  * 
  */
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="user_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_id")
 	private Integer userId;
 
 	private short active;
@@ -35,29 +34,29 @@ public class User extends BaseTable implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
-	@Column(name="document_number")
+	@Column(name = "document_number")
 	private String documentNumber;
 
 	private String email;
 
-	@Column(name="login_type")
+	@Column(name = "login_type")
 	private Short loginType;
 
 	private String name;
 
 	private String password;
 
-	@Column(name="user_type")
+	@Column(name = "user_type")
 	private short userType;
 
 	private String username;
 
-	//bi-directional many-to-one association to ContractUser
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to ContractUser
+	@OneToMany(mappedBy = "user")
 	private List<ContractUser> contractUsers;
 
-	//bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to UserRole
+	@OneToMany(mappedBy = "user")
 	private List<UserRole> userRoles;
 
 	public User() {
@@ -215,6 +214,55 @@ public class User extends BaseTable implements Serializable {
 		return true;
 	}
 
-	
-	
+	public static enum LoginType {
+
+		FACEBOOK((short) 1, "Facebook"), GOOGLE_PLUS((short) 2, "Google +"), INTERNO((short) 3, "Login Interno");
+
+		private final short loginTypeValue;
+		private final String description;
+
+		LoginType(short loginTypeValue, String description) {
+
+			this.loginTypeValue = loginTypeValue;
+			this.description = description;
+
+		}
+
+		public short getValue() {
+
+			return this.loginTypeValue;
+		}
+
+		public String getDescription() {
+
+			return this.description;
+		}
+	}
+
+	public static enum UserType {
+
+		CPF((short) 1, "CPF"), CNPJ((short) 2, "CNPJ");
+
+		private final short userTypeValue;
+		private final String description;
+
+		UserType(short userTypeValue, String description) {
+
+			this.userTypeValue = userTypeValue;
+			this.description = description;
+
+		}
+
+		public short getValue() {
+
+			return this.userTypeValue;
+		}
+
+		public String getDescription() {
+
+			return this.description;
+		}
+
+	}
+
 }

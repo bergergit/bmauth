@@ -1,8 +1,8 @@
 angular.module('megafunk', [
   'ngRoute',
   'pascalprecht.translate',
-  'megafunk.home',
-  'megafunk.navigation'
+  'bmauth.login',
+  'bmauth.navigation'
 ]).
 config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
 	// routes configuration
@@ -10,7 +10,8 @@ config(['$routeProvider', '$translateProvider', '$locationProvider', function($r
 		  templateUrl: 'fragments/home/login.html',
 		  controller: 'LoginCtrl'
 	}).when('/signup', { 
-		  templateUrl: 'fragments/home/signup.html'
+		  templateUrl: 'fragments/home/signup.html',
+		  controller: 'SignupCtrl'
 	}).otherwise({redirectTo: '/'});
 	
 	// translation configuration

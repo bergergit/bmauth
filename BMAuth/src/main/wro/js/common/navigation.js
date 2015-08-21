@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('megafunk.navigation', [])
+angular.module('bmauth.navigation', [])
 
 /** Controller that manages navigation actions, related to the navbar */
 .controller('NavigationCtrl', ['$scope','$location', function($scope, $location) {

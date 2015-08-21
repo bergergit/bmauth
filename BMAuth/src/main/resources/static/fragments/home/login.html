@@ -1,15 +1,15 @@
-<form class="form-horizontal form-signin" role="form">
+<form class="form-horizontal form-signin" role="form" ng-submit="login()">
 <!-- 	<h3 class="form-signin-heading">{{ 'login.header' | translate}}</h3> -->
 	<a href="/bmauth/login/facebook" class="btn btn-primary btn-block btn-lg" id="facebookSignup">
 		<i class="fa fa-facebook-square"></i> 
-		<strong>Entre com o Facebook</strong>
+		<strong>{{ 'login.btn.facebook.signin' | translate}}</strong>
 	</a>
 	<p/>
 	<a href="/bmauth/login/google" class="btn btn-primary btn-block btn-lg" id="googleSignup">
 		<i class="fa fa-google-plus-square"></i> 
-		<strong>Entre com o Google+</strong>
+		<strong>{{ 'login.btn.google.signin' | translate}}</strong>
 	</a>
-	<h4 class="text-left">Ou use:</h4>
+	<h4 class="text-left">{{ 'login.header.or' | translate}}</h4>
 	
 	<div class="form-group">
 		<div class="col-sm-12">
@@ -38,12 +38,7 @@
 	</div> 
 	
 	<hr/>
-	<!-- 
-	<div class="checkbox">
-		<label> <input type="checkbox" value="remember-me" /> Lembrar </label>
-	</div>
-	-->
-	<a href="/bmauth/login/internal" class="btn btn-primary btn-block" id="signIn">
+	<a href="/bmauth/signup" class="btn btn-primary btn-block" id="signIn">
 		<strong>Criar cadastro</strong>
 	</a>
 </form>

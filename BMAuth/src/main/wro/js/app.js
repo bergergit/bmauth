@@ -9,8 +9,8 @@ config(['$routeProvider', '$translateProvider', '$locationProvider', function($r
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/login.html',
 		  controller: 'LoginCtrl'
-	}).when('/home', { 
-		  templateUrl: 'fragments/home/home.html'
+	}).when('/signup', { 
+		  templateUrl: 'fragments/home/signup.html'
 	}).otherwise({redirectTo: '/'});
 	
 	// translation configuration

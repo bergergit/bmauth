@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,7 +41,7 @@ public class OnlineContract  extends BaseTable implements Serializable {
 	private List<ContractUser> contractUsers;
 
 	//bi-directional many-to-one association to LanguageContract
-	@OneToMany(mappedBy="onlineContract", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
+	@OneToMany(mappedBy="onlineContract", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true, fetch=FetchType.EAGER)
 	private List<LanguageContract> languageContract;
 
 	//bi-directional many-to-one association to Application

@@ -3,14 +3,18 @@ package com.bergermobile.rest.domain;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class BaseTableRest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer createdBy;
 
+	@DateTimeFormat(style="S-")
 	private Timestamp creationDate;
 
+	@DateTimeFormat(style="S-")
 	private Timestamp lastUpdateDate;
 
 	private Integer lastUpdatedBy;

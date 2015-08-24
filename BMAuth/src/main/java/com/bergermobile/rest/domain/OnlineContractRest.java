@@ -18,7 +18,7 @@ public class OnlineContractRest extends BaseTableRest implements Serializable {
 
 	private List<ContractUserRest> contractUsersRest;
 
-	private List<LanguageContractRest> languageContractsRest;
+	private List<LanguageContractRest> languageContractRest;
 
 	private ApplicationRest applicationRest;
 
@@ -54,12 +54,12 @@ public class OnlineContractRest extends BaseTableRest implements Serializable {
 		this.contractUsersRest = contractUsersRest;
 	}
 
-	public List<LanguageContractRest> getLanguageContractsRest() {
-		return languageContractsRest;
+	public List<LanguageContractRest> getLanguageContractRest() {
+		return languageContractRest;
 	}
 
-	public void setLanguageContractsRest(List<LanguageContractRest> languageContractsRest) {
-		this.languageContractsRest = languageContractsRest;
+	public void setLanguageContractRest(List<LanguageContractRest> languageContractRest) {
+		this.languageContractRest = languageContractRest;
 	}
 
 	public ApplicationRest getApplicationRest() {

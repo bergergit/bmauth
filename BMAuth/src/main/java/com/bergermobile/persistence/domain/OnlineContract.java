@@ -1,9 +1,18 @@
 package com.bergermobile.persistence.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
@@ -12,7 +21,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="online_contract")
-public class OnlineContract extends BaseTable implements Serializable {
+public class OnlineContract  extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,7 +41,7 @@ public class OnlineContract extends BaseTable implements Serializable {
 
 	//bi-directional many-to-one association to LanguageContract
 	@OneToMany(mappedBy="onlineContract", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
-	private List<LanguageContract> languageContracts;
+	private List<LanguageContract> languageContract;
 
 	//bi-directional many-to-one association to Application
 	@ManyToOne
@@ -87,23 +96,23 @@ public class OnlineContract extends BaseTable implements Serializable {
 		return contractUser;
 	}
 
-	public List<LanguageContract> getLanguageContracts() {
-		return this.languageContracts;
+	public List<LanguageContract> getLanguageContract() {
+		return this.languageContract;
 	}
 
-	public void setLanguageContracts(List<LanguageContract> languageContracts) {
-		this.languageContracts = languageContracts;
+	public void setLanguageContract(List<LanguageContract> languageContract) {
+		this.languageContract = languageContract;
 	}
 
 	public LanguageContract addLanguageContract(LanguageContract languageContract) {
-		getLanguageContracts().add(languageContract);
+		getLanguageContract().add(languageContract);
 		languageContract.setOnlineContract(this);
 
 		return languageContract;
 	}
 
 	public LanguageContract removeLanguageContract(LanguageContract languageContract) {
-		getLanguageContracts().remove(languageContract);
+		getLanguageContract().remove(languageContract);
 		languageContract.setOnlineContract(null);
 
 		return languageContract;

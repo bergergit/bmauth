@@ -293,7 +293,7 @@ public class PersistenceFixture {
 		langList.add(lg1);
 		langList.add(lg2);
 
-		contract.setLanguageContracts(langList);
+		contract.setLanguageContract(langList);
 
 		return contract;
 
@@ -339,7 +339,7 @@ public class PersistenceFixture {
 		langList.add(lg1);
 		langList.add(lg2);
 
-		contract.setLanguageContracts(langList);
+		contract.setLanguageContract(langList);
 
 		return contract;
 

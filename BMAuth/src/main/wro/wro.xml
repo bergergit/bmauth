@@ -17,10 +17,14 @@
 		<css>file:${project.basedir}/src/main/wro/less/main.less</css>
 		<js minimize="false">file:${project.basedir}/src/main/wro/js/**.js</js>
 	</group>
+	
+	<group name="test">
+		<js minimize="false">webjar:angularjs/${angular.version}/angular-mocks.js</js>
+	</group>
 
 	<group name="app">
 		<group-ref>libs</group-ref>
 		<group-ref>main</group-ref>
 	</group>
-
+	
 </groups>

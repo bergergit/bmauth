@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bmauth.login', ['ngRoute'])
+angular.module('bmauth.login', [])
 
 .controller('LoginCtrl', ['$scope', function($scope) {
 	

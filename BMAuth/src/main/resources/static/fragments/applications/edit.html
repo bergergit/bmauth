@@ -1,4 +1,40 @@
-<body>
-	<!-- Contextual button for informational alert messages -->
-	<button type="button" class="btn btn-info">Info</button>
-</body>
+<form class="form-horizontal form-application" role="form" ng-submit="submitApplication()">
+	<fieldset>
+		<legend>Edicão Aplicativo</legend>
+		<div class="form-group">
+			<label for="inputId" class="col-md-4 control-label">ID</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control" id="inputId" ng-model="application.id"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputName" class="col-md-4 control-label">Nome</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control" id="inputName" ng-model="application.name"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputUrl" class="col-md-4 control-label">URL</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control" id="inputUrl" ng-model="application.url"/>
+			</div>
+		</div>
+
+<div class="dropup">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropup
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+
+
+		<hr/>
+		<button type="submit" class="btn btn-lg btn-primary btn-block">Salvar</button>
+	</fieldset>
+</form>

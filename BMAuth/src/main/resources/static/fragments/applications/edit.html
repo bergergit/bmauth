@@ -3,38 +3,142 @@
 		<legend>Edicão Aplicativo</legend>
 		<div class="form-group">
 			<label for="inputId" class="col-md-4 control-label">ID</label>
-			<div class="col-md-8">
-				<input type="text" class="form-control" id="inputId" ng-model="application.id"/>
+			<div class="col-md-1">
+				<input type="text" class="form-control" id="inputId" ng-model="applicationForm.id"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputName" class="col-md-4 control-label">Nome</label>
-			<div class="col-md-8">
-				<input type="text" class="form-control" id="inputName" ng-model="application.name"/>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="inputName" ng-model="applicationForm.name"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputUrl" class="col-md-4 control-label">URL</label>
-			<div class="col-md-8">
-				<input type="text" class="form-control" id="inputUrl" ng-model="application.url"/>
+			<div class="col-md-4">
+				<input type="text" class="form-control" id="inputUrl" ng-model="applicationForm.url"/>
 			</div>
 		</div>
-
-<div class="dropup">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropup
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
-
-
-		<hr/>
+		<div class="form-group">
+			<label for="inputTestMode" class="col-md-4 control-label">Modo de teste</label>
+				<div class="col-md-2">
+			     	<select class="form-control" id="inputTestMode" name="applicationForm.testMode">
+					  <option value="0" selected="selected">Não</option>
+					  <option value="1">Sim</option>
+					</select>
+			    </div>
+		</div>
+		<div class="form-group">
+			<label for="inputContractRequired" class="col-md-4 control-label">Assinatura de contrato obrigatorio</label>
+				<div class="col-md-2">
+			     	<select class="form-control" id="inputTestMode" name="applicationForm.contractRequired">
+					  <option value="0">Não</option>
+					  <option value="1" selected="selected">Sim</option>
+					</select>
+			    </div>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputContractRequired" class="col-md-4 control-label">Ativo</label>
+				<div class="col-md-2">
+					<input type="checkbox" id="active" value="false" name="applicationForm.active">
+			    </div>
+		</div>
+		
+			
+		<legend>Roles</legend>
+		<div>
+			<table id="rolesTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="rolesTable_info" style="width: 800px;">
+				<thead>
+					<tr role="row">
+						<th class="sorting_asc" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">Id</th>
+						<th class="sorting" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-label="Role: Ordenar colunas de forma ascendente" style="width: 21px;">Role</th>
+						<th class="sorting_disabled" rowspan="1" colspan="1" aria-label="&amp;nbsp;" style="width: 21px;">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr role="row" class="odd">
+						<td class="sorting_1">1</td>
+						<td class="sorting_1">Usuário</td>
+						<td>
+							<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+						</td>
+					</tr>
+					<tr role="row" class="even">
+						<td class="sorting_1">2</td>
+						<td class="sorting_1">Manager</td>
+						<td>
+							<button type="button" class="remove btn btn-danger">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</td>
+					</tr>
+					<tr role="row" class="even">
+						<td class="sorting_1">3</td>
+						<td class="sorting_1">Admin</td>
+						<td>
+							<button type="button" class="remove btn btn-danger">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<button type="button" class="btn btn-default">Novo</button>
+		<br>
+		<br>
+		
+		<legend>Contratos</legend>
+		<div>
+			<table id="contractTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="contractTable_info" style="width: 800px;">
+				<thead>
+					<tr role="row">
+						<th class="sorting_asc" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">Id</th>
+						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="Contract: Ordenar colunas de forma ascendente" style="width: 21px;">Versão</th>
+						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="CreationDate: Ordenar colunas de forma ascendente" style="width: 21px;">Inclusão</th>
+						<th class="sorting_disabled" rowspan="1" colspan="1" aria-label="&amp;nbsp;" style="width: 21px;">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr role="row" class="odd">
+						<td class="sorting_1">1</td>
+						<td class="sorting_1">1.0</td>
+						<td class="sorting_2">01/01/2015 10:22:05</td>
+						<td>
+							<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+						</td>
+					</tr>
+					<tr role="row" class="even">
+						<td class="sorting_1">2</td>
+						<td class="sorting_1">2.0</td>
+						<td class="sorting_2">21/05/2015 20:32:05</td>
+						<td>
+							<button type="button" class="remove btn btn-danger">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</td>
+					</tr>
+					<tr role="row" class="even">
+						<td class="sorting_1">3</td>
+						<td class="sorting_1">2.1</td>
+						<td class="sorting_2">21/08/2015 11:02:55</td>
+						<td>
+							<button type="button" class="remove btn btn-danger">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<button type="button" class="btn btn-default">Novo</button>
+		<br>
+		<br>
+	
 		<button type="submit" class="btn btn-lg btn-primary btn-block">Salvar</button>
-	</fieldset>
+		</fieldset>
+	
+	
 </form>

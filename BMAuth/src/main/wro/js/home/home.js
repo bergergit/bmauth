@@ -11,11 +11,12 @@ angular.module('bmauth.login', [])
 	}
 }])
 
-.controller('SignupCtrl', ['$scope','$http', function($scope, $http) {
+.controller('SignupCtrl', ['$scope','$http','$location', function($scope, $http, $location) {
 	$scope.submitSignup = function() {
 		console.debug('Will submit', $scope.signup);
 		 $http.post('bmauth/users', $scope.signup).success(function() {
 			 console.debug("Success!");
+			 $location.path("/applications");
 		 }).error(function(data) {
 			 console.debug("Error", data)
 		 });

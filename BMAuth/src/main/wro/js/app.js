@@ -1,7 +1,8 @@
-angular.module('megafunk', [
+angular.module('bmauth', [
   'ngRoute',
   'pascalprecht.translate',
   'bmauth.login',
+  'bmauth.applications',
   'bmauth.navigation'
 ]).
 config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
@@ -15,7 +16,7 @@ config(['$routeProvider', '$translateProvider', '$locationProvider', function($r
 	}).when('/applications', { 
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsCtrl'
-	}).otherwise({redirectTo: '/'});
+	})//.otherwise({redirectTo: '/'});
 	
 	// translation configuration
 	$translateProvider.useSanitizeValueStrategy('escape');

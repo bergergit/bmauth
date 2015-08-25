@@ -42,7 +42,7 @@ public class RoleIntegationTest {
 
 			assertNotNull(savedRole);
 
-			assertEquals(savedRole.getRoleName(), "Admin");
+			assertEquals(savedRole.getRoleName(), "ADMIN");
 
 		}
 	

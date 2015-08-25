@@ -1,26 +1,26 @@
-<form class="form-horizontal form-application" role="form" ng-submit="submitApplication()">
+<form class="form-horizontal bmauth-container" role="form" ng-submit="submitApplicationForm()">
 	<fieldset>
 		<legend>Edicão Aplicativo</legend>
 		<div class="form-group">
-			<label for="inputId" class="col-md-4 control-label">ID</label>
-			<div class="col-md-1">
-				<input type="text" class="form-control" id="inputId" ng-model="applicationForm.id"/>
+			<label for="inputId" class="col-md-3 control-label">ID</label>
+			<div class="col-md-5">
+				1
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputName" class="col-md-4 control-label">Nome</label>
+			<label for="inputName" class="col-md-3 control-label">Nome</label>
 			<div class="col-md-3">
 				<input type="text" class="form-control" id="inputName" ng-model="applicationForm.name"/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputUrl" class="col-md-4 control-label">URL</label>
+			<label for="inputUrl" class="col-md-3 control-label">URL</label>
 			<div class="col-md-4">
 				<input type="text" class="form-control" id="inputUrl" ng-model="applicationForm.url"/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputTestMode" class="col-md-4 control-label">Modo de teste</label>
+			<label for="inputTestMode" class="col-md-3 control-label">Modo de teste</label>
 				<div class="col-md-2">
 			     	<select class="form-control" id="inputTestMode" name="applicationForm.testMode">
 					  <option value="0" selected="selected">Não</option>
@@ -29,7 +29,7 @@
 			    </div>
 		</div>
 		<div class="form-group">
-			<label for="inputContractRequired" class="col-md-4 control-label">Assinatura de contrato obrigatorio</label>
+			<label for="inputContractRequired" class="col-md-3 control-label">Assinatura de contrato obrigatorio</label>
 				<div class="col-md-2">
 			     	<select class="form-control" id="inputTestMode" name="applicationForm.contractRequired">
 					  <option value="0">Não</option>
@@ -39,7 +39,7 @@
 		</div>
 		
 		<div class="form-group">
-			<label for="inputContractRequired" class="col-md-4 control-label">Ativo</label>
+			<label for="inputContractRequired" class="col-md-3 control-label">Ativo</label>
 				<div class="col-md-2">
 					<input type="checkbox" id="active" value="false" name="applicationForm.active">
 			    </div>
@@ -140,5 +140,6 @@
 		<button type="submit" class="btn btn-lg btn-primary btn-block">Salvar</button>
 		</fieldset>
 	
+		<input type="hidden" value="1"></input>
 	
 </form>

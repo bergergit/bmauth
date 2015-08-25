@@ -13,7 +13,7 @@ config(['$routeProvider', '$translateProvider', '$locationProvider', function($r
 	}).when('/signup', { 
 		  templateUrl: 'fragments/home/signup.html',
 		  controller: 'SignupCtrl'
-	}).when('/applications', { 
+	}).when('/applications/:applicationId', { 
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsCtrl'
 	})//.otherwise({redirectTo: '/'});

@@ -37,7 +37,7 @@ public class PersistenceFixture {
 		User user = new User();
 
 		// Date of Birth
-		Date DOB = stringToDate("20/01/1980");
+		Date dob = stringToDate("20/01/1980");
 
 		// Take current time
 		Timestamp timestamp = timestamp();
@@ -48,8 +48,63 @@ public class PersistenceFixture {
 		user.setDocumentNumber("123.456.786-00");
 		user.setName("Facebook User Active");
 		user.setEmail("facebook_user_active@gmail.com");
-		user.setBirthday(DOB);
+		user.setBirthday(dob);
 		user.setPassword("password:123456");
+		user.setActive(Active.YES.getValue());
+		user.setCreatedBy(0); // user Admin
+		user.setCreationDate(timestamp);
+		user.setLastUpdatedBy(0); // user Admin
+		user.setLastUpdateDate(timestamp);
+
+		return user;
+	}
+	
+	public static User internalUser1() throws ParseException {
+
+		User user = new User();
+
+		// Date of Birth
+		Date dob = stringToDate("20/01/1981");
+
+		// Take current time
+		Timestamp timestamp = timestamp();
+		
+		user.setLoginType(User.LoginType.INTERNAL.getValue());
+		user.setUsername("fabioberger@gmail.com");
+		user.setUserType(User.UserType.CPF.getValue());
+		user.setDocumentNumber("123.456.786-00");
+		user.setName("Fabio Berger internal");
+		user.setEmail("fabioberger@gmail.com");
+		user.setBirthday(dob);
+		user.setPassword("mypassword123");
+		user.setActive(Active.YES.getValue());
+		user.setCreatedBy(0); // user Admin
+		user.setCreationDate(timestamp);
+		user.setLastUpdatedBy(0); // user Admin
+		user.setLastUpdateDate(timestamp);
+
+		return user;
+
+	}
+	
+	public static User internalUser2() throws ParseException {
+
+		User user = new User();
+
+		// Date of Birth
+		Date dob = stringToDate("23/01/1990");
+
+		// Take current time
+		Timestamp timestamp = timestamp();
+		
+		user.setLoginType(User.LoginType.INTERNAL.getValue());
+		user.setUsername("fabiofilz@gmail.com");
+		user.setUserType(User.UserType.CPF.getValue());
+		user.setDocumentNumber("444.232.121-00");
+		user.setName("Fabio Filz internal");
+		user.setEmail("fabiofilz@gmail.com");
+		user.setBirthday(dob);
+		user.setPassword("thepassword456");
 		user.setActive(Active.YES.getValue());
 		user.setCreatedBy(0); // user Admin
 		user.setCreationDate(timestamp);

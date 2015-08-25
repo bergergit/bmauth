@@ -165,7 +165,7 @@ public class UserRest extends BaseTableRest implements Serializable {
 
 	public static enum LoginType {
 
-		FACEBOOK((short) 1, "Facebook"), GOOGLE_PLUS((short) 2, "Google +"), INTERNO((short) 3, "Login Interno");
+		FACEBOOK((short) 1, "Facebook"), GOOGLE_PLUS((short) 2, "Google +"), INTERNAL((short) 3, "Internal Login");
 
 		private final short loginTypeValue;
 		private final String description;

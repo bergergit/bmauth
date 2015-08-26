@@ -33,7 +33,7 @@ public class Application extends BaseTable implements Serializable {
 	private short mandatoryContract;
 
 	@Column(name="application_name")
-	private String ApplicationName;
+	private String applicationName;
 
 	@Column(name="test_mode")
 	private short testMode;
@@ -76,11 +76,11 @@ public class Application extends BaseTable implements Serializable {
 	}
 
 	public String getApplicationName() {
-		return this.ApplicationName;
+		return this.applicationName;
 	}
 
 	public void setApplicationName(String ApplicationName) {
-		this.ApplicationName = ApplicationName;
+		this.applicationName = ApplicationName;
 	}
 
 	public short getTestMode() {

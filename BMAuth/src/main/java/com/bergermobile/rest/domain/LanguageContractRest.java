@@ -15,8 +15,6 @@ public class LanguageContractRest extends BaseTableRest implements Serializable 
 
 	private String language;
 
-	private OnlineContractRest onlineContractRest;
-
 	public Integer getLanguageContractId() {
 		return languageContractId;
 	}
@@ -39,14 +37,6 @@ public class LanguageContractRest extends BaseTableRest implements Serializable 
 
 	public void setLanguage(String language) {
 		this.language = language;
-	}
-
-	public OnlineContractRest getOnlineContractRest() {
-		return onlineContractRest;
-	}
-
-	public void setOnlineContractRest(OnlineContractRest onlineContractRest) {
-		this.onlineContractRest = onlineContractRest;
 	}
 
 }

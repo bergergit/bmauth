@@ -14,8 +14,6 @@ public class RoleRest extends BaseTableRest implements Serializable {
 
 	private String roleName;
 
-	private ApplicationRest applicationRest;
-
 	private List<UserRoleRest> userRolesRest;
 
 	public Integer getRoleId() {
@@ -32,14 +30,6 @@ public class RoleRest extends BaseTableRest implements Serializable {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-	}
-
-	public ApplicationRest getApplicationRest() {
-		return applicationRest;
-	}
-
-	public void setApplicationRest(ApplicationRest applicationRest) {
-		this.applicationRest = applicationRest;
 	}
 
 	public List<UserRoleRest> getUserRolesRest() {

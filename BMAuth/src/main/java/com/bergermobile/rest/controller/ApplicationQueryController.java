@@ -26,13 +26,18 @@ public class ApplicationQueryController {
 
 	}
 
-	/*
 	@RequestMapping(value = "/applications/{applicationId}")
-	public UserRest findByApplicationId(@PathVariable int applicationId) {
+	public ApplicationRest findByApplicationId(@PathVariable int applicationId) {
 
 		return applicationService.findByApplicationId(applicationId);
 
 	}
-	*/
+
+	@RequestMapping(value = "/applications/name/{applicationName}")
+	public List<ApplicationRest>  findByApplicationName(@PathVariable String applicationName) {
+
+		return applicationService.findByApplicationName(applicationName);
+
+	}
 
 }

@@ -1,58 +1,58 @@
 <form class="form-horizontal bmauth-container" role="form" ng-submit="submitApplicationForm()">
 	<fieldset>
-		<legend>Edicão Aplicativo</legend>
+		<legend>{{ 'application.form.header' | translate}}</legend>
 		<div class="form-group">
-			<label for="inputId" class="col-md-3 control-label">ID</label>
+			<label for="inputId" class="col-md-3 control-label">{{ 'application.form.label.id' | translate}}</label>
 			<div class="col-md-5">
 				1
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputName" class="col-md-3 control-label">Nome</label>
+			<label for="inputName" class="col-md-3 control-label">{{ 'application.form.label.name' | translate}}</label>
 			<div class="col-md-3">
-				<input type="text" class="form-control" id="inputName" ng-model="applicationForm.name"/>
+				<input type="text" class="form-control" id="inputName" ng-model="application.application_name"/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputUrl" class="col-md-3 control-label">URL</label>
+			<label for="inputUrl" class="col-md-3 control-label">{{ 'application.form.label.url' | translate}}</label>
 			<div class="col-md-4">
-				<input type="text" class="form-control" id="inputUrl" ng-model="applicationForm.url"/>
+				<input type="text" class="form-control" id="inputUrl" ng-model="application.url"/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputTestMode" class="col-md-3 control-label">Modo de teste</label>
+			<label for="inputTestMode" class="col-md-3 control-label">{{ 'application.form.label.test_mode' | translate}}</label>
 				<div class="col-md-2">
-			     	<select class="form-control" id="inputTestMode" name="applicationForm.testMode">
-					  <option value="0" selected="selected">Não</option>
-					  <option value="1">Sim</option>
+			     	<select class="form-control" id="inputTestMode" ng-model="application.testMode">
+					  <option value="0" selected="selected">{{ 'text.no' | translate}}</option>
+					  <option value="1">{{ 'text.yes' | translate}}</option>
 					</select>
 			    </div>
 		</div>
 		<div class="form-group">
-			<label for="inputContractRequired" class="col-md-3 control-label">Assinatura de contrato obrigatorio</label>
+			<label for="inputMandatoryContract" class="col-md-3 control-label">{{ 'application.form.label.mandatory_contract' | translate}}</label>
 				<div class="col-md-2">
-			     	<select class="form-control" id="inputTestMode" name="applicationForm.contractRequired">
-					  <option value="0">Não</option>
-					  <option value="1" selected="selected">Sim</option>
+			     	<select class="form-control" id="inputMandatoryContract" ng-model="application.mandatoryContract">
+					  <option value="0">{{ 'text.no' | translate}}</option>
+					  <option value="1" selected="selected">{{ 'text.yes' | translate}}</option>
 					</select>
 			    </div>
 		</div>
 		
 		<div class="form-group">
-			<label for="inputContractRequired" class="col-md-3 control-label">Ativo</label>
+			<label for="inputActive" class="col-md-3 control-label">{{ 'application.form.label.active' | translate}}</label>
 				<div class="col-md-2">
-					<input type="checkbox" id="active" value="false" name="applicationForm.active">
+					<input type="checkbox" id="inputActive" value="false" ng-model="application.active">
 			    </div>
 		</div>
 		
 			
-		<legend>Roles</legend>
+		<legend>{{ 'application.role.form.header' | translate}}</legend>
 		<div>
-			<table id="rolesTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="rolesTable_info" style="width: 800px;">
+			<table id="rolesTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="rolesTable_info">
 				<thead>
 					<tr role="row">
-						<th class="sorting_asc" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">Id</th>
-						<th class="sorting" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-label="Role: Ordenar colunas de forma ascendente" style="width: 21px;">Role</th>
+						<th class="sorting_asc" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">{{ 'application.role.form.column.id' | translate}}</th>
+						<th class="sorting" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-label="Role: Ordenar colunas de forma ascendente" style="width: 21px;">{{ 'application.role.form.column.name' | translate}}</th>
 						<th class="sorting_disabled" rowspan="1" colspan="1" aria-label="&amp;nbsp;" style="width: 21px;">&nbsp;</th>
 					</tr>
 				</thead>
@@ -86,18 +86,18 @@
 			</table>
 		</div>
 		
-		<button type="button" class="btn btn-default">Novo</button>
+		<button type="button" class="btn btn-default">{{ 'application.role.btn.new' | translate}}</button>
 		<br>
 		<br>
 		
-		<legend>Contratos</legend>
+		<legend>{{ 'application.contract.form.header' | translate}}</legend>
 		<div>
-			<table id="contractTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="contractTable_info" style="width: 800px;">
+			<table id="contractTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="contractTable_info">
 				<thead>
 					<tr role="row">
-						<th class="sorting_asc" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">Id</th>
-						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="Contract: Ordenar colunas de forma ascendente" style="width: 21px;">Versão</th>
-						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="CreationDate: Ordenar colunas de forma ascendente" style="width: 21px;">Inclusão</th>
+						<th class="sorting_asc" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">{{ 'application.contract.form.column.Id' | translate}}</th>
+						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="Contract: Ordenar colunas de forma ascendente" style="width: 21px;">{{ 'application.contract.form.column.version' | translate}}</th>
+						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="CreationDate: Ordenar colunas de forma ascendente" style="width: 21px;">{{ 'application.contract.form.column.creation_date' | translate}}</th>
 						<th class="sorting_disabled" rowspan="1" colspan="1" aria-label="&amp;nbsp;" style="width: 21px;">&nbsp;</th>
 					</tr>
 				</thead>
@@ -133,11 +133,11 @@
 				</tbody>
 			</table>
 		</div>
-		<button type="button" class="btn btn-default">Novo</button>
+		<button type="button" class="btn btn-default">{{ 'application.role.btn.new' | translate}}</button>
 		<br>
 		<br>
 	
-		<button type="submit" class="btn btn-lg btn-primary btn-block">Salvar</button>
+		<button type="submit" class="btn btn-lg btn-primary btn-block">{{ 'application.form.btn.save' | translate}}</button>
 		</fieldset>
 	
 		<input type="hidden" value="1"></input>

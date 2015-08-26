@@ -121,7 +121,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 		
 		application.setRoles(setRolesRestToRoles(applicationRest.getRolesRest()));
 		
-		//application.setOnlineContracts(setOnlineContractRestToOnlineContract(applicationRest.getOnlineContractsRest()));
+		application.setOnlineContracts(setOnlineContractRestToOnlineContract(applicationRest.getOnlineContractsRest()));
 		
 		applicationRepository.save(application);
 		
@@ -158,6 +158,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		List<Role> roleList = new ArrayList<Role>();
 
+		if (rolesRestList == null){return roleList;};
+		
 		for (RoleRest roleRest : rolesRestList) {
 
 			Role role = new Role();
@@ -204,6 +206,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 		List<OnlineContract> onlineContractList = new ArrayList<OnlineContract>();
 		List<LanguageContract> languageContractList = new ArrayList<LanguageContract>();
 
+		if(onlineContractRestList== null) {return onlineContractList;};
+		
 		for (OnlineContractRest onlineContractRest : onlineContractRestList) {
 			OnlineContract onlineContract = new OnlineContract();
 			// Copy attributes from onlineContract to onlineContractRest

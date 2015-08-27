@@ -10,7 +10,7 @@ import com.bergermobile.persistence.domain.OnlineContract;
 public interface OnlineContractRepository extends CrudRepository<OnlineContract, Integer> {
 
 	public OnlineContract findByOnlineContractId(Integer onlineContractId);
-	
+
 	public List<OnlineContract> findByApplication(Application application);
-	
+
 }

@@ -28,27 +28,26 @@ import com.bergermobile.persistence.repository.UserRepository;
 public class UserIntegrationTest {
 
 	@Autowired
-	private UserRepository userRepository; 
-	
-	
+	private UserRepository userRepository;
+
 	// This test checks if the connection with database is working
 	@Test
-	public void testThatInsertWorks(){
-		
+	public void testThatInsertWorks() {
+
 		User user = null;
-		
+
 		try {
 			user = PersistenceFixture.facebookUserActive();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		User savedUser = userRepository.save(user);
-		
+
 		assertNotNull(savedUser);
-		
+
 		assertEquals(savedUser.getName(), "Facebook User Active");
-		
-	}	
-	
+
+	}
+
 }

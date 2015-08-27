@@ -13,7 +13,9 @@ import org.hibernate.jdbc.Work;
 import static junit.framework.TestCase.fail;
 
 /**
- * Basically,  a utility class that uses DB Connection metadata to assert if a table exist, and if a table has the required columns
+ * Basically, a utility class that uses DB Connection metadata to assert if a
+ * table exist, and if a table has the required columns
+ * 
  * @author fabioberger
  *
  */
@@ -40,12 +42,12 @@ public class JPAAssertions {
 			fail("Column [" + columnName + "] not found on table : " + tableName);
 		}
 	}
-	
+
 	public static void assertTableExists(EntityManager manager, final String name) {
 		SessionImpl session = (SessionImpl) manager.unwrap(Session.class);
-		
+
 		final ResultCollector rc = new ResultCollector();
-		
+
 		session.doWork(new Work() {
 			@Override
 			public void execute(Connection connection) throws SQLException {
@@ -57,7 +59,7 @@ public class JPAAssertions {
 				}
 			}
 		});
-			
+
 		if (!rc.found) {
 			fail("Table not found in schema: " + name);
 		}

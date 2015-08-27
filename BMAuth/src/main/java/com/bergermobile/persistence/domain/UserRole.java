@@ -13,31 +13,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the user_role database table.
  * 
  */
 @Entity
-@Table(name="user_role")
+@Table(name = "user_role")
 public class UserRole extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="user_role_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_role_id")
 	private Integer userRoleId;
-	
-	//bi-directional many-to-one association to Role
+
+	// bi-directional many-to-one association to Role
 	@ManyToOne
-	@JoinColumn(name="role_id")
+	@JoinColumn(name = "role_id")
 	private Role role;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	public Integer getUserRoleId() {
 		return userRoleId;
 	}

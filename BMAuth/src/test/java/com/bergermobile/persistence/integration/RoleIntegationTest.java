@@ -25,25 +25,25 @@ import com.bergermobile.persistence.repository.RoleRepository;
 @TransactionConfiguration(defaultRollback = true)
 public class RoleIntegationTest {
 
-		@Autowired
-		private RoleRepository roleRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 
-		// This test checks if the connection with database is working
-		@Test
-		public void testThatInsertWorks() {
+	// This test checks if the connection with database is working
+	@Test
+	public void testThatInsertWorks() {
 
-			Role role = null;
+		Role role = null;
 
-			Application app = new Application();
-			
-			role = PersistenceFixture.roleAdmin(app);
+		Application app = new Application();
 
-			Role savedRole = roleRepository.save(role);
+		role = PersistenceFixture.roleAdmin(app);
 
-			assertNotNull(savedRole);
+		Role savedRole = roleRepository.save(role);
 
-			assertEquals(savedRole.getRoleName(), "ADMIN");
+		assertNotNull(savedRole);
 
-		}
-	
+		assertEquals(savedRole.getRoleName(), "ADMIN");
+
+	}
+
 }

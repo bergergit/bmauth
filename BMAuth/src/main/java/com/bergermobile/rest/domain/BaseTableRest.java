@@ -11,10 +11,10 @@ public class BaseTableRest implements Serializable {
 
 	private Integer createdBy;
 
-	@DateTimeFormat(style="S-")
+	@DateTimeFormat(style = "S-")
 	private Timestamp creationDate;
 
-	@DateTimeFormat(style="S-")
+	@DateTimeFormat(style = "S-")
 	private Timestamp lastUpdateDate;
 
 	private Integer lastUpdatedBy;

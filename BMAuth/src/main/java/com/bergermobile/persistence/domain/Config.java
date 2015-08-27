@@ -4,28 +4,27 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the config database table.
  * 
  */
 @Entity
-@Table(name="config")
+@Table(name = "config")
 public class Config implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="config_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "config_id")
 	private Integer configId;
 
-	@Column(name="config_code")
+	@Column(name = "config_code")
 	private String configCode;
 
-	@Column(name="number_value")
+	@Column(name = "number_value")
 	private BigDecimal numberValue;
 
-	@Column(name="string_value")
+	@Column(name = "string_value")
 	private String stringValue;
 
 	public Config() {

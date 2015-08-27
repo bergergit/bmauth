@@ -14,13 +14,13 @@ import com.bergermobile.rest.services.SerializableResourceBundleMessageSource;
 @RestController
 @RequestMapping("/messageBundle")
 public class InternalizationController {
-	
+
 	@Autowired
 	SerializableResourceBundleMessageSource messageBundle;
-	
-	@RequestMapping(method=RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public Properties list(@RequestParam String lang) {
-        return messageBundle.getAllProperties(new Locale(lang));
-    }
+		return messageBundle.getAllProperties(new Locale(lang));
+	}
 
 }

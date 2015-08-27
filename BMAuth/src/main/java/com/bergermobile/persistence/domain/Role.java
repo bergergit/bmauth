@@ -5,30 +5,29 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 /**
  * The persistent class for the role database table.
  * 
  */
 @Entity
-@Table(name="role")
+@Table(name = "role")
 public class Role extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="role_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "role_id")
 	private Integer roleId;
 
-	@Column(name="role_name")
+	@Column(name = "role_name")
 	private String roleName;
 
-	//bi-directional many-to-one association to Application
+	// bi-directional many-to-one association to Application
 	@ManyToOne
 	private Application application;
 
-	//bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy="role", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
+	// bi-directional many-to-one association to UserRole
+	@OneToMany(mappedBy = "role", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	private List<UserRole> userRoles;
 
 	public Role() {

@@ -114,22 +114,22 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public void save(ApplicationRest applicationRest) {
-		
+
 		Application application = new Application();
-		
+
 		BeanUtils.copyProperties(applicationRest, application);
-		
+
 		application.setRoles(setRolesRestToRoles(applicationRest.getRolesRest()));
-		
+
 		application.setOnlineContracts(setOnlineContractRestToOnlineContract(applicationRest.getOnlineContractsRest()));
-		
+
 		applicationRepository.save(application);
-		
+
 	}
 
 	@Override
 	public void delete(int applicationId) {
-		
+
 		applicationRepository.delete(applicationId);
 
 	}
@@ -158,8 +158,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		List<Role> roleList = new ArrayList<Role>();
 
-		if (rolesRestList == null){return roleList;};
-		
+		if (rolesRestList == null) {
+			return roleList;
+		}
+		;
+
 		for (RoleRest roleRest : rolesRestList) {
 
 			Role role = new Role();
@@ -174,7 +177,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	}
 
-	
 	private List<OnlineContractRest> setOnlineContractToOnlineContractRest(Application application) {
 
 		List<OnlineContract> onlineContractList = onlineContractRepository.findByApplication(application);
@@ -200,14 +202,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	}
 
-	
-	private List<OnlineContract> setOnlineContractRestToOnlineContract(List<OnlineContractRest> onlineContractRestList) {
+	private List<OnlineContract> setOnlineContractRestToOnlineContract(
+			List<OnlineContractRest> onlineContractRestList) {
 
 		List<OnlineContract> onlineContractList = new ArrayList<OnlineContract>();
 		List<LanguageContract> languageContractList = new ArrayList<LanguageContract>();
 
-		if(onlineContractRestList== null) {return onlineContractList;};
-		
+		if (onlineContractRestList == null) {
+			return onlineContractList;
+		}
+
 		for (OnlineContractRest onlineContractRest : onlineContractRestList) {
 			OnlineContract onlineContract = new OnlineContract();
 			// Copy attributes from onlineContract to onlineContractRest
@@ -215,12 +219,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 			List<LanguageContractRest> languageRestList = onlineContractRest.getLanguageContractsRest();
 
-			for (LanguageContractRest languageContractRest : languageRestList) {
-				LanguageContract languageContract = new LanguageContract();
-				BeanUtils.copyProperties(languageContractRest, languageContract);
-				languageContractList.add(languageContract);
-			}
+			if (languageRestList != null) {
+				for (LanguageContractRest languageContractRest : languageRestList) {
+					LanguageContract languageContract = new LanguageContract();
+					BeanUtils.copyProperties(languageContractRest, languageContract);
+					languageContractList.add(languageContract);
+				}
 			onlineContract.setLanguageContract(languageContractList);
+			}
 			onlineContractList.add(onlineContract);
 		}
 

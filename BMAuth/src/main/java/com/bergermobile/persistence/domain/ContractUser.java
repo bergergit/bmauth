@@ -4,19 +4,18 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the contract_user database table.
  * 
  */
 @Entity
-@Table(name="contract_user")
+@Table(name = "contract_user")
 public class ContractUser extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="contract_user_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "contract_user_id")
 	private Integer contractUserId;
 
 	@Lob
@@ -24,15 +23,15 @@ public class ContractUser extends BaseTable implements Serializable {
 
 	private String ip;
 
-	@Column(name="signed_date")
+	@Column(name = "signed_date")
 	private Timestamp signedDate;
 
-	//bi-directional many-to-one association to OnlineContract
+	// bi-directional many-to-one association to OnlineContract
 	@ManyToOne
-	@JoinColumn(name="online_contract_online_contract_id")
+	@JoinColumn(name = "online_contract_online_contract_id")
 	private OnlineContract onlineContract;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
 	private User user;
 
@@ -46,7 +45,6 @@ public class ContractUser extends BaseTable implements Serializable {
 	public void setContractUserId(Integer contractUserId) {
 		this.contractUserId = contractUserId;
 	}
-
 
 	public String getHeaders() {
 		return this.headers;

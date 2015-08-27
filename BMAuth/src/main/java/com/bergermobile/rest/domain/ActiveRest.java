@@ -24,5 +24,4 @@ public enum ActiveRest {
 		return this.description;
 	}
 
-	
 }

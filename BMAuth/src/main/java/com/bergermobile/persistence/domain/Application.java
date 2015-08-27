@@ -12,40 +12,39 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the Application database table.
  * 
  */
 @Entity
-@Table(name="application")
+@Table(name = "application")
 public class Application extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="application_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "application_id")
 	private Integer applicationId;
 
 	private short active;
 
-	@Column(name="mandatory_contract")
+	@Column(name = "mandatory_contract")
 	private short mandatoryContract;
 
-	@Column(name="application_name")
+	@Column(name = "application_name")
 	private String applicationName;
 
-	@Column(name="test_mode")
+	@Column(name = "test_mode")
 	private short testMode;
 
 	private String url;
 
-	//bi-directional many-to-one association to OnlineContract
-	@OneToMany(mappedBy="application", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
+	// bi-directional many-to-one association to OnlineContract
+	@OneToMany(mappedBy = "application", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	private List<OnlineContract> onlineContracts;
 
-	//bi-directional many-to-one association to Role
-	@OneToMany(mappedBy="application", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
+	// bi-directional many-to-one association to Role
+	@OneToMany(mappedBy = "application", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	private List<Role> roles;
 
 	public Application() {

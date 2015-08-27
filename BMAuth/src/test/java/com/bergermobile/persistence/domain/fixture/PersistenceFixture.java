@@ -41,7 +41,7 @@ public class PersistenceFixture {
 
 		// Take current time
 		Timestamp timestamp = timestamp();
-		
+
 		user.setLoginType(User.LoginType.FACEBOOK.getValue());
 		user.setUsername("token:12345");
 		user.setUserType(User.UserType.CPF.getValue());
@@ -58,7 +58,7 @@ public class PersistenceFixture {
 
 		return user;
 	}
-	
+
 	public static User internalUser1() throws ParseException {
 
 		User user = new User();
@@ -68,7 +68,7 @@ public class PersistenceFixture {
 
 		// Take current time
 		Timestamp timestamp = timestamp();
-		
+
 		user.setLoginType(User.LoginType.INTERNAL.getValue());
 		user.setUsername("fabioberger@gmail.com");
 		user.setUserType(User.UserType.CPF.getValue());
@@ -86,7 +86,7 @@ public class PersistenceFixture {
 		return user;
 
 	}
-	
+
 	public static User internalUser2() throws ParseException {
 
 		User user = new User();
@@ -96,7 +96,7 @@ public class PersistenceFixture {
 
 		// Take current time
 		Timestamp timestamp = timestamp();
-		
+
 		user.setLoginType(User.LoginType.INTERNAL.getValue());
 		user.setUsername("fabiofilz@gmail.com");
 		user.setUserType(User.UserType.CPF.getValue());

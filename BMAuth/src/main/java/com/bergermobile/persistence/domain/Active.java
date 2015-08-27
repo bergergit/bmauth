@@ -24,5 +24,4 @@ public enum Active {
 		return this.description;
 	}
 
-	
 }

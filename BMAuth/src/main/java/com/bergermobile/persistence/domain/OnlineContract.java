@@ -15,36 +15,36 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the online_contract database table.
  * 
  */
 @Entity
-@Table(name="online_contract")
-public class OnlineContract  extends BaseTable implements Serializable {
+@Table(name = "online_contract")
+public class OnlineContract extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="online_contract_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "online_contract_id")
 	private Integer onlineContractId;
 
-	@Column(name="contract_version")
+	@Column(name = "contract_version")
 	private String contractVersion;
 
 	@Lob
 	private String description;
 
-	//bi-directional many-to-one association to ContractUser
-	@OneToMany(mappedBy="onlineContract")
+	// bi-directional many-to-one association to ContractUser
+	@OneToMany(mappedBy = "onlineContract")
 	private List<ContractUser> contractUsers;
 
-	//bi-directional many-to-one association to LanguageContract
-	@OneToMany(mappedBy="onlineContract", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true, fetch=FetchType.EAGER)
+	// bi-directional many-to-one association to LanguageContract
+	@OneToMany(mappedBy = "onlineContract", cascade = { CascadeType.PERSIST,
+			CascadeType.MERGE }, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<LanguageContract> languageContract;
 
-	//bi-directional many-to-one association to Application
+	// bi-directional many-to-one association to Application
 	@ManyToOne
 	private Application application;
 

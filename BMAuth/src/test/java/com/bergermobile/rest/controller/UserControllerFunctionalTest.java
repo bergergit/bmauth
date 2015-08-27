@@ -40,46 +40,43 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @TransactionConfiguration(defaultRollback = true)
 @ActiveProfiles("dev")
 public class UserControllerFunctionalTest {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
-    private WebApplicationContext context;
-	
-	@Autowired 
+	private WebApplicationContext context;
+
+	@Autowired
 	ObjectMapper mapper;
 
 	MockMvc mockMvc;
-	
+
 	@InjectMocks
 	UserQueryController controller;
-	
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		//mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+		// mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
-	
+
 	@Test
 	public void userQueryControllerReturnJsonCorrectly() throws Exception {
-		
+
 		userRepository.save(internalUser1());
 		userRepository.save(internalUser2());
-		
-		MvcResult result = mockMvc.perform(get("/bmauth/users"))
-		.andDo(print())
-		.andExpect(status().isOk())
-		.andReturn();
-		
+
+		MvcResult result = mockMvc.perform(get("/bmauth/users")).andDo(print()).andExpect(status().isOk()).andReturn();
+
 		String content = result.getResponse().getContentAsString();
-		
+
 		assertTrue(content.contains("Fabio Berger"));
 		assertTrue(content.contains("Fabio Filz"));
-		
+
 	}
-	
+
 	@Test
 	public void jsonPostCreatesUserCorrectly() throws Exception {
 		UserRest userRest = new UserRest();
@@ -87,14 +84,13 @@ public class UserControllerFunctionalTest {
 		userRest.setEmail("fabioberger@gmail.com");
 		userRest.setUsername("fabioberger@gmail.com");
 		userRest.setLoginType(UserRest.LoginType.INTERNAL.getValue());
-		
-		mockMvc.perform(post("/bmauth/users")
-		.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(userRest)))
-		.andExpect(status().isCreated());
-		
+
+		mockMvc.perform(post("/bmauth/users").contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsBytes(userRest))).andExpect(status().isCreated());
+
 		User user1 = userRepository.findOne(1);
 
 		assertThat(user1.getUsername(), is("fabioberger@gmail.com"));
-		
+
 	}
 }

@@ -34,7 +34,7 @@ public class ApplicationQueryController {
 	}
 
 	@RequestMapping(value = "/applications/name/{applicationName}")
-	public List<ApplicationRest>  findByApplicationName(@PathVariable String applicationName) {
+	public List<ApplicationRest> findByApplicationName(@PathVariable String applicationName) {
 
 		return applicationService.findByApplicationName(applicationName);
 

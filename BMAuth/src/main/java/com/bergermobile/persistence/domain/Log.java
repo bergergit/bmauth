@@ -4,28 +4,27 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the log database table.
  * 
  */
 @Entity
-@Table(name="log")
+@Table(name = "log")
 public class Log extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="log_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "log_id")
 	private Integer logId;
 
-	@Column(name="description_log")
+	@Column(name = "description_log")
 	private String descriptionLog;
 
-	@Column(name="log_record_type")
+	@Column(name = "log_record_type")
 	private String logRecordType;
 
-	@Column(name="record_id")
+	@Column(name = "record_id")
 	private Integer recordId;
 
 	public Log() {

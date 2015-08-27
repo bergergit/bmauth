@@ -14,22 +14,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http
-			.httpBasic()
-			.and()
-		.authorizeRequests()
-          .antMatchers("/","/login/**","/fonts/**","/help","/webjars/**","/messageBundle/**","/fragments/**","/rest/**").permitAll()
-          .antMatchers(HttpMethod.POST, "/bmauth/**").hasAnyRole("ADMIN")
-          .anyRequest().authenticated();
+		http.httpBasic().and().authorizeRequests()
+				.antMatchers("/", "/login/**", "/fonts/**", "/help", "/webjars/**", "/messageBundle/**",
+						"/fragments/**", "/rest/**")
+				.permitAll().antMatchers(HttpMethod.POST, "/bmauth/**").hasAnyRole("ADMIN").anyRequest()
+				.authenticated();
 	}
-	
+
 	@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.inMemoryAuthentication().withUser("user").password("password").roles("ADMIN");
-    }
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication().withUser("user").password("password").roles("ADMIN");
+	}
 
 }

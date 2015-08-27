@@ -11,7 +11,6 @@ import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.LanguageContract;
 import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
-import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.repository.ApplicationRepository;
 import com.bergermobile.persistence.repository.OnlineContractRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
@@ -85,31 +84,27 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public List<ApplicationRest> findByApplicationName(String applicationName) {
+	public ApplicationRest findByApplicationName(String applicationName) {
 
-		// Get All Application
-		List<ApplicationRest> applicationRestList = new ArrayList<ApplicationRest>();
+		Application application = applicationRepository.findByApplicationName(applicationName);
 
-		// for each Applications
-		for (Application application : applicationRepository.findByApplicationName(applicationName)) {
+		if (application != null) {
 
 			ApplicationRest applicationRest = new ApplicationRest();
 
-			// Get Roles of which application
 			applicationRest.setRolesRest(setRolesToRolesRest(application));
 
-			// Get OnlineContract of which application
 			applicationRest.setOnlineContractsRest(setOnlineContractToOnlineContractRest(application));
 
 			// Copy the Application attributes to ApplicationRest attributes
 			BeanUtils.copyProperties(application, applicationRest);
 
-			applicationRestList.add(applicationRest);
+			return applicationRest;
 
 		}
 
-		return applicationRestList;
-
+		return null;
+		
 	}
 
 	@Override

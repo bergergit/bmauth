@@ -227,8 +227,8 @@ public class PersistenceFixture {
 
 		List<OnlineContract> contracts = new ArrayList<OnlineContract>();
 
-		contracts.add(contract1(application));
-		contracts.add(contract2(application));
+		contracts.add(contractVersion1(application));
+		contracts.add(contractVersion2(application));
 
 		application.setOnlineContracts(contracts);
 
@@ -308,7 +308,7 @@ public class PersistenceFixture {
 
 	}
 
-	public static OnlineContract contract1(Application application) {
+	public static OnlineContract contractVersion1(Application application) {
 
 		// Take current time
 		java.sql.Timestamp timestamp = timestamp();
@@ -354,7 +354,7 @@ public class PersistenceFixture {
 
 	}
 
-	public static OnlineContract contract2(Application application) {
+	public static OnlineContract contractVersion2(Application application) {
 
 		// Take current time
 		java.sql.Timestamp timestamp = timestamp();

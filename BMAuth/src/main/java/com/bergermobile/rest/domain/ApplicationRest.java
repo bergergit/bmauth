@@ -16,7 +16,7 @@ public class ApplicationRest extends BaseTableRest implements Serializable {
 
 	private short mandatoryContract;
 
-	private String ApplicationName;
+	private String applicationName;
 
 	private short testMode;
 
@@ -54,11 +54,11 @@ public class ApplicationRest extends BaseTableRest implements Serializable {
 	}
 
 	public String getApplicationName() {
-		return ApplicationName;
+		return applicationName;
 	}
 
 	public void setApplicationName(String applicationName) {
-		ApplicationName = applicationName;
+		this.applicationName = applicationName;
 	}
 
 	public short getTestMode() {

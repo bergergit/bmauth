@@ -15,22 +15,33 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap'])
 /**
  * Application List controller
  */
-.controller('ApplicationsListCtrl', ['$scope','DTOptionsBuilder','DTColumnBuilder','Application', function($scope, DTOptionsBuilder, DTColumnBuilder, Application) {
+.controller('ApplicationsListCtrl', ['$scope','DTOptionsBuilder','DTColumnBuilder','Application', '$translate', 
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, Application, $translate) {
 	
 	console.debug("in applications list controller");
 	
-	var vm = this;
+	// Renderer for the datatable
+	var renderer = {
+		active: function(data, type, full) {
+			return data == '1' ? '<span class="glyphicon glyphicon-ok-circle"></span>' : '';
+		},
+		trash: function(data, type, full) {
+			return '<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>';
+		}
+	}
 	
-	$scope.dtOptions = DTOptionsBuilder
-	    .fromSource('data.json')
-	    // Add Bootstrap compatibility
-	    .withBootstrap();
-    
+	
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+        return Application.query().$promise;
+    })
+    //.withPaginationType('full_numbers')
+    .withBootstrap();
+	
 	$scope.dtColumns = [
-        DTColumnBuilder.newColumn('id').withTitle('ID').withClass('text-danger'),
-        DTColumnBuilder.newColumn('firstName').withTitle('First name'),
-        DTColumnBuilder.newColumn('lastName').withTitle('Last name')
+        DTColumnBuilder.newColumn('applicationId').withTitle('ID').withOption('width', '100px'),
+        DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')),
+        DTColumnBuilder.newColumn('active').withTitle('Ativo').withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
+        DTColumnBuilder.newColumn('applicationId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];
-	
-	Application.query();
+    
 }]);

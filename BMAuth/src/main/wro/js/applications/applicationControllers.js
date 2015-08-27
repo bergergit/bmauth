@@ -30,7 +30,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap'])
 		}
 	}
 	
-	
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
         return Application.query().$promise;
     })

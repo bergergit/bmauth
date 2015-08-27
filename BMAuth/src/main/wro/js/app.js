@@ -1,12 +1,14 @@
 angular.module('bmauth', [
   'ngRoute',
   'pascalprecht.translate',
+  'datatables',
   'bmauth.login',
   'bmauth.applications',
   'bmauth.applications.service',
   'bmauth.navigation'
-]).
-config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
+])
+
+.config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
 	// routes configuration
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/login.html',
@@ -30,5 +32,11 @@ config(['$routeProvider', '$translateProvider', '$locationProvider', function($r
 	
 	// support natural routes
 	$locationProvider.html5Mode(true);
+}])
+
+.run(['DTDefaultOptions','$translate', function(DTDefaultOptions, $translate) {
+	console.debug('$translate.use()', $translate.use());
+
+    DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
 }]);
 

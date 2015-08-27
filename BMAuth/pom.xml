@@ -29,6 +29,8 @@
 		<angular-translate.version>2.7.2</angular-translate.version>
 		<angular-translate-loader-url>0.1.2-1</angular-translate-loader-url>
 		<font-awesome.version>4.4.0</font-awesome.version>
+		<datatables.version>1.10.7</datatables.version>
+		<angular-datatables.version>0.4.3</angular-datatables.version>
 	</properties>
 
 	<dependencies>
@@ -180,6 +182,16 @@
 					    <groupId>org.webjars</groupId>
 					    <artifactId>font-awesome</artifactId>
 					    <version>${font-awesome.version}</version>
+					</dependency>
+					<dependency>
+					    <groupId>org.webjars</groupId>
+					    <artifactId>datatables</artifactId>
+					    <version>${datatables.version}</version>
+					</dependency>					
+					<dependency>
+					    <groupId>org.webjars</groupId>
+					    <artifactId>angular-datatables</artifactId>
+					    <version>${angular-datatables.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.webjars.bower</groupId>

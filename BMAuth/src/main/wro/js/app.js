@@ -3,6 +3,7 @@ angular.module('bmauth', [
   'pascalprecht.translate',
   'bmauth.login',
   'bmauth.applications',
+  'bmauth.applications.list',
   'bmauth.navigation'
 ]).
 config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
@@ -13,6 +14,9 @@ config(['$routeProvider', '$translateProvider', '$locationProvider', function($r
 	}).when('/signup', { 
 		  templateUrl: 'fragments/home/signup.html',
 		  controller: 'SignupCtrl'
+	}).when('/applications', { 
+		  templateUrl: 'fragments/applications/list.html',
+		  controller: 'ApplicationsListCtrl'
 	}).when('/applications/:applicationId', { 
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsCtrl'

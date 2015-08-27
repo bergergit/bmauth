@@ -8,6 +8,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap'])
 .controller('ApplicationsEditCtrl', ['$scope', function($scope) {
 	
 	console.debug("in applications controller");
+	
+	$scope.application = {"active": true, "testMode": "0"};
 }])
 
 /**

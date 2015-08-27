@@ -119,9 +119,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		BeanUtils.copyProperties(applicationRest, application);
 
-		application.setRoles(setRolesRestToRoles(applicationRest.getRolesRest()));
+		application.setRoles(setRolesRestToRoles(applicationRest.getRolesRest(), application));
 
-		application.setOnlineContracts(setOnlineContractRestToOnlineContract(applicationRest.getOnlineContractsRest()));
+		application.setOnlineContracts(setOnlineContractRestToOnlineContract(applicationRest.getOnlineContractsRest(), application));
 
 		applicationRepository.save(application);
 
@@ -154,20 +154,21 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	}
 
-	private List<Role> setRolesRestToRoles(List<RoleRest> rolesRestList) {
+	private List<Role> setRolesRestToRoles(List<RoleRest> rolesRestList, Application application) {
 
 		List<Role> roleList = new ArrayList<Role>();
 
 		if (rolesRestList == null) {
 			return roleList;
 		}
-		;
 
 		for (RoleRest roleRest : rolesRestList) {
 
 			Role role = new Role();
 
 			BeanUtils.copyProperties(roleRest, role);
+
+			role.setApplication(application);
 
 			roleList.add(role);
 
@@ -203,7 +204,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	private List<OnlineContract> setOnlineContractRestToOnlineContract(
-			List<OnlineContractRest> onlineContractRestList) {
+			List<OnlineContractRest> onlineContractRestList, Application application) {
 
 		List<OnlineContract> onlineContractList = new ArrayList<OnlineContract>();
 		List<LanguageContract> languageContractList = new ArrayList<LanguageContract>();
@@ -217,15 +218,18 @@ public class ApplicationServiceImpl implements ApplicationService {
 			// Copy attributes from onlineContract to onlineContractRest
 			BeanUtils.copyProperties(onlineContractRest, onlineContract);
 
+			onlineContract.setApplication(application);
+			
 			List<LanguageContractRest> languageRestList = onlineContractRest.getLanguageContractsRest();
 
 			if (languageRestList != null) {
 				for (LanguageContractRest languageContractRest : languageRestList) {
 					LanguageContract languageContract = new LanguageContract();
 					BeanUtils.copyProperties(languageContractRest, languageContract);
+					languageContract.setOnlineContract(onlineContract);
 					languageContractList.add(languageContract);
 				}
-			onlineContract.setLanguageContract(languageContractList);
+				onlineContract.setLanguageContract(languageContractList);
 			}
 			onlineContractList.add(onlineContract);
 		}

@@ -3,6 +3,7 @@ angular.module('bmauth', [
   'pascalprecht.translate',
   'datatables',
   'bmauth.login',
+  'bmauth.signup.service',
   'bmauth.applications',
   'bmauth.applications.service',
   'bmauth.navigation'

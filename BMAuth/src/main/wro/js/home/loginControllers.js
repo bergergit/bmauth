@@ -11,14 +11,18 @@ angular.module('bmauth.login', [])
 	}
 }])
 
-.controller('SignupCtrl', ['$scope','$http','$location', function($scope, $http, $location) {
+.controller('SignupCtrl', ['$scope','$http','$location','Signup', function($scope, $http, $location, Signup) {
+	$scope.signup = new Signup();
 	$scope.submitSignup = function() {
-		console.debug('Will submit', $scope.signup);
-		 $http.post('bmauth/users', $scope.signup).success(function() {
-			 console.debug("Success!");
+		 console.debug('Will submit', $scope.signup);
+		 $scope.signup.$save(function(response) {
+			 console.debug("Success on save");
 			 $location.path("/applications");
-		 }).error(function(data) {
-			 console.debug("Error", data)
+		 }, function() {
+			 console.debug("Error on save");
 		 });
+		 
+		 //$http.post('bmauth/users', $scope.signup).success(function() {
+			 
 	}
 }]);

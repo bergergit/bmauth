@@ -3,7 +3,7 @@ angular.module('bmauth', [
   'pascalprecht.translate',
   'bmauth.login',
   'bmauth.applications',
-  'bmauth.applications.list',
+  'bmauth.applications.service',
   'bmauth.navigation'
 ]).
 config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
@@ -19,7 +19,7 @@ config(['$routeProvider', '$translateProvider', '$locationProvider', function($r
 		  controller: 'ApplicationsListCtrl'
 	}).when('/applications/:applicationId', { 
 		  templateUrl: 'fragments/applications/edit.html',
-		  controller: 'ApplicationsCtrl'
+		  controller: 'ApplicationsEditCtrl'
 	})//.otherwise({redirectTo: '/'});
 	
 	// translation configuration

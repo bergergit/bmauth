@@ -1,14 +1,23 @@
 'use strict';
 
-angular.module('bmauth.applications.list', ['datatables', 'datatables.bootstrap'])
+angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap'])
 
-.controller('ApplicationsListCtrl', ['$scope','DTOptionsBuilder','DTColumnBuilder', function($scope, DTOptionsBuilder, DTColumnBuilder) {
+/**
+ * Application Edit controller
+ */
+.controller('ApplicationsEditCtrl', ['$scope', function($scope) {
+	
+	console.debug("in applications controller");
+}])
+
+/**
+ * Application List controller
+ */
+.controller('ApplicationsListCtrl', ['$scope','DTOptionsBuilder','DTColumnBuilder','Application', function($scope, DTOptionsBuilder, DTColumnBuilder, Application) {
 	
 	console.debug("in applications list controller");
 	
 	var vm = this;
-	
-	console.debug('DTOptionsBuilder', DTOptionsBuilder, DTColumnBuilder);
 	
 	$scope.dtOptions = DTOptionsBuilder
 	    .fromSource('data.json')
@@ -20,4 +29,6 @@ angular.module('bmauth.applications.list', ['datatables', 'datatables.bootstrap'
         DTColumnBuilder.newColumn('firstName').withTitle('First name'),
         DTColumnBuilder.newColumn('lastName').withTitle('Last name')
     ];
+	
+	Application.query();
 }]);

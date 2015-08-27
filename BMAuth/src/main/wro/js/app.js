@@ -35,8 +35,6 @@ angular.module('bmauth', [
 }])
 
 .run(['DTDefaultOptions','$translate', function(DTDefaultOptions, $translate) {
-	console.debug('$translate.use()', $translate.use());
-
     DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
 }]);
 

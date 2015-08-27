@@ -98,7 +98,7 @@ public class MappingIntegrationTest {
 		assertTableHasColumn(manager,"online_contract","online_contract_id");
 		assertTableHasColumn(manager,"online_contract","contract_version");
 		assertTableHasColumn(manager,"online_contract","description");
-		assertTableHasColumn(manager,"online_contract","application_application_id");
+		assertTableHasColumn(manager,"online_contract","application_id");
 		assertTableHasColumn(manager,"online_contract","creation_date");
 		assertTableHasColumn(manager,"online_contract","created_by");
 		assertTableHasColumn(manager,"online_contract","last_update_date");
@@ -106,7 +106,7 @@ public class MappingIntegrationTest {
 
 		assertTableHasColumn(manager,"role","role_id");
 		assertTableHasColumn(manager,"role","role_name");
-		assertTableHasColumn(manager,"role","application_application_id");
+		assertTableHasColumn(manager,"role","application_id");
 		assertTableHasColumn(manager,"role","creation_date");
 		assertTableHasColumn(manager,"role","created_by");
 		assertTableHasColumn(manager,"role","last_update_date");

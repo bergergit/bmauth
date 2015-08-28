@@ -1,6 +1,4 @@
-'use strict';
-
-angular.module('bmauth.applications.service', [ 'ngResource' ])
+angular.module('bmauth.applications')
 
 .factory('Application', [ '$resource', function($resource) {
 	return $resource('bmauth/applications');

@@ -1,10 +1,8 @@
-'use strict';
+angular.module('bmauth.home', [ 'ngResource' ])
 
-angular.module('bmauth.login', [])
-
-.controller('LoginCtrl', ['$scope', function($scope) {
+.controller('LoginCtrl', ['$scope','Signup', function($scope, Signup) {
 	
-	console.debug("in login controller");
+	var vm = this;
 	
 	$scope.submitLogin = function() {
 		console.debug('I want to log iiiin');
@@ -12,11 +10,14 @@ angular.module('bmauth.login', [])
 }])
 
 .controller('SignupCtrl', ['$scope','$http','$location','Signup', function($scope, $http, $location, Signup) {
-	$scope.signup = new Signup();
-	$scope.submitSignup = function() {
+	var vm = this;
+	
+	vm.signup = new Signup();
+	
+	vm.submitSignup = function() {
 		 console.debug('Will submit', $scope.signup);
 		 $scope.signup.$save(function(response) {
-			 console.debug("Success on save");
+			 //console.debug("Success on save");
 			 $location.path("/applications");
 		 }, function() {
 			 console.debug("Error on save");

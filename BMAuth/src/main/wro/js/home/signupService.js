@@ -1,6 +1,4 @@
-'use strict';
-
-angular.module('bmauth.signup.service', [ 'ngResource' ])
+angular.module('bmauth.home')
 
 .factory('Signup', [ '$resource', function($resource) {
 	return $resource('bmauth/users');

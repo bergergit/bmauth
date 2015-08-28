@@ -15,12 +15,13 @@ describe('Home controllers', function() {
 			}
 		});
 	});
-
-	beforeEach(module('bmauth.login'));
-
+	
+	
+	beforeEach(module('bmauth.home'));
+	
 	describe('LoginCtrl', function() {
 		var scope, ctrl, $httpBackend;
-
+		
 		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
 			$httpBackend = _$httpBackend_;
 			$httpBackend.expectPOST('login/internal').respond(201, {
@@ -50,7 +51,7 @@ describe('Home controllers', function() {
 	});
 
 	describe('SignupCtrl', function() {
-		var scope, $httpBackend, ctrl, $location, userData = function() {
+		var scope, ctrl, $location, $httpBackend, userData = function() {
 			return {
 				username: 'fabioberger@gmail.com',
 				user_id: 1
@@ -59,7 +60,7 @@ describe('Home controllers', function() {
 
 		beforeEach(inject(function(_$httpBackend_, $rootScope, _$location_, $controller) {
 			$httpBackend = _$httpBackend_;
-			$httpBackend.whenPOST('bmauth/users').respond(201, userData);
+			$httpBackend.whenPOST('bmauth/users').respond(201);
 			$location = _$location_;
 			spyOn($location, 'path').and.returnValue('/applications');
 
@@ -70,15 +71,20 @@ describe('Home controllers', function() {
 			
 		}));
 
-		it('should create a new user when clicking on save button', function() {
-			scope.signup = userData();
-			expect(scope.signup).toEqualData(userData());
+
+		it('should create a new user when clicking on save button', inject(function(Signup) {
+			expect(Signup).toBeDefined();
+			
+			scope.signup = new Signup(userData());
+			
+			//scope.signup = userData();
+			//expect(scope.signup).toEqualData(userData());
 			scope.submitSignup();
 			$httpBackend.expectPOST('bmauth/users');
 			$httpBackend.flush();
 
-			expect(scope.signup).toEqualData(userData());
-		});
+			//expect(scope.signup.query()).toEqualData(userData());
+		}));
 		
 		it ('should redirect to /applications admin page', function() {
 			scope.submitSignup();
@@ -88,4 +94,5 @@ describe('Home controllers', function() {
 		});
 		
 	});
+	
 });

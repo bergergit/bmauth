@@ -1,8 +1,6 @@
-'use strict';
+angular.module('bmauth.home', [ 'ngResource' ])
 
-angular.module('bmauth.login', [])
-
-.controller('LoginCtrl', ['$scope', function($scope) {
+.controller('LoginCtrl', ['$scope','Signup', function($scope, Signup) {
 	
 	console.debug("in login controller");
 	

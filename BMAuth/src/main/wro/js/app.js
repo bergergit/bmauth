@@ -1,13 +1,13 @@
+'use strict';
+
 angular.module('bmauth', [
   'ngRoute',
   'pascalprecht.translate',
   'datatables',
-  'bmauth.login',
-  'bmauth.signup.service',
+  'bmauth.home',
   'bmauth.applications',
-  'bmauth.applications.service',
   'bmauth.navigation'
-])
+ ])
 
 .config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
 	// routes configuration

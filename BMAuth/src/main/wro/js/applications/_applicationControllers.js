@@ -1,6 +1,4 @@
-'use strict';
-
-angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap'])
+angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ngResource'])
 
 /**
  * Application Edit controller

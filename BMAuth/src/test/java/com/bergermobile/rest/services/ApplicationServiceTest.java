@@ -24,8 +24,8 @@ import com.bergermobile.rest.domain.ApplicationRest;
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
 @WebAppConfiguration
 @Transactional
- @TransactionConfiguration(defaultRollback = true)
- @ActiveProfiles("dev")
+@TransactionConfiguration(defaultRollback = true)
+@ActiveProfiles("dev")
 public class ApplicationServiceTest {
 
 	@Autowired
@@ -46,23 +46,54 @@ public class ApplicationServiceTest {
 	}
 
 	@Test
+	public void testIfDublicateApplicationNameCheckWorks() {
+
+		ApplicationRest applicationRest1 = ConversionUtilities
+				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
+
+		ApplicationRest applicationRest2 = ConversionUtilities
+				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
+
+		applicationService.save(applicationRest1);
+
+		try {
+			applicationService.save(applicationRest2);
+			fail("Duplicate key - It shouldn't allow to have 2 Applications with same name");
+		} catch (DataIntegrityViolationException e) {
+
+		}
+
+	}
+
+	@Test
 	public void testIfSaveWorks() {
 
 		ApplicationRest applicationRest = ConversionUtilities
 				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
 
-		try{
 		applicationService.save(applicationRest);
-		fail("Duplicate key - It shouldn't allow to have 2 Applications with same name");
-		} catch(DataIntegrityViolationException e) {
 
-		}
-
-		
-		
-//		List<ApplicationRest> applicationList = applicationService.findAllApplications();
-//		assertEquals(applicationList.size(), 1);
+		List<ApplicationRest> applicationList = applicationService.findAllApplications();
+		assertEquals(applicationList.size(), 1);
 
 	}
 
+	@Test
+	public void testIfDeleteWorks() {
+
+		ApplicationRest applicationRest = ConversionUtilities
+				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
+
+		applicationService.save(applicationRest);
+
+		ApplicationRest application = applicationService.findByApplicationName("Mega Funk");
+		assertEquals(application.getApplicationName(), applicationRest.getApplicationName());
+
+		applicationService.delete();
+		
+		
+	}
+
+	
+	
 }

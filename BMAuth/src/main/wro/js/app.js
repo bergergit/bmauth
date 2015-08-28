@@ -13,16 +13,20 @@ angular.module('bmauth', [
 	// routes configuration
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/login.html',
-		  controller: 'LoginCtrl'
+		  controller: 'LoginCtrl',
+		  controllerAs: 'vm'
 	}).when('/signup', { 
 		  templateUrl: 'fragments/home/signup.html',
-		  controller: 'SignupCtrl'
+		  controller: 'SignupCtrl',
+		  controllerAs: 'vm'
 	}).when('/applications', { 
 		  templateUrl: 'fragments/applications/list.html',
-		  controller: 'ApplicationsListCtrl'
+		  controller: 'ApplicationsListCtrl',
+		  controllerAs: 'vm'
 	}).when('/applications/:applicationId', { 
 		  templateUrl: 'fragments/applications/edit.html',
-		  controller: 'ApplicationsEditCtrl'
+		  controller: 'ApplicationsEditCtrl',
+		  controllerAs: 'vm'
 	})//.otherwise({redirectTo: '/'});
 	
 	// translation configuration

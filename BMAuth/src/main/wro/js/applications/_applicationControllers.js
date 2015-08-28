@@ -7,16 +7,20 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	console.debug("in applications controller");
 	
+	var vm = this;
+	
 	$scope.application = {"active": true, "testMode": "0"};
 }])
 
 /**
  * Application List controller
  */
-.controller('ApplicationsListCtrl', ['$scope','DTOptionsBuilder','DTColumnBuilder','Application', '$translate', 
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, Application, $translate) {
+.controller('ApplicationsListCtrl', ['$scope','DTOptionsBuilder','DTColumnBuilder','Application', '$translate', '$location',
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, Application, $translate, $location) {
 	
 	console.debug("in applications list controller");
+	
+	var vm = this;
 	
 	// Renderer for the datatable
 	var renderer = {
@@ -28,19 +32,37 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		}
 	}
 	
-	console.debug('DTOptionsBuilder', DTOptionsBuilder);
-	
-	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-        return Application.query().$promise;
+	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+		var promise = Application.query().$promise;
+		promise.then(function() {
+			vm.ready = true;
+		})
+        return promise;
     })
-    //.withPaginationType('full_numbers')
+    .withOption('rowCallback', rowCallback)
     .withBootstrap();
 	
-	$scope.dtColumns = [
-        DTColumnBuilder.newColumn('applicationId').withTitle('ID').withOption('width', '100px'),
+	vm.dtColumns = [
+        DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
         DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')),
-        DTColumnBuilder.newColumn('active').withTitle('Ativo').withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
+        DTColumnBuilder.newColumn('active').withTitle($translate('application.form.label.active')).withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
         DTColumnBuilder.newColumn('applicationId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];
+	
+	// Capturing row click
+	vm.dtClickHandler = function(info) {
+        //vm.message = info.id + ' - ' + info.firstName;
+		$location.path('applications/' + info.applicationId);
+    }
+    function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        // Unbind first in order to avoid any duplicate handler (see https://github.com/l-lin/angular-datatables/issues/87)
+        $('td', nRow).unbind('click');
+        $('td', nRow).bind('click', function() {
+            $scope.$apply(function() {
+                vm.dtClickHandler(aData);
+            });
+        });
+        return nRow;
+    }
     
 }]);

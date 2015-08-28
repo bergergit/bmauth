@@ -72,4 +72,23 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public UserRest findByName(String name) {
+
+		User user = userRepository.findByName(name);
+
+		UserRest userRest = new UserRest();
+
+		if (user != null) {
+
+			BeanUtils.copyProperties(user, userRest);
+
+			return userRest;
+		}
+
+		return null;
+
+
+	}
+
 }

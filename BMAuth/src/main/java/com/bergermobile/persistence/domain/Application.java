@@ -31,7 +31,7 @@ public class Application extends BaseTable implements Serializable {
 	@Column(name = "mandatory_contract")
 	private short mandatoryContract;
 
-	@Column(name = "application_name")
+	@Column(name = "application_name", unique=true)
 	private String applicationName;
 
 	@Column(name = "test_mode")

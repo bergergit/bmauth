@@ -4,7 +4,6 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 import java.text.ParseException;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,10 +46,10 @@ public class UserRepositoryTest {
 
 		assertNotNull(savedUser);
 
-		List<User> foundUser = userRepository.findByName("Facebook User Active");
+		User foundUser = userRepository.findByName("Facebook User Active");
 
 		// check if returns one record
-		assertEquals(foundUser.size(), 1);
+		assertEquals(foundUser.getName(), "Facebook User Active");
 
 	}
 

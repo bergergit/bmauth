@@ -1,4 +1,4 @@
-package com.bergermobile.persistence.integration;
+package com.bergermobile.persistence.repository;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;

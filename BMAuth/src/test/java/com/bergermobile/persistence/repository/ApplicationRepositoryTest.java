@@ -1,4 +1,4 @@
-package com.bergermobile.persistence.integration;
+package com.bergermobile.persistence.repository;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -17,9 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.BmAuthApplication;
 import com.bergermobile.persistence.domain.Application;
+import com.bergermobile.persistence.domain.LanguageContract;
 import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
 import com.bergermobile.persistence.repository.ApplicationRepository;
+import com.bergermobile.persistence.repository.OnlineContractRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
@@ -27,10 +29,16 @@ import com.bergermobile.persistence.repository.ApplicationRepository;
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 @ActiveProfiles("dev")
-public class ApplicationIntegrationTest {
+public class ApplicationRepositoryTest {
 
 	@Autowired
 	private ApplicationRepository applicationRepository;
+
+	@Autowired
+	private OnlineContractRepository onlineContractRepository;
+
+	@Autowired
+	private LanguageContractRepository languageContractRepository;
 
 	// This test checks if the connection with database is working
 	@Test
@@ -119,22 +127,49 @@ public class ApplicationIntegrationTest {
 	@Test
 	public void testThatDeleteWorks() {
 
+		// Insert and check if it is saved in database
 		Application application = PersistenceFixture.megaFunkSystem();
 
-		Application savedApplication = applicationRepository.save(application);
+		applicationRepository.save(application);
 
-		assertNotNull(savedApplication);
+		Application foundApplication = applicationRepository.findByApplicationName("Mega Funk");
 
-		assertEquals(
-				applicationRepository.findByApplicationId(savedApplication.getApplicationId()).getApplicationName(),
-				"Mega Funk");
+		assertNotNull(foundApplication);
 
-		 applicationRepository.delete(savedApplication.getApplicationId());
+		assertEquals(foundApplication.getApplicationName(), "Mega Funk");
 
-		 Application findedApplication = applicationRepository.findByApplicationId(savedApplication.getApplicationId());
+		List<OnlineContract> foundOnlineContractList = onlineContractRepository.findAll();
 
-		 assertEquals(findedApplication, null);
-		 
+		assertEquals(application.getOnlineContracts().size(), foundOnlineContractList.size());
+
+		int quantityOfLanguages = 0;
+		for (OnlineContract onlineContract2 : foundOnlineContractList) {
+
+			List<LanguageContract> findedLanguageContractList = languageContractRepository
+					.findByOnlineContract(onlineContract2);
+
+			quantityOfLanguages += findedLanguageContractList.size();
+
+		}
+
+		assertEquals(quantityOfLanguages, 4);
+
+		// Delete
+		applicationRepository.delete(foundApplication.getApplicationId());
+
+		// Check if the all record was deleted
+		foundApplication = applicationRepository.findByApplicationName("Mega Funk");
+
+		assertEquals(foundApplication, null);
+
+		List<OnlineContract> onlineContractList = onlineContractRepository.findAll();
+
+		assertEquals(onlineContractList.size(), 0);
+
+		List<LanguageContract> languageContractList = languageContractRepository.findAll();
+
+		assertEquals(languageContractList.size(), 0);
+
 	}
 
 }

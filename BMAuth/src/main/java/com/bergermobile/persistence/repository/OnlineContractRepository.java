@@ -12,5 +12,7 @@ public interface OnlineContractRepository extends CrudRepository<OnlineContract,
 	public OnlineContract findByOnlineContractId(Integer onlineContractId);
 
 	public List<OnlineContract> findByApplication(Application application);
+	
+	public List<OnlineContract> findAll();
 
 }

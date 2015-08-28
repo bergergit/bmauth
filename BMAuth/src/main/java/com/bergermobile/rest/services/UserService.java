@@ -12,7 +12,9 @@ public interface UserService {
 	public List<UserRest> findAllUsers();
 
 	public UserRest findByUserId(int userId);
-
+	
+	public UserRest findByName(String name);
+	
 	public void save(UserRest userRest);
 
 	public void delete(int userId);

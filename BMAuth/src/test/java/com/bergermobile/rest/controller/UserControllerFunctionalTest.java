@@ -2,12 +2,13 @@ package com.bergermobile.rest.controller;
 
 import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.internalUser1;
 import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.internalUser2;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static junit.framework.TestCase.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -88,7 +89,7 @@ public class UserControllerFunctionalTest {
 		mockMvc.perform(post("/bmauth/users").contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsBytes(userRest))).andExpect(status().isCreated());
 
-		User user1 = userRepository.findOne(1);
+		User user1 = userRepository.findByName("Fabio Berger");
 
 		assertThat(user1.getUsername(), is("fabioberger@gmail.com"));
 

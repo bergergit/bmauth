@@ -1,6 +1,7 @@
 package com.bergermobile.rest.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -89,11 +90,11 @@ public class ApplicationServiceTest {
 		ApplicationRest application = applicationService.findByApplicationName("Mega Funk");
 		assertEquals(application.getApplicationName(), applicationRest.getApplicationName());
 
-		applicationService.delete();
-		
-		
+		applicationService.delete(application.getApplicationId());
+
+		application = applicationService.findByApplicationName("Mega Funk");
+		assertEquals(application, null);
+
 	}
 
-	
-	
 }

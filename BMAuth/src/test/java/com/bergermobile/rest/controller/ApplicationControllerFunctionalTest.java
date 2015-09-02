@@ -90,13 +90,13 @@ public class ApplicationControllerFunctionalTest {
 		
 	}
 
-	// @Test
-	// public void jsonDeleteApplicationIsNotFound() throws Exception {
-	//
-	// mockMvc.perform(delete("/bmauth/applications/{id}",
-	// 99)).andExpect(status().isNotFound());
-	//
-	// }
+	 @Test
+	 public void jsonDeleteApplicationIsNotFound() throws Exception {
+	
+	 mockMvc.perform(delete("/bmauth/applications/{id}",
+	 99)).andExpect(status().isNotFound());
+	
+	 }
 
 	@Test
 	public void jsonPostCreatesApplicationCorrectly() throws Exception {

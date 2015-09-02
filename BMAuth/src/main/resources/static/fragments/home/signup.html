@@ -1,37 +1,39 @@
-<form class="form-horizontal form-signin" role="form" ng-submit="submitSignup()">
+<form class="form-horizontal form-signin" role="form" ng-submit="vm.submitSignup()">
 	<fieldset>
 		<legend>Cadastre-se</legend>
 		<div class="form-group">
 			<label for="inputName" class="col-md-4 control-label">Nome</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" id="inputName" ng-model="signup.name"/>
+				<input type="text" class="form-control" id="inputName" ng-model="vm.signup.name"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputDocument" class="col-md-4 control-label">CPF ou CNPJ</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" id="inputDocument" ng-model="signup.document_number"/>
+				<input type="text" class="form-control" id="inputDocument" ng-model="vm.signup.document_number"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputEmail" class="col-md-4 control-label">E-mail</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" id="inputEmail" ng-model="signup.email"/>
+				<input type="text" class="form-control" id="inputEmail" ng-model="vm.signup.email"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputPassword" class="col-md-4 control-label">Senha</label>
 			<div class="col-md-8">
-				<input type="password" class="form-control" id="inputPassword" ng-model="signup.password"/>
+				<input type="password" class="form-control" id="inputPassword" ng-model="vm.signup.password"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputPassword2" class="col-md-4 control-label">Digite a senha novamente</label>
 			<div class="col-md-8">
-				<input type="password" class="form-control" id="inputPassword2" ng-model="signup.password2"/>
+				<input type="password" class="form-control" id="inputPassword2" ng-model="vm.signup.password2"/>
 			</div>
 		</div>
 		<hr/>
 		<button type="submit" class="btn btn-lg btn-primary btn-block">Cadastrar</button>
 	</fieldset>
+	
+	<input type="hidden" ng-model="vm.signup.loginType"/>
 </form>

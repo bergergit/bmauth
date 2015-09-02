@@ -6,10 +6,11 @@ angular.module('bmauth', [
   'datatables',
   'bmauth.home',
   'bmauth.applications',
-  'bmauth.navigation'
+  'bmauth.navigation',
+  'bmauth.authentication'
  ])
 
-.config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
+.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
 	// routes configuration
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/login.html',
@@ -27,7 +28,9 @@ angular.module('bmauth', [
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
 		  controllerAs: 'vm'
-	})//.otherwise({redirectTo: '/'});
+	});//.otherwise({redirectTo: '/'});
+	
+	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	
 	// translation configuration
 	$translateProvider.useSanitizeValueStrategy('escape');
@@ -39,7 +42,8 @@ angular.module('bmauth', [
 	$locationProvider.html5Mode(true);
 }])
 
-.run(['DTDefaultOptions','$translate', function(DTDefaultOptions, $translate) {
+.run(['DTDefaultOptions','$translate','auth', function(DTDefaultOptions, $translate, auth) {
     DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
-}]);
+    auth.init('/', 'bmauth/login', 'bmauth/logout');
+}]);  
 

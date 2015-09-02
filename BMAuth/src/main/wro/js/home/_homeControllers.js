@@ -1,22 +1,44 @@
 angular.module('bmauth.home', [ 'ngResource' ])
 
-.controller('LoginCtrl', ['$scope','Signup', function($scope, Signup) {
+.controller('LoginCtrl', ['auth','$location', function(auth, $location) {
 	
 	var vm = this;
-	
-	$scope.submitLogin = function() {
-		console.debug('I want to log iiiin');
-	}
+
+	vm.credentials = {};
+
+    vm.authenticated = function() {
+        return auth.authenticated;
+    };
+  
+    vm.login = function() {
+        auth.authenticate(vm.credentials, function(authenticated) {
+            if (authenticated) {
+                console.log("Login succeeded");
+                vm.error = false;
+                $location.path("/applications");
+            } else {
+                console.log("Login failed");
+                vm.error = true;
+            }
+        })
+    };
+
+    vm.logout = function() {
+      auth.clear();
+    };
+
 }])
 
-.controller('SignupCtrl', ['$scope','$http','$location','Signup', function($scope, $http, $location, Signup) {
+.controller('SignupCtrl', ['$http','$location','signup', function($http, $location, signup) {
 	var vm = this;
 	
-	vm.signup = new Signup();
+	vm.signup = new signup({
+		"loginType": "3"
+	});
 	
 	vm.submitSignup = function() {
-		 console.debug('Will submit', $scope.signup);
-		 $scope.signup.$save(function(response) {
+		 console.debug('Will submit', vm.signup);
+		 vm.signup.$save(function(response) {
 			 //console.debug("Success on save");
 			 $location.path("/applications");
 		 }, function() {

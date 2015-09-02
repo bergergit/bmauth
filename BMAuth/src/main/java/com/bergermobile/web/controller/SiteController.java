@@ -1,5 +1,7 @@
 package com.bergermobile.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(method = RequestMethod.GET)
 public class SiteController {
+	
+	//private static Logger LOG = LoggerFactory.getLogger(SiteController.class);
 
 	@RequestMapping(value = "/")
 	public String home() {
+		//LOG.debug("Site controller");
 		return "index";
 	}
 

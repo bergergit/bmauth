@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +48,7 @@ public class User extends BaseTable implements Serializable {
 	private String password;
 
 	@Column(name = "user_type")
-	private short userType;
+	private Short userType;
 
 	private String username;
 
@@ -55,7 +57,7 @@ public class User extends BaseTable implements Serializable {
 	private List<ContractUser> contractUsers;
 
 	// bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	private List<UserRole> userRoles;
 
 	public User() {
@@ -212,6 +214,15 @@ public class User extends BaseTable implements Serializable {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", active=" + active + ", email="
+				+ email + ", loginType=" + loginType + ", name=" + name
+				+ ", username=" + username + "]";
+	}
+
+
 
 	public static enum LoginType {
 

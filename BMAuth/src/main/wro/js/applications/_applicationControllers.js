@@ -3,20 +3,20 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 /**
  * Application Edit controller
  */
-.controller('ApplicationsEditCtrl', ['$scope', function($scope) {
+.controller('ApplicationsEditCtrl', [function() {
 	
 	console.debug("in applications controller");
 	
 	var vm = this;
 	
-	$scope.application = {"active": true, "testMode": "0"};
+	vm.application = {"active": true, "testMode": "0"};
 }])
 
 /**
  * Application List controller
  */
-.controller('ApplicationsListCtrl', ['$scope','DTOptionsBuilder','DTColumnBuilder','Application', '$translate', '$location',
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, Application, $translate, $location) {
+.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','application', '$translate', '$location',
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, application, $translate, $location) {
 	
 	console.debug("in applications list controller");
 	
@@ -33,7 +33,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	}
 	
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		var promise = Application.query().$promise;
+		var promise = application.query().$promise;
 		promise.then(function() {
 			vm.ready = true;
 		})

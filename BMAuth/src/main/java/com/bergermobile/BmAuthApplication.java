@@ -48,7 +48,6 @@ public class BmAuthApplication extends WebMvcConfigurerAdapter {
 		return messageSource;
 	}
 	
-	
 	@Configuration
 	protected static class Configurator {
 		

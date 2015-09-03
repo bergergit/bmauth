@@ -23,8 +23,8 @@
 
   <body ng-cloak="ng-cloak" class="ng-cloak">
   
-  	<div ng-controller="NavigationCtrl">
-	    <div class="navbar navbar-inverse navbar-fixed-top" ng-show="showNavBar()" role="navigation">
+  	<div ng-controller="NavigationCtrl as vm">
+	    <div class="navbar navbar-inverse navbar-fixed-top" ng-show="vm.showNavBar()" role="navigation">
 	      <div class="container">
 	        <div class="navbar-header">
 	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -40,7 +40,10 @@
 	          	<li><a href="applications"><strong>Aplicações</strong></a></li>
 	          	<li><a href="users"><strong>Usuários</strong></a></li>
 	          </ul>
-	        </div><!--/.nav-collapse -->
+			  <ul class="nav navbar-nav navbar-right">
+					<li><a href="" title="Sair" ng-click="vm.logout()"><span class="glyphicon glyphicon-log-out"></span></a></li>
+			  </ul>
+			</div><!--/.nav-collapse -->
 	      </div>
 	    </div>
 	    

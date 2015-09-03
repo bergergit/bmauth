@@ -1,7 +1,5 @@
 package com.bergermobile.web.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +22,7 @@ public class SiteController {
 	 */
 	// @RequestMapping(value = "/{[path:[^\\.]*}")
 	// @RequestMapping(value = "/{[^\\.]}*/{[^\\.]}*/{[^\\.]}*")
-	@RequestMapping(value = { "", "signup", "login", "users", "users/**", "applications", "applications/**" })
+	@RequestMapping(value = { "", "signup", "login", "logout", "users", "users/**", "applications", "applications/**" })
 	public String redirect() {
 		// Forward to home page so that route is preserved.
 		return "forward:/";

@@ -15,7 +15,7 @@ angular.module('bmauth.home', [ 'ngResource' ])
             if (authenticated) {
                 console.log("Login succeeded");
                 vm.error = false;
-                $location.path("/applications");
+                $location.path(auth.path ? auth.path : "/applications");
             } else {
                 console.log("Login failed");
                 vm.error = true;

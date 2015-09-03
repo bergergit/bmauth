@@ -44,7 +44,7 @@ public class SecurityUser extends User implements UserDetails
 		if(userRoles != null)
 		{
 			for (UserRole userRole : userRoles) {
-				SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.getRole().getRoleName());
+				SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userRole.getRole().getRoleName());
 				authorities.add(authority);
 			}
 		}

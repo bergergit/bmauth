@@ -1,6 +1,6 @@
 angular.module('bmauth.authentication', [])
 
-.factory('auth',['$http', '$location', function($http, $location) {
+.factory('auth',['$http', '$location','$rootScope', function($http, $location, $rootScope) {
 
 	var auth = {
 
@@ -9,6 +9,7 @@ angular.module('bmauth.authentication', [])
 		loginPath : '/login',
 		logoutPath : '/logout',
 		homePath : '/',
+		authenticatedPaths: '/applications*|/users*',
 
 		/**
 		 * Will authenticate user using the internal login service, with basic authentication
@@ -41,16 +42,34 @@ angular.module('bmauth.authentication', [])
 
 		clear : function() {
 			auth.authenticated = false;
-			$location.path(auth.loginPath);
+			$location.path(auth.homePath);
 			$http.post(auth.logoutPath, {});
 			
 		},
 
 		init : function(homePath, loginPath, logoutPath) {
+			auth.path = null;
 			auth.homePath = homePath;
 			auth.loginPath = loginPath;
 			auth.logoutPath = logoutPath;
+			
+			$rootScope.$on('$routeChangeStart', function() {
+				enter();
+	        });
+			
+
+			// redirects user to home page if not authenticated
+			var enter = function() {
+				if ($location.path().match(auth.authenticatedPaths)) {
+					auth.path = $location.path();
+					if (!auth.authenticated) {
+						$location.path(auth.homePath);
+					}
+				}
+			}
 		}
+		
+		
 
 	};
 

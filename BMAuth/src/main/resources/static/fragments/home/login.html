@@ -9,7 +9,9 @@
 		<strong>{{ 'login.btn.google.signin' | translate}}</strong>
 	</a>
 	<h4 class="text-left">{{ 'login.header.or' | translate}}</h4>
-	
+	<div class="alert alert-danger" ng-show="vm.error">
+		{{ 'login.error.loginError' | translate }}
+	</div>
 	<div class="form-group">
 		<div class="col-sm-12">
 			<input type="text" name="username" class="form-control"	placeholder="E-mail" required="required" autofocus="autofocus" ng-model="vm.credentials.username" />

@@ -10,6 +10,9 @@ angular.module('bmauth.home', [ 'ngResource' ])
         return auth.authenticated;
     };
   
+    /** 
+     * Internal login
+     */
     vm.login = function() {
         auth.authenticate(vm.credentials, function(authenticated) {
             if (authenticated) {
@@ -22,6 +25,24 @@ angular.module('bmauth.home', [ 'ngResource' ])
             }
         })
     };
+    
+
+    /**
+	 * Facebook login
+	 */
+	vm.facebookLogin = function() {
+		FB.login(function(response) {
+			console.debug("Facebook response", response);
+			if (response.status === 'connected') {
+				// Logged into your app and Facebook.
+			} else if (response.status === 'not_authorized') {
+				// The person is logged into Facebook, but not your app.
+			} else {
+				// The person is not logged into Facebook, so we're not sure if
+				// they are logged into this app or not.
+			}
+		}, { scope : 'public_profile,email' });
+	};
 
     vm.logout = function() {
       auth.clear();
@@ -36,6 +57,7 @@ angular.module('bmauth.home', [ 'ngResource' ])
 		"loginType": "3"
 	});
 	
+	// saves the user with a post, and redirects to signed in experience
 	vm.submitSignup = function() {
 		 console.debug('Will submit', vm.signup);
 		 vm.signup.$save(function(response) {

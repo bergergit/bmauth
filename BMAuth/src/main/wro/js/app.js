@@ -7,7 +7,8 @@ angular.module('bmauth', [
   'bmauth.home',
   'bmauth.applications',
   'bmauth.navigation',
-  'bmauth.authentication'
+  'bmauth.authentication',
+  'bmauth.social.login'
  ])
 
 .config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
@@ -42,8 +43,11 @@ angular.module('bmauth', [
 	$locationProvider.html5Mode(true);
 }])
 
-.run(['DTDefaultOptions','$translate','auth', function(DTDefaultOptions, $translate, auth) {
+.run(['DTDefaultOptions','$translate','auth','facebook', function(DTDefaultOptions, $translate, auth, facebook) {
     DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
+    
     auth.init('/', 'bmauth/login', 'logout');
+    facebook.init();
+    
 }]);  
 

@@ -8,28 +8,29 @@ angular.module('bmauth', [
   'bmauth.applications',
   'bmauth.navigation',
   'bmauth.authentication',
-  'bmauth.social.login'
+  'bmauth.social.login',
+  'bmauth.main'
  ])
 
 .config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
 	// routes configuration
 	$routeProvider.when('/', { 
-		  templateUrl: 'fragments/home/login.html',
+		  templateUrl: '/bmauth/fragments/home/home.html',
 		  controller: 'LoginCtrl',
 		  controllerAs: 'vm'
 	}).when('/signup', { 
-		  templateUrl: 'fragments/home/signup.html',
+		  templateUrl: '/bmauth/fragments/home/signup.html',
 		  controller: 'SignupCtrl',
 		  controllerAs: 'vm'
 	}).when('/applications', { 
-		  templateUrl: 'fragments/applications/list.html',
+		  templateUrl: '/bmauth/fragments/applications/list.html',
 		  controller: 'ApplicationsListCtrl',
 		  controllerAs: 'vm'
 	}).when('/applications/:applicationId', { 
-		  templateUrl: 'fragments/applications/edit.html',
+		  templateUrl: '/bmauthfragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
 		  controllerAs: 'vm'
-	});//.otherwise({redirectTo: '/'});
+	}).otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	

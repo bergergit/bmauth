@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
@@ -24,7 +23,7 @@ import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.rest.services.SerializableResourceBundleMessageSource;
 
 @SpringBootApplication
-public class BmAuthApplication extends WebMvcConfigurerAdapter {
+public class BmAuthApplication {
 	
 	static Log LOG = LogFactory.getLog(BmAuthApplication.class);
 

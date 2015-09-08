@@ -6,8 +6,8 @@ angular.module('bmauth.authentication', [])
 
 		authenticated : false,
 
-		loginPath : '/login',
-		logoutPath : '/logout',
+		loginPath : '/bmauth/user',
+		logoutPath : '/bmauth/logout',
 		homePath : '/',
 		authenticatedPaths: '/applications*|/users*',
 
@@ -20,9 +20,9 @@ angular.module('bmauth.authentication', [])
 				authorization : "Basic " + btoa(credentials.username + ":" + credentials.password)
 			} : {};
 			
-			console.debug('credentials', credentials.username, credentials.password);
+			//console.debug('credentials', credentials.username, credentials.password);
 
-			$http.get('bmauth/login', {
+			$http.get(auth.loginPath, {
 				headers : headers
 			}).success(function(data) {
 				console.debug('bmauth.authentication - data', data);
@@ -53,10 +53,11 @@ angular.module('bmauth.authentication', [])
 			auth.loginPath = loginPath;
 			auth.logoutPath = logoutPath;
 			
-			$rootScope.$on('$routeChangeStart', function() {
-				enter();
-	        });
+			//auth.authenticate();
 			
+			$rootScope.$on('$routeChangeStart', function() {
+				//enter();
+	        });
 
 			// redirects user to home page if not authenticated
 			var enter = function() {

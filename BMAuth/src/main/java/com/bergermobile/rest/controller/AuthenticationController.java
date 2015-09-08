@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bergermobile.rest.services.CustomUserDetailsService;
 
 @RestController
-@RequestMapping(value = "/bmauth", method = RequestMethod.GET)
+@RequestMapping(method = RequestMethod.GET)
 public class AuthenticationController {
 	
 	static Log LOG = LogFactory.getLog(CustomUserDetailsService.class);
 
-	@RequestMapping("/login")
+	@RequestMapping("/user")
 	public Map<String, Object> user(Principal user) {
 		LOG.debug("Trying to retrieve user " + user);
 		Map<String, Object> map = new LinkedHashMap<String, Object>();

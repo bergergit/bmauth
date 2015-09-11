@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import com.bergermobile.rest.services.CustomUserDetailsService;
 
@@ -23,6 +24,7 @@ import com.bergermobile.rest.services.CustomUserDetailsService;
  */
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+@EnableRedisHttpSession
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired 

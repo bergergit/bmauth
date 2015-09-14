@@ -6,7 +6,7 @@
 	<groupId>com.bergermobile</groupId>
 	<artifactId>bmauth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>BMAuth</name>
 	<description>Berger Mobile Authentication module</description>

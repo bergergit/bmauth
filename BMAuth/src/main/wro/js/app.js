@@ -15,21 +15,15 @@ angular.module('bmauth', [
 .config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
 	// routes configuration
 	$routeProvider.when('/', { 
-		  templateUrl: '/bmauth/fragments/home/home.html',
+		  templateUrl: 'fragments/home/home.html',
 		  controller: 'LoginCtrl',
 		  controllerAs: 'vm'
-	/*
-	}).when('/signup', { 
-		  templateUrl: '/bmauth/fragments/home/signup.html',
-		  controller: 'SignupCtrl',
-		  controllerAs: 'vm'
-	*/
 	}).when('/applications', { 
-		  templateUrl: '/bmauth/fragments/applications/list.html',
+		  templateUrl: 'fragments/applications/list.html',
 		  controller: 'ApplicationsListCtrl',
 		  controllerAs: 'vm'
 	}).when('/applications/:applicationId', { 
-		  templateUrl: '/bmauth/fragments/applications/edit.html',
+		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
 		  controllerAs: 'vm'
 	});//.otherwise({redirectTo: '/'});
@@ -38,7 +32,6 @@ angular.module('bmauth', [
 	
 	// translation configuration
 	$translateProvider.useSanitizeValueStrategy('escape');
-	//$translateProvider.useUrlLoader('/bmauth/messageBundle');
     $translateProvider.translations('en', bmauth_translations.en);
 	
 	$translateProvider.preferredLanguage('en');
@@ -49,9 +42,9 @@ angular.module('bmauth', [
 }])
 
 .run(['DTDefaultOptions','$translate','auth','facebook', function(DTDefaultOptions, $translate, auth, facebook) {
-    DTDefaultOptions.setLanguageSource('/bmauth/fragments/lang/dtlang-' + $translate.use() + '.json');
+    DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
     
-    auth.init('/', '/bmauth/user', '/bmauth/logout');
+    auth.init('/', 'user', 'logout');
     facebook.init();
     
 }]);  

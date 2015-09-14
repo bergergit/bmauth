@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import com.bergermobile.rest.services.CustomUserDetailsService;
 
@@ -24,7 +23,6 @@ import com.bergermobile.rest.services.CustomUserDetailsService;
  */
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-@EnableRedisHttpSession
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired 
@@ -39,20 +37,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/", "/fonts/**", "/webjars/**", "/messageBundle/**",
-					"/fragments/**", "/signup", "/bmauth/login")
+					"/fragments/**", "/signup", "/bmauth/login", "/bmauth/**")
 				.permitAll()
 			.antMatchers(HttpMethod.POST, "/bmauth/users")
 				.permitAll()
 			.antMatchers(HttpMethod.POST, "/bmauth/**")
 				.hasRole("ADMIN")
 			.antMatchers(HttpMethod.GET, "/applications/**","/users/**")
-				.hasRole("ADMIN")
+				.hasRole("ADMIN") 
 			.anyRequest()
 				.authenticated()
-			.and()
-				.formLogin()
-				.loginPage("/")
-				.permitAll()
+//			.and()
+//				.formLogin()
+//				.loginPage("/")
+//				.permitAll()
 			.and()
 				.httpBasic()
 			.and()

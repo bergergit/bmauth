@@ -16,8 +16,8 @@ angular.module("bmauth.main", [])
 		directive.init(scope);
 	}
 	
-	directive.init = function(scope) {
-		scope.contentUrl = '/bmauth/fragments/home/login.html;'
+	directive.init = function(scope) { 
+		scope.contentUrl = '/bmauth/fragments/home/login.html'
 	}
 	
 	directive.controllerAs = 'vm';
@@ -30,7 +30,7 @@ angular.module("bmauth.main", [])
 		 * Sign up form
 		 */
 		vm.signupForm = function() {
-			$scope.contentUrl = "/bmauth/fragments/home/signup.html";
+			$scope.contentUrl = "fragments/home/signup.html";
 			//$location.path('/signup', false);
 		}
 		

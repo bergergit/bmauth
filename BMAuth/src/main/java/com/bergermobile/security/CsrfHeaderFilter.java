@@ -1,4 +1,4 @@
-package com.bergermobile.config;
+package com.bergermobile.security;
 
 import java.io.IOException;
 

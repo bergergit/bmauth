@@ -1,4 +1,7 @@
 <form class="form-horizontal form-signin" role="form" ng-submit="vm.login()">
+	<div class="alert alert-danger" ng-show="vm.authorizationError">
+		{{ 'login.error.authorizationError' | translate }}
+	</div>
 	<a class="btn btn-primary btn-block btn-lg" id="facebookSignup" ng-click="vm.facebookLogin()">
 		<i class="fa fa-facebook-square"></i> 
 		<strong>{{ 'login.btn.facebook.signin' | translate}}</strong>

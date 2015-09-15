@@ -42,7 +42,11 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 
 		BeanUtils.copyProperties(userRest, user);
-
+		if (user.getUsername() == null || user.getUsername().isEmpty()) {
+			user.setUsername(user.getEmail());
+		}
+		
+		user.setActive(true);
 		userRepository.save(user);
 
 	}

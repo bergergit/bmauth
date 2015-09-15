@@ -1,4 +1,8 @@
 <form class="form-horizontal form-signin" role="form" ng-submit="vm.submitSignup()">
+	<div class="alert alert-success" ng-show="vm.userCreated">
+		{{ 'signup.header.success' | translate }}
+	</div>
+
 	<fieldset>
 		<legend>{{ 'signup.header' | translate}}</legend>
 		<div class="form-group">

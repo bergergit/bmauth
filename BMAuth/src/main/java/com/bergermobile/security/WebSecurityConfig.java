@@ -1,4 +1,4 @@
-package com.bergermobile.config;
+package com.bergermobile.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -11,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-
-import com.bergermobile.security.CustomUserDetailsService;
 
 
 /**
@@ -43,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 			.antMatchers(HttpMethod.POST, "/bmauth/**")
 				.hasRole("ADMIN")
-			.antMatchers(HttpMethod.GET, "/applications/**","/users/**")
+			.antMatchers(HttpMethod.GET, "/bmauth/applications/**","/bmauth/users/**", "/applications/**", "/users/**")
 				.hasRole("ADMIN") 
 			.anyRequest()
 				.authenticated()

@@ -9,6 +9,8 @@ angular.module("bmauth.main", [])
 		signedInUri: '@',
 		context: '@'
 	};
+	
+	directive.controllerAs = 'vm';
 
 	//directive.templateUrl = "/bmauth/fragments/home/login.html";
 	directive.template = '<div ng-include="contentUrl"></div>'
@@ -17,16 +19,37 @@ angular.module("bmauth.main", [])
 		directive.init(scope);
 	}
 	
-	directive.init = function(scope) { 
-		scope.contentUrl = directive.context + '/fragments/home/login.html'
+	directive.init = function($scope) { 
+		$scope.contentUrl = directive.context + '/fragments/home/login.html'
 	}
 	
-	directive.controllerAs = 'vm';
+	/**
+	 * Redirects to the signed in URI (if provided). Or else, redirects to BM Auth admin IF user
+	 * has the right privileges.
+	 */
+	directive.signinRedirect = function($location, $scope, auth, vm) {
+		if ($scope.signedInUri) {
+			$location.path($scope.signedInUri);
+		} else {
+			if (_.indexOf(auth.data.roles, 'ROLE_ADMIN') > -1) {
+				$location.path('/applications');
+			} else {
+				console.debug('autorization error');
+				vm.authorizationError = true;
+			}
+		}
+	}
+	
 		
-	directive.controller = ['$scope','$location','auth', function ($scope, $location, auth) {
+	directive.controller = ['$scope','$location','auth','signup', function ($scope, $location, auth, signup) {
 		
 		var vm = this;
+		vm.userCreated = false;
 		directive.context = $scope.context ? $scope.context : '';
+		
+	    vm.signup = new signup({
+			"loginType": "3"
+		});
 		
 		/**
 		 * Sign up form
@@ -51,11 +74,13 @@ angular.module("bmauth.main", [])
 	     * Internal login
 	     */
 	    vm.login = function() {
+	    	vm.error = false;
 	        auth.authenticate(vm.credentials, function(authenticated) {
 	            if (authenticated) {
 	                console.log("Login succeeded");
 	                vm.error = false;
-	                $location.path($scope.signedInUri ? $scope.signedInUri : "/applications");
+	                //$location.path($scope.signedInUri ? $scope.signedInUri : "/applications");
+	                directive.signinRedirect($location, $scope, auth, vm);
 	            } else {
 	                console.log("Login failed");
 	                vm.error = true;
@@ -72,6 +97,7 @@ angular.module("bmauth.main", [])
 				console.debug("Facebook response", response);
 				if (response.status === 'connected') {
 					// Logged into your app and Facebook.
+					// send userId to the service
 				} else if (response.status === 'not_authorized') {
 					// The person is logged into Facebook, but not your app.
 				} else {
@@ -84,6 +110,23 @@ angular.module("bmauth.main", [])
 	    vm.logout = function() {
 	      auth.clear();
 	    };
+	    
+		// saves the user with a post, and redirects to signed in experience
+		vm.submitSignup = function() {
+			 console.debug('Will submit', vm.signup);
+			 vm.signup.$save(function(response) {
+				 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
+				 if (directive.signedInUri) {
+					//console.debug("Success on save");
+					directive.signinRedirect($location, $scope, auth, vm); 
+				 } else {
+					 vm.userCreated = true;
+				 }
+				 
+			 }, function() {
+				 console.debug("Error on save");
+			 });
+		}
 	}];
 	
 	return directive;

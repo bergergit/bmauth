@@ -10,6 +10,8 @@ angular.module('bmauth.authentication', [])
 		logoutPath : '/bmauth/logout',
 		homePath : '/',
 		authenticatedPaths: '/applications*|/users*',
+		
+		data: {},
 
 		/**
 		 * Will authenticate user using the internal login service, with basic authentication
@@ -26,6 +28,7 @@ angular.module('bmauth.authentication', [])
 				headers : headers
 			}).success(function(data) {
 				console.debug('bmauth.authentication - data', data);
+				auth.data = data;
 				if (data.name) {
 					auth.authenticated = true;
 				} else {

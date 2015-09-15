@@ -14,6 +14,7 @@ bmauth_translations.en = {
 		"header": "Entre com o seu login.",
 		"header.or": "Ou use:",
 		"error.loginError": "Nome ou senha incorretos.",
+		"error.authorizationError": "Usuário não autorizado no módulo administrativo.",
 		"btn.facebook.signin": "Entre com o Facebook",
 		"btn.google.signin": "Entre com o Google",
 		"btn.login": "Login",
@@ -29,6 +30,7 @@ bmauth_translations.en = {
 	// Signup screen
 	"signup": {
 		"header": "Cadastre-se",
+		"header.success": "Usuário criado",
 		"label.name": "Nome",
 		"label.document_type": "CPF ou CNPJ",
 		"label.email": "E-mail",

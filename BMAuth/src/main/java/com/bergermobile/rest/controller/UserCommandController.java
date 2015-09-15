@@ -34,5 +34,15 @@ public class UserCommandController {
 		userService.delete(userId);
 
 	}
+	
+	/**
+	 * This will verify if we already have the social media user (Facebook, Google+) in the DB.
+	 * If we have, we just authenticate the user with USER role. Or else we create this user in the
+	 * DB, and then authenticate
+	 * @param user
+	 */
+	public void saveSocialMediaUser(@RequestBody UserRest user) {
+		
+	}
 
 }

@@ -6,7 +6,8 @@ angular.module("bmauth.main", [])
 
 	directive.scope = {
 		appName: '@',
-		signedInUri: '@'
+		signedInUri: '@',
+		context: '@'
 	};
 
 	//directive.templateUrl = "/bmauth/fragments/home/login.html";
@@ -17,7 +18,7 @@ angular.module("bmauth.main", [])
 	}
 	
 	directive.init = function(scope) { 
-		scope.contentUrl = '/bmauth/fragments/home/login.html'
+		scope.contentUrl = directive.context + '/fragments/home/login.html'
 	}
 	
 	directive.controllerAs = 'vm';
@@ -25,12 +26,13 @@ angular.module("bmauth.main", [])
 	directive.controller = ['$scope','$location','auth', function ($scope, $location, auth) {
 		
 		var vm = this;
+		directive.context = $scope.context ? $scope.context : '';
 		
 		/**
 		 * Sign up form
 		 */
 		vm.signupForm = function() {
-			$scope.contentUrl = "fragments/home/signup.html";
+			$scope.contentUrl = directive.context + "/fragments/home/signup.html";
 			//$location.path('/signup', false);
 		}
 		

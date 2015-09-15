@@ -1,37 +1,36 @@
-package com.bergermobile.rest.services;
+package com.bergermobile.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bergermobile.persistence.domain.User;
-import com.bergermobile.persistence.domain.UserRole;
-
-public class SecurityUser extends User implements UserDetails
+public class SecurityUser implements UserDetails
 {
 
 	private static final long serialVersionUID = 1L;
+	private String username, password;
+	private boolean active;
+	private List<String> roles;
 	
+	/*
 	public SecurityUser(User user) {
 		if(user != null) {
 			BeanUtils.copyProperties(user, this);
-			/*
-			this.setUserId(user.getUserId());
-			this.setUsername(user.getUsername());
-			this.setName(user.getName());
-			this.setUserType(user.getUserType());
-			this.setEmail(user.getEmail());
-			this.setPassword(user.getPassword());
-			this.setBirthday(user.getBirthday());
-			this.setActive(user.getActive());
-			*/
 		}		
 	}
+	*/
+	
+	public SecurityUser(String username, String password, boolean active, List<String> roles) {
+		this.username = username;
+		this.password = password;
+		this.active = active;
+		this.roles = roles;
+	}
+	
 	
 	
 	
@@ -39,12 +38,9 @@ public class SecurityUser extends User implements UserDetails
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		List<UserRole> userRoles = this.getUserRoles();
-		
-		if(userRoles != null)
-		{
-			for (UserRole userRole : userRoles) {
-				SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userRole.getRole().getRoleName());
+		if(roles != null) {
+			for (String role : roles) {
+				SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
 				authorities.add(authority);
 			}
 		}
@@ -53,13 +49,13 @@ public class SecurityUser extends User implements UserDetails
 
 	@Override
 	public String getPassword() {
-		return super.getPassword();
+		return password;
 	}
 
 	@Override
 	public String getUsername() {
 		//return super.getEmail();
-		return super.getUsername();
+		return username;
 	}
 
 	@Override
@@ -79,7 +75,7 @@ public class SecurityUser extends User implements UserDetails
 
 	@Override
 	public boolean isEnabled() {
-		return this.getActive() == 1 ? true : false;
+		return active;
 	}	
 	
 	

@@ -26,16 +26,16 @@ public class Application extends BaseTable implements Serializable {
 	@Column(name = "application_id")
 	private Integer applicationId;
 
-	private short active;
+	private boolean active;
 
 	@Column(name = "mandatory_contract")
-	private short mandatoryContract;
+	private boolean mandatoryContract;
 
 	@Column(name = "application_name", unique=true)
 	private String applicationName;
 
 	@Column(name = "test_mode")
-	private short testMode;
+	private boolean testMode;
 
 	private String url;
 
@@ -58,19 +58,19 @@ public class Application extends BaseTable implements Serializable {
 		this.applicationId = applicationId;
 	}
 
-	public short getActive() {
+	public boolean getActive() {
 		return this.active;
 	}
 
-	public void setActive(short active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 
-	public short getMandatoryContract() {
+	public boolean getMandatoryContract() {
 		return this.mandatoryContract;
 	}
 
-	public void setMandatoryContract(short mandatoryContract) {
+	public void setMandatoryContract(boolean mandatoryContract) {
 		this.mandatoryContract = mandatoryContract;
 	}
 
@@ -82,11 +82,11 @@ public class Application extends BaseTable implements Serializable {
 		this.applicationName = ApplicationName;
 	}
 
-	public short getTestMode() {
+	public boolean getTestMode() {
 		return this.testMode;
 	}
 
-	public void setTestMode(short testMode) {
+	public void setTestMode(boolean testMode) {
 		this.testMode = testMode;
 	}
 

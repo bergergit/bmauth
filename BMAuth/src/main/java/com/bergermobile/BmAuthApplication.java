@@ -63,7 +63,7 @@ public class BmAuthApplication {
 		 */
 		private User defaultAdminUser() {
 			User user = new User();
-			user.setActive((short) 1);
+			user.setActive(true);
 			user.setUsername("admin");
 			user.setName("Admin");
 			user.setPassword(environment.getProperty("security.user.password"));

@@ -30,7 +30,7 @@ public class User extends BaseTable implements Serializable {
 	@Column(name = "user_id")
 	private Integer userId;
 
-	private short active;
+	private boolean active;
 
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
@@ -71,11 +71,11 @@ public class User extends BaseTable implements Serializable {
 		this.userId = userId;
 	}
 
-	public short getActive() {
+	public boolean getActive() {
 		return this.active;
 	}
 
-	public void setActive(short active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 

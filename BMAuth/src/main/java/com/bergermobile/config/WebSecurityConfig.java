@@ -12,7 +12,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
-import com.bergermobile.rest.services.CustomUserDetailsService;
+import com.bergermobile.security.CustomUserDetailsService;
 
 
 /**
@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/", "/fonts/**", "/webjars/**", "/messageBundle/**",
-					"/fragments/**", "/signup", "/bmauth/login", "/bmauth/**")
+					"/fragments/**", "/signup", "/bmauth/login")
 				.permitAll()
 			.antMatchers(HttpMethod.POST, "/bmauth/users")
 				.permitAll()

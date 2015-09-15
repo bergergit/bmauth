@@ -1,4 +1,7 @@
-package com.bergermobile.rest.services;
+package com.bergermobile.security;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,13 +26,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		LOG.debug("Trying BMAuth login with username " +  username);
 		User user = userRepository.findByLoginTypeAndUsername((Short)User.LoginType.INTERNAL.getValue(), username);
 		if(user == null){
 			LOG.debug("UserName " + username + " not found");
 			throw new UsernameNotFoundException("UserName " + username + " not found");
 		}
 		LOG.debug("Found the login user " +  user);
-		return new SecurityUser(user);
+		
+		List<String> userRoles = new ArrayList<String>();
+		user.getUserRoles().forEach(role -> userRoles.add(role.getRole().getRoleName()));
+		
+		return new SecurityUser(user.getUsername(), user.getPassword(), user.getActive(), userRoles);
 	}
 	
 	

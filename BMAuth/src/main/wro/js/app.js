@@ -10,7 +10,7 @@ angular.module('bmauth', [
   'bmauth.authentication',
   'bmauth.social.login',
   'bmauth.main'
- ])
+ ]) 
 
 .config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
 	// routes configuration

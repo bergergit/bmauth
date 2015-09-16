@@ -41,7 +41,7 @@ angular.module("bmauth.main", [])
 	}
 	
 		
-	directive.controller = ['$scope','$location','auth','signup', function ($scope, $location, auth, signup) {
+	directive.controller = ['$scope','$location','$http','auth','signup', function ($scope, $location, $http, auth, signup) {
 		
 		var vm = this;
 		vm.userCreated = false;
@@ -88,6 +88,25 @@ angular.module("bmauth.main", [])
 	        })
 	    };
 	    
+	    function authenticateFacebook($http, data) {
+	    	$http.post('bmauth/users/facebook', data).
+		    	then(function(response) {
+		    		console.debug("Facebook User saved! We are good to go to signed in experience")
+				}, function(response) {
+					console.debug("Error saving facebook user")
+				});
+	    	
+	    	
+	    	/*
+	        console.log('Welcome!  Fetching your information.... ');
+	        FB.api('/me', function(response) {
+	          console.log('Successful login', response);
+	        });
+	        */
+	    	
+	    	$
+	        
+	    }
 
 	    /**
 		 * Facebook login
@@ -97,7 +116,7 @@ angular.module("bmauth.main", [])
 				console.debug("Facebook response", response);
 				if (response.status === 'connected') {
 					// Logged into your app and Facebook.
-					// send userId to the service
+					authenticateFacebook($http, response);
 				} else if (response.status === 'not_authorized') {
 					// The person is logged into Facebook, but not your app.
 				} else {

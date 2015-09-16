@@ -9,7 +9,7 @@ angular.module('bmauth.social.login', [])
 				FB.init({
 					appId : '424422617745456',
 					xfbml : true,
-					version : 'v2.4'
+					version : 'v2.3'
 				});
 			};
 

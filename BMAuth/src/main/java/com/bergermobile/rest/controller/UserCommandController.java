@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.UserService;
 
@@ -26,6 +27,18 @@ public class UserCommandController {
 		userService.save(user);
 
 	}
+	
+	/**
+	 * This will verify if we already have the social media user (Facebook, Google+) in the DB.
+	 * If we have, we just authenticate the user with USER role. Or else we create this user in the
+	 * DB, and then authenticate
+	 * @param user the userRest json object
+	 */
+	@RequestMapping(value = "/users/facebook", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void saveSocialMediaUser(@RequestBody FacebookRest user) {
+		userService.saveFacebook(user);
+	}
 
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
@@ -35,14 +48,6 @@ public class UserCommandController {
 
 	}
 	
-	/**
-	 * This will verify if we already have the social media user (Facebook, Google+) in the DB.
-	 * If we have, we just authenticate the user with USER role. Or else we create this user in the
-	 * DB, and then authenticate
-	 * @param user
-	 */
-	public void saveSocialMediaUser(@RequestBody UserRest user) {
-		
-	}
+	
 
 }

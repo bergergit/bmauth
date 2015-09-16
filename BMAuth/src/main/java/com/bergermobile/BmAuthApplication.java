@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import com.bergermobile.persistence.domain.Role;
@@ -22,6 +23,7 @@ import com.bergermobile.persistence.repository.UserRepository;
 
 @SpringBootApplication
 @EnableRedisHttpSession
+@EnableAsync
 public class BmAuthApplication {
 
 	static Log LOG = LogFactory.getLog(BmAuthApplication.class);

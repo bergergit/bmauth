@@ -80,14 +80,13 @@ public class ApplicationControllerFunctionalTest {
 	@Test
 	public void applicationQueryControllerReturnApplicationIsNotFound() throws Exception {
 
-		MvcResult result = mockMvc.perform(get("/bmauth/applications/{id}", 9999)).andDo(print()).andExpect(status().isOk())
-				.andReturn();
+		MvcResult result = mockMvc.perform(get("/bmauth/applications/{id}", 9999)).andDo(print())
+				.andExpect(status().isOk()).andReturn();
 
 		String content = result.getResponse().getContentAsString();
 
 		assertEquals(content, "");
-		
-		
+
 	}
 
 	 @Test

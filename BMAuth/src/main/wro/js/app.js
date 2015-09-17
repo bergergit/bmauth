@@ -41,9 +41,9 @@ angular.module('bmauth', [
 	$locationProvider.html5Mode(true);
 }])
 
-.run(['DTDefaultOptions','$translate','auth','facebook', function(DTDefaultOptions, $translate, auth, facebook) {
+.run(['DTDefaultOptions','$translate','$rootScope','auth','facebook', function(DTDefaultOptions, $translate, $rootScope, auth, facebook) {
     DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
-    
+    $rootScope.authContext='';
     auth.init('/', 'user', 'logout');
     facebook.init();
     

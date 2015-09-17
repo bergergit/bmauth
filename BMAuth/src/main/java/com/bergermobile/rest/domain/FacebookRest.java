@@ -1,5 +1,6 @@
 package com.bergermobile.rest.domain;
 
+
 /**
  * Reflects Facebook response object
  * 

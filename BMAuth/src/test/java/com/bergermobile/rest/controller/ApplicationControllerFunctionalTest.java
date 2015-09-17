@@ -80,23 +80,22 @@ public class ApplicationControllerFunctionalTest {
 	@Test
 	public void applicationQueryControllerReturnApplicationIsNotFound() throws Exception {
 
-		MvcResult result = mockMvc.perform(get("/bmauth/applications/{id}", 9999)).andDo(print()).andExpect(status().isOk())
-				.andReturn();
+		MvcResult result = mockMvc.perform(get("/bmauth/applications/{id}", 9999)).andDo(print())
+				.andExpect(status().isOk()).andReturn();
 
 		String content = result.getResponse().getContentAsString();
 
 		assertEquals(content, "");
-		
-		
+
 	}
 
-	// @Test
-	// public void jsonDeleteApplicationIsNotFound() throws Exception {
-	//
-	// mockMvc.perform(delete("/bmauth/applications/{id}",
-	// 99)).andExpect(status().isNotFound());
-	//
-	// }
+	 @Test
+	 public void jsonDeleteApplicationIsNotFound() throws Exception {
+	
+	 mockMvc.perform(delete("/bmauth/applications/{id}",
+	 99)).andExpect(status().isNotFound());
+	
+	 }
 
 	@Test
 	public void jsonPostCreatesApplicationCorrectly() throws Exception {

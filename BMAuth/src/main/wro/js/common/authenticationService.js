@@ -28,7 +28,6 @@ angular.module('bmauth.authentication', [])
 				headers : headers
 			}).success(function(data) {
 				console.debug('bmauth.authentication - data', data);
-				console.log(JSON.stringify(response));
 				auth.data = data;
 				if (data.name) {
 					auth.authenticated = true;

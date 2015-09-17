@@ -6,8 +6,7 @@ angular.module("bmauth.main", [])
 
 	directive.scope = {
 		appName: '@',
-		signedInUri: '@',
-		context: '@'
+		signedInUri: '@'
 	};
 	
 	directive.controllerAs = 'vm';
@@ -20,7 +19,7 @@ angular.module("bmauth.main", [])
 	}
 	
 	directive.init = function($scope) { 
-		$scope.contentUrl = directive.context + '/fragments/home/login.html'
+		$scope.contentUrl = directive.context + 'fragments/home/login.html'
 	}
 	
 	/**
@@ -41,11 +40,12 @@ angular.module("bmauth.main", [])
 	}
 	
 		
-	directive.controller = ['$scope','$location','$http','auth','signup', function ($scope, $location, $http, auth, signup) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','signup', function ($scope, $rootScope, $location, $http, auth, signup) {
 		
 		var vm = this;
 		vm.userCreated = false;
-		directive.context = $scope.context ? $scope.context : '';
+		//directive.context = $scope.context ? $scope.context : '';
+		directive.context = $rootScope.authContext;
 		
 	    vm.signup = new signup({
 			"loginType": "3"
@@ -55,7 +55,7 @@ angular.module("bmauth.main", [])
 		 * Sign up form
 		 */
 		vm.signupForm = function() {
-			$scope.contentUrl = directive.context + "/fragments/home/signup.html";
+			$scope.contentUrl = directive.context + "fragments/home/signup.html";
 			//$location.path('/signup', false);
 		}
 		
@@ -135,7 +135,7 @@ angular.module("bmauth.main", [])
 			 console.debug('Will submit', vm.signup);
 			 vm.signup.$save(function(response) {
 				 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
-				 if (directive.signedInUri) {
+				 if ($scope.signedInUri) {
 					//console.debug("Success on save");
 					directive.signinRedirect($location, $scope, auth, vm); 
 				 } else {

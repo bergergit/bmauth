@@ -1,24 +1,21 @@
 package com.bergermobile.rest.services;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.repository.UserRepository;
-import com.bergermobile.rest.domain.FacebookGraph;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.UserRest;
-import com.bergermobile.web.controller.SiteController;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -59,6 +56,7 @@ public class UserServiceImpl implements UserService {
 		if (user.getUsername() == null || user.getUsername().isEmpty()) {
 			user.setUsername(user.getEmail());
 		}
+		user.setUserType(User.UserType.CPF.getValue());
 		
 		user.setActive(true);
 		userRepository.save(user);
@@ -95,21 +93,30 @@ public class UserServiceImpl implements UserService {
 	 */
 	//@Async
 	public User saveFacebookInformation(FacebookRest facebookRest) {
+		LOG.debug("Will invoke facebook graph api to save the user");
 		User facebookUser = new User();
-		RestTemplate restTemplate = new RestTemplate();
 		
+		/*
 		// Lets fetch user information using Graph API and save more information about this user
+		RestTemplate restTemplate = new RestTemplate();
 		String facebookUrl = environment.getProperty("facebook.graph.url");
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("accessToken", facebookRest.getAuthResponse().getAccessToken());
 		FacebookGraph facebookGraph = restTemplate.getForObject(facebookUrl, FacebookGraph.class, parameters);
-		
+		*/
+
+		Facebook facebook = new FacebookTemplate(facebookRest.getAuthResponse().getAccessToken());
+
 		// create the user object
 		facebookUser.setUsername(facebookRest.getAuthResponse().getUserID());
 		facebookUser.setActive(true);
 		facebookUser.setLoginType(User.LoginType.FACEBOOK.getValue());
-		facebookUser.setEmail(facebookGraph.getEmail());
-		facebookUser.setName(facebookGraph.getName());
+		facebookUser.setUserType(User.UserType.CPF.getValue());
+		facebookUser.setEmail(facebook.userOperations().getUserProfile().getEmail());
+		facebookUser.setName(facebook.userOperations().getUserProfile().getName());
+		
+		//facebookUser.setEmail(facebookGraph.getEmail());
+		//facebookUser.setName(facebookGraph.getName());
 		
 		LOG.debug("Saving Facebook user " + facebookUser);
 		

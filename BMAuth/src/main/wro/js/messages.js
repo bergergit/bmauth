@@ -14,6 +14,7 @@ bmauth_translations.en = {
 		"header": "Entre com o seu login.",
 		"header.or": "Ou use:",
 		"error.loginError": "Nome ou senha incorretos.",
+		"error.social.loginError": "Erro interno ao fazer login.",
 		"error.authorizationError": "Usuário não autorizado no módulo administrativo.",
 		"btn.facebook.signin": "Entre com o Facebook",
 		"btn.google.signin": "Entre com o Google",

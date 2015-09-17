@@ -89,11 +89,13 @@ angular.module("bmauth.main", [])
 	    };
 	    
 	    function authenticateFacebook($http, data) {
-	    	$http.post('bmauth/users/facebook', data).
+	    	$http.post(directive.context + 'bmauth/users/facebook', data).
 		    	then(function(response) {
-		    		console.debug("Facebook User saved! We are good to go to signed in experience")
+		    		console.debug("Facebook User saved! We are good to go to signed in experience");
+		    		directive.signinRedirect($location, $scope, auth, vm); 
 				}, function(response) {
-					console.debug("Error saving facebook user")
+					console.debug("Error saving facebook user");
+					vm.socialLoginError = true;
 				});
 	    	
 	    	

@@ -1,5 +1,5 @@
 angular.module('bmauth.applications')
 
-.factory('Application', [ '$resource', function($resource) {
+.factory('application', [ '$resource', function($resource) {
 	return $resource('bmauth/applications');
 }]);

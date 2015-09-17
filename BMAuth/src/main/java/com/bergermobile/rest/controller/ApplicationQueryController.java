@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bergermobile.rest.domain.ApplicationRest;
-import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.ApplicationService;
 
 @RestController

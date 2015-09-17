@@ -2,19 +2,19 @@ package com.bergermobile.persistence.domain;
 
 public enum Active {
 
-	YES((short) 1, "SIM"), NO((short) 0, "NAO");
+	YES(true, "SIM"), NO(false, "NAO");
 
-	private final short typeValue;
+	private final boolean typeValue;
 	private final String description;
 
-	Active(short typeValue, String description) {
+	Active(boolean typeValue, String description) {
 
 		this.typeValue = typeValue;
 		this.description = description;
 
 	}
 
-	public short getValue() {
+	public boolean getValue() {
 
 		return this.typeValue;
 	}

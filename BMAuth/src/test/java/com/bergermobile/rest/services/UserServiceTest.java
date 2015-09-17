@@ -48,7 +48,7 @@ public class UserServiceTest {
 
 		List<UserRest> listUser = userService.findAllUsers();
 
-		assertEquals(4, listUser.size());
+		assertEquals(5, listUser.size());	// the application creates a new admin user for default, if this table is empty
 
 	}
 

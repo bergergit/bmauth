@@ -18,7 +18,7 @@
     	<js>webjar:bootstrap/${bootstrap.version}/js/bootstrap.min.js</js>
 	</group>
 
-	<group name="main" abstract="true">
+	<group name="bmauth">
 		<css>file:${project.basedir}/src/main/wro/less/main.less</css>
 		<js minimize="false">file:${project.basedir}/src/main/wro/js/**.js</js>
 	</group>
@@ -29,7 +29,7 @@
 
 	<group name="app">
 		<group-ref>libs</group-ref>
-		<group-ref>main</group-ref>
+		<group-ref>bmauth</group-ref>
 	</group>
 	
 </groups>

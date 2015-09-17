@@ -118,7 +118,7 @@ public class PersistenceFixture {
 		user.setEmail("facebook_user_inactive@gmail.com");
 		user.setBirthday(DOB);
 		user.setPassword("password:67890");
-		user.setActive((short) 1);
+		user.setActive(true);
 		user.setCreatedBy(0); // user Admin
 		user.setCreationDate(timestamp);
 		user.setLastUpdatedBy(0); // user Admin
@@ -146,7 +146,7 @@ public class PersistenceFixture {
 		user.setEmail("googleplus_user_active@gmail.com");
 		user.setBirthday(DOB);
 		user.setPassword("password:123456");
-		user.setActive((short) 1);
+		user.setActive(true);
 		user.setCreatedBy(0); // user Admin
 		user.setCreationDate(timestamp);
 		user.setLastUpdatedBy(0); // user Admin
@@ -174,7 +174,7 @@ public class PersistenceFixture {
 		user.setEmail("googleplus_user_inactive@gmail.com");
 		user.setBirthday(dob);
 		user.setPassword("password:67890");
-		user.setActive((short) 1);
+		user.setActive(true);
 		user.setCreatedBy(0); // user Admin
 		user.setCreationDate(timestamp);
 		user.setLastUpdatedBy(0); // user Admin

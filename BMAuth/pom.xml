@@ -6,7 +6,7 @@
 	<groupId>com.bergermobile</groupId>
 	<artifactId>bmauth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>BMAuth</name>
 	<description>Berger Mobile Authentication module</description>
@@ -71,14 +71,24 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+			<version>1.0.2.RELEASE</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.kstyrc</groupId>
+			<artifactId>embedded-redis</artifactId>
+			<version>0.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
-			<version>2.1.5</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	

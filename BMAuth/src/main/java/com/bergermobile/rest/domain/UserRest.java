@@ -143,6 +143,15 @@ public class UserRest extends BaseTableRest implements Serializable {
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "UserRest [userId=" + userId + ", active=" + active + ", email="
+				+ email + ", name=" + name + ", password=" + password
+				+ ", username=" + username + "]";
+	}
 
 	@Override
 	public boolean equals(Object obj) {

@@ -1,5 +1,5 @@
 angular.module('bmauth.home')
 
-.factory('Signup', [ '$resource', function($resource) {
+.factory('signup', [ '$resource', function($resource) {
 	return $resource('bmauth/users');
 }]);

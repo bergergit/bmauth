@@ -1,9 +1,17 @@
 package com.bergermobile.persistence.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the role database table.
@@ -27,7 +35,7 @@ public class Role extends BaseTable implements Serializable {
 	private Application application;
 
 	// bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy = "role", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+	@OneToMany(mappedBy = "role", cascade={CascadeType.ALL})
 	private List<UserRole> userRoles;
 
 	public Role() {

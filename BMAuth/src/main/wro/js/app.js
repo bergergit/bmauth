@@ -6,18 +6,17 @@ angular.module('bmauth', [
   'datatables',
   'bmauth.home',
   'bmauth.applications',
-  'bmauth.navigation'
- ])
+  'bmauth.navigation',
+  'bmauth.authentication',
+  'bmauth.social.login',
+  'bmauth.main'
+ ]) 
 
-.config(['$routeProvider', '$translateProvider', '$locationProvider', function($routeProvider, $translateProvider, $locationProvider) {
+.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
 	// routes configuration
 	$routeProvider.when('/', { 
-		  templateUrl: 'fragments/home/login.html',
-		  controller: 'LoginCtrl',
-		  controllerAs: 'vm'
-	}).when('/signup', { 
-		  templateUrl: 'fragments/home/signup.html',
-		  controller: 'SignupCtrl',
+		  templateUrl: 'fragments/home/home.html',
+		  //controller: 'LoginCtrl',
 		  controllerAs: 'vm'
 	}).when('/applications', { 
 		  templateUrl: 'fragments/applications/list.html',
@@ -27,11 +26,14 @@ angular.module('bmauth', [
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
 		  controllerAs: 'vm'
-	})//.otherwise({redirectTo: '/'});
+	});//.otherwise({redirectTo: '/'});
+	
+	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	
 	// translation configuration
 	$translateProvider.useSanitizeValueStrategy('escape');
-	$translateProvider.useUrlLoader('messageBundle');
+    $translateProvider.translations('en', bmauth_translations.en);
+	
 	$translateProvider.preferredLanguage('en');
 	$translateProvider.fallbackLanguage('en');
 	
@@ -39,7 +41,11 @@ angular.module('bmauth', [
 	$locationProvider.html5Mode(true);
 }])
 
-.run(['DTDefaultOptions','$translate', function(DTDefaultOptions, $translate) {
+.run(['DTDefaultOptions','$translate','auth','facebook', function(DTDefaultOptions, $translate, auth, facebook) {
     DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
-}]);
+    
+    auth.init('/', 'user', 'logout');
+    facebook.init();
+    
+}]);  
 

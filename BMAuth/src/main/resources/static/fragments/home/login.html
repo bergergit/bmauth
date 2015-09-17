@@ -1,43 +1,48 @@
-<form class="form-horizontal form-signin" role="form" ng-submit="submitLogin()">
-	<a href="/bmauth/login/facebook" class="btn btn-primary btn-block btn-lg" id="facebookSignup">
+<form class="form-horizontal form-signin" role="form" ng-submit="vm.login()">
+	<div class="alert alert-danger" ng-show="vm.authorizationError">
+		{{ 'login.error.authorizationError' | translate }}
+	</div>
+	<a class="btn btn-primary btn-block btn-lg" id="facebookSignup" ng-click="vm.facebookLogin()">
 		<i class="fa fa-facebook-square"></i> 
 		<strong>{{ 'login.btn.facebook.signin' | translate}}</strong>
 	</a>
 	<p/>
-	<a href="/bmauth/login/google" class="btn btn-primary btn-block btn-lg" id="googleSignup">
+	<a class="btn btn-primary btn-block btn-lg" id="googleSignup">
 		<i class="fa fa-google-plus-square"></i> 
 		<strong>{{ 'login.btn.google.signin' | translate}}</strong>
 	</a>
 	<h4 class="text-left">{{ 'login.header.or' | translate}}</h4>
-	
+	<div class="alert alert-danger" ng-show="vm.error">
+		{{ 'login.error.loginError' | translate }}
+	</div>
 	<div class="form-group">
 		<div class="col-sm-12">
-			<input type="text" name="username" class="form-control"	placeholder="Usuário" required="required" autofocus="autofocus" />
+			<input type="text" name="username" class="form-control"	placeholder="{{ 'login.form.placeholder.email' | translate }}" required="required" autofocus="autofocus" ng-model="vm.credentials.username" />
 		</div>
 	</div> 
 	<div class="form-group">
 		<div class="col-sm-6">
-			<input type="password" name="password" class="form-control" placeholder="Senha" required="required" />
+			<input type="password" name="password" class="form-control" placeholder="{{ 'login.form.placeholder.password' | translate }}" required="required" ng-model="vm.credentials.password"/>
 		</div>
 		<div class="col-sm-6">
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'login.btn.login' | translate }}</button>
 		</div>
 	</div> 
 	<div class="form-group">
 		<div class="col-sm-6">
 			<div class="checkbox">
-				<label> <input type="checkbox" value="remember-me" /> Lembrar de mim </label>
+				<label> <input type="checkbox" value="remember-me" /> {{ 'login.form.label.remember' | translate }} </label>
 			</div>
 		</div>
 		<div class="col-sm-6">
 			<div class="checkbox">
-				<p class="text-right"><a href="#">Esqueci minha senha</a></p>
+				<p class="text-right"><a href="#">{{ 'login.form.label.forgot_password' | translate }}</a></p>
 			</div>
 		</div>
 	</div> 
 	
 	<hr/>
-	<a href="/bmauth/signup" class="btn btn-primary btn-block" id="signIn">
-		<strong>Criar cadastro</strong>
+	<a href="" class="btn btn-primary btn-block" id="signIn" ng-click="vm.signupForm()">
+		<strong>{{ 'login.btn.register' | translate }}</strong>
 	</a>
 </form>

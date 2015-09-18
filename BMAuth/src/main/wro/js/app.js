@@ -25,7 +25,7 @@ angular.module('bmauth', [
 	}).when('/applications/:applicationId', { 
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
-		  controllerAs: 'vm'
+		  controllerAs: 'vm' // replace the variable $scope for vm
 	});//.otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

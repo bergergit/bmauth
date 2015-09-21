@@ -47,6 +47,8 @@
 		
 			
 		<legend>{{ 'application.role.form.header' | translate}}</legend>
+
+    <!--   tabela anterior
 		<div>
 			<table id="rolesTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="rolesTable_info">
 				<thead>
@@ -85,7 +87,16 @@
 				</tbody>
 			</table>
 		</div>
+		fim tabela anterior  -->
 		
+		<div ng-controller="ApplicationsEditCtrl as showCase">
+		
+		<table datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" dt-instance="showCase.dtInstance" class="row-border hover"></table>
+		
+		</div>
+		
+		
+		 
 		<button type="button" class="btn btn-default">{{ 'application.role.btn.new' | translate}}</button>
 		<br>
 		<br>

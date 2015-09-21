@@ -17,6 +17,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	if($routeParams.applicationId != 'new') {
 		vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
+		
+		console.debug("GET return:");
 	}
 	
 	// ng-submit
@@ -29,14 +31,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		vm.applicationField.$save(
 		
 				function(response) {
-					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
-//					 if ($scope.signedInUri) {
-//						//console.debug("Success on save");
-//						directive.signinRedirect($location, $scope, auth, vm); 
-//					 } else {
-//						 vm.userCreated = true;
-//					 }
-					
 					console.debug("Saved and redirecting");
 					$location.path($rootScope.authContext + '/applications')
 					
@@ -47,6 +41,37 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		);
 		
 		
+	}
+	
+	function DataReloadWithPromiseCtrl(DTOptionsBuilder, DTColumnBuilder, $resource) {
+	    var vm = this;
+	    vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+	        return vm.applicationField;
+	    }).withPaginationType('full_numbers');
+	    vm.dtColumns = [
+	        DTColumnBuilder.newColumn('roleId').withTitle('ID'),
+	        DTColumnBuilder.newColumn('roleName').withTitle('Role'),
+	        DTColumnBuilder.newColumn('creationDate').withTitle('Creation Date').notVisible(),
+	        DTColumnBuilder.newColumn('createdBy').withTitle('Created By').notVisible(),
+	        DTColumnBuilder.newColumn('lastUpdateDate').withTitle('Last Update Date').notVisible(),
+	        DTColumnBuilder.newColumn('lastUpdatedBy').withTitle('Last Updated By').notVisible()
+	    ];
+	    vm.newPromise = newPromise;
+	    vm.reloadData = reloadData;
+	    vm.dtInstance = {};
+
+	    function newPromise() {
+	        return vm.applicationField;
+	    }
+
+	    function reloadData() {
+	        var resetPaging = true;
+	        vm.dtInstance.reloadData(callback, resetPaging);
+	    }
+
+	    function callback(json) {
+	        console.log(json);
+	    }
 	}
 	
 }])

@@ -1,5 +1,7 @@
 package com.bergermobile.rest.controller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,9 @@ import com.bergermobile.rest.services.UserService;
 @RestController
 @RequestMapping(value = "/bmauth")
 public class UserCommandController {
+	
+	static Log LOG = LogFactory.getLog(UserCommandController.class);
+
 
 	@Autowired
 	private UserService userService;
@@ -29,15 +34,28 @@ public class UserCommandController {
 	}
 	
 	/**
-	 * This will verify if we already have the social media user (Facebook, Google+) in the DB.
+	 * This will verify if we already have the social media user (Facebook,) in the DB.
 	 * If we have, we just authenticate the user with USER role. Or else we create this user in the
 	 * DB, and then authenticate
 	 * @param user the userRest json object
 	 */
 	@RequestMapping(value = "/users/facebook", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void saveSocialMediaUser(@RequestBody FacebookRest user) {
+	public void saveFacebookUser(@RequestBody FacebookRest user) {
 		userService.saveFacebook(user);
+	}
+	
+	/**
+	 * This will verify if we already have the social media user (Google+) in the DB.
+	 * If we have, we just authenticate the user with USER role. Or else we create this user in the
+	 * DB, and then authenticate
+	 * @param user the userRest json object
+	 */
+	@RequestMapping(value = "/users/google", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void saveGoogleUser(@RequestBody String accessToken) {
+		LOG.debug("UserCommandController. SaveGoogleUser for token " + accessToken);
+		userService.saveGoogle(accessToken);
 	}
 
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)

@@ -16,23 +16,12 @@ public class SecurityUser implements UserDetails
 	private boolean active;
 	private List<String> roles;
 	
-	/*
-	public SecurityUser(User user) {
-		if(user != null) {
-			BeanUtils.copyProperties(user, this);
-		}		
-	}
-	*/
-	
 	public SecurityUser(String username, String password, boolean active, List<String> roles) {
 		this.username = username;
 		this.password = password;
 		this.active = active;
 		this.roles = roles;
 	}
-	
-	
-	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,7 +43,6 @@ public class SecurityUser implements UserDetails
 
 	@Override
 	public String getUsername() {
-		//return super.getEmail();
 		return username;
 	}
 
@@ -77,6 +65,4 @@ public class SecurityUser implements UserDetails
 	public boolean isEnabled() {
 		return active;
 	}	
-	
-	
 }

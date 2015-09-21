@@ -10,10 +10,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.support.ConnectionFactoryRegistry;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
 
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
@@ -27,9 +31,22 @@ import com.bergermobile.persistence.repository.UserRepository;
 public class BmAuthApplication {
 
 	static Log LOG = LogFactory.getLog(BmAuthApplication.class);
+	
+	@Autowired
+    private Environment environment;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(BmAuthApplication.class, args);
+	}
+	
+	@Bean
+	public ConnectionFactoryLocator connectionFactoryLocator() {
+		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
+		registry.addConnectionFactory(new GoogleConnectionFactory(
+				environment.getProperty("google.consumerKey"), 
+				environment.getProperty("google.consumerSecret")));
+		return registry;
 	}
 
 	@Configuration

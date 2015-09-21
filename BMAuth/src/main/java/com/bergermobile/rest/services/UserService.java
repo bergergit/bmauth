@@ -19,6 +19,7 @@ public interface UserService {
 	public void save(UserRest userRest);
 	
 	public void saveFacebook(FacebookRest userRest);
+	public void saveGoogle(String accessToken);
 
 	public void delete(int userId);
 

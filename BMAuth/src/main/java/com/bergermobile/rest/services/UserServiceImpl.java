@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
+import org.springframework.social.google.api.Google;
+import org.springframework.social.google.api.impl.GoogleTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bergermobile.persistence.domain.User;
@@ -64,8 +66,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/**
-	 * This will verify if we already have the social media user (Facebook,
-	 * Google+) in the DB. If we have, we just authenticate the user with USER
+	 * This will verify if we already have the social media user (Facebook) 
+	 * in the DB. If we have, we just authenticate the user with USER
 	 * role. Or else we create this user in the DB, and then authenticate
 	 */
 	@Override
@@ -76,6 +78,24 @@ public class UserServiceImpl implements UserService {
 		if (facebookUser == null) {
 			LOG.debug("No Facebook user found for Facebok userid: " + facebookRest.getAuthResponse().getUserID());
 			facebookUser = saveFacebookInformation(facebookRest);
+		}
+	}
+	
+	/**
+	 * This will verify if we already have the social media user (Google) 
+	 * in the DB. If we have, we just authenticate the user with USER
+	 * role. Or else we create this user in the DB, and then authenticate
+	 */
+	@Override
+	public void saveGoogle(String accessToken) {
+		LOG.debug("Verifying google user for token " + accessToken);
+		Google google = new GoogleTemplate(accessToken);
+		String username = google.plusOperations().getGoogleProfile().getId();
+		
+		User googleUser = userRepository.findByLoginTypeAndUsername(User.LoginType.GOOGLE_PLUS.getValue(), username);
+		if (googleUser == null) {
+			LOG.debug("No Google user found for id " + username + ". Saving new");
+			googleUser = saveGoogleInformation(google);
 		}
 	}
 
@@ -95,15 +115,6 @@ public class UserServiceImpl implements UserService {
 	public User saveFacebookInformation(FacebookRest facebookRest) {
 		LOG.debug("Will invoke facebook graph api to save the user");
 		User facebookUser = new User();
-		
-		/*
-		// Lets fetch user information using Graph API and save more information about this user
-		RestTemplate restTemplate = new RestTemplate();
-		String facebookUrl = environment.getProperty("facebook.graph.url");
-		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put("accessToken", facebookRest.getAuthResponse().getAccessToken());
-		FacebookGraph facebookGraph = restTemplate.getForObject(facebookUrl, FacebookGraph.class, parameters);
-		*/
 
 		Facebook facebook = new FacebookTemplate(facebookRest.getAuthResponse().getAccessToken());
 
@@ -115,12 +126,28 @@ public class UserServiceImpl implements UserService {
 		facebookUser.setEmail(facebook.userOperations().getUserProfile().getEmail());
 		facebookUser.setName(facebook.userOperations().getUserProfile().getName());
 		
-		//facebookUser.setEmail(facebookGraph.getEmail());
-		//facebookUser.setName(facebookGraph.getName());
-		
 		LOG.debug("Saving Facebook user " + facebookUser);
 		
 		return userRepository.save(facebookUser);
+	}
+	
+	/**
+	 * This assynchronously retrieves Google information using the OAuth API, and saves the result in the Database
+	 */
+	//@Async
+	public User saveGoogleInformation(Google google) {
+		// create the user object
+		User googleUser = new User();
+		googleUser.setUsername(google.plusOperations().getGoogleProfile().getId());
+		googleUser.setActive(true);
+		googleUser.setLoginType(User.LoginType.GOOGLE_PLUS.getValue());
+		googleUser.setUserType(User.UserType.CPF.getValue());
+		googleUser.setEmail(google.plusOperations().getGoogleProfile().getAccountEmail());
+		googleUser.setName(google.plusOperations().getGoogleProfile().getDisplayName());
+		
+		LOG.debug("Saving Google user " + googleUser);
+		
+		return userRepository.save(googleUser);
 	}
 
 	@Override

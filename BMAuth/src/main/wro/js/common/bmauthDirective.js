@@ -90,25 +90,14 @@ angular.module("bmauth.main", [])
 	    };
 	    
 	    function authenticateFacebook($http, data) {
-	    	$http.post(directive.context + 'bmauth/users/facebook', data).
-		    	then(function(response) {
+	    	$http.post(directive.context + 'bmauth/users/facebook', data)
+	    		.then(function(response) {
 		    		console.debug("Facebook User saved! We are good to go to signed in experience");
 		    		directive.signinRedirect($location, $scope, auth, vm); 
 				}, function(response) {
 					console.debug("Error saving facebook user");
 					vm.socialLoginError = true;
 				});
-	    	
-	    	
-	    	/*
-	        console.log('Welcome!  Fetching your information.... ');
-	        FB.api('/me', function(response) {
-	          console.log('Successful login', response);
-	        });
-	        */
-	    	
-	    	$
-	        
 	    }
 
 	    /**
@@ -135,15 +124,30 @@ angular.module("bmauth.main", [])
 		vm.googleLogin = function() {
 			console.debug("Google login clicked!");
 			GooglePlus.login().then(function (authResult) {
-	            console.log(authResult);
+	            authenticateGoogle($http, authResult);
 
+	            /*
 	            GooglePlus.getUser().then(function (user) {
 	                console.log(user);
 	            });
+	            */
 	        }, function (err) {
 	            console.log(err);
 	        });
 		};
+		
+		function authenticateGoogle($http, data) {
+			console.debug("Will post google data", data, directive.context + 'bmauth/users/google')
+	    	$http.post(directive.context + 'bmauth/users/google', data.access_token)
+	    		.then(function(response) {
+		    		console.debug("Google User saved! We are good to go to signed in experience");
+		    		directive.signinRedirect($location, $scope, auth, vm); 
+				}, function(response) {
+					console.debug("Error saving Google user");
+					vm.socialLoginError = true;
+				});
+	    }
+		
 		/*
 		window.bmauth_gprender = function () {
 			console.debug('render function');

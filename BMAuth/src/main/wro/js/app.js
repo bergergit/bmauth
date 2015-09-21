@@ -25,7 +25,7 @@ angular.module('bmauth', [
 	}).when('/applications/:applicationId', { 
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
-		  controllerAs: 'vm'
+		  controllerAs: 'vm' // replace the variable $scope for vm
 	});//.otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -41,11 +41,13 @@ angular.module('bmauth', [
 	$locationProvider.html5Mode(true);
 }])
 
-.run(['DTDefaultOptions','$translate','$rootScope','auth','facebook', function(DTDefaultOptions, $translate, $rootScope, auth, facebook) {
+.run(['DTDefaultOptions','$translate','$rootScope','auth','facebook','google', function(DTDefaultOptions, $translate, $rootScope, auth, facebook, google) {
     DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
     $rootScope.authContext='';
+    
     auth.init('/', 'user', 'logout');
     facebook.init();
+    google.init();
     
 }]);  
 

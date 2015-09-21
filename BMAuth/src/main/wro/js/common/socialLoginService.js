@@ -28,5 +28,22 @@ angular.module('bmauth.social.login', [])
 	
 	return facebook;
 	
+}])
+
+.factory('google', [ function() {
+	var google = {
+			init: function() {
+				(function() {
+				    var po = document.createElement('script');
+				    po.type = 'text/javascript'; 
+				    po.async = true;
+				    po.src = 'https://apis.google.com/js/client:plusone.js?onload=bmauth_gprender';
+				    po.parsetags = 'explicit';
+				    var s = document.getElementsByTagName('script')[0];
+				    s.parentNode.insertBefore(po, s);
+				  })();
+			}
+	}
 	
+	return google;
 }]);

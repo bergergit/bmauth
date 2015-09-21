@@ -16,6 +16,7 @@ angular.module("bmauth.main", [])
 
 	directive.link = function(scope, elements, attr) {
 		directive.init(scope);
+		
 	}
 	
 	directive.init = function($scope) { 
@@ -39,9 +40,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-		
 	directive.controller = ['$scope','$rootScope','$location','$http','auth','signup', function ($scope, $rootScope, $location, $http, auth, signup) {
-		
+		console.debug("in controller...");
 		var vm = this;
 		vm.userCreated = false;
 		//directive.context = $scope.context ? $scope.context : '';
@@ -127,6 +127,30 @@ angular.module("bmauth.main", [])
 				}
 			}, { scope : 'public_profile,email' });
 		};
+		
+		/**
+		 * Google login
+		 */
+		vm.googleLogin = function() {
+			console.debug("Google login clicked!");
+			
+
+			
+		}
+		
+		window.bmauth_gprender = function () {
+			console.debug('render function');
+			
+			gapi.signin.render('googleSignup', {
+		      //'callback': 'signinCallback',
+		      'clientid': '134948939899-bdres6i4dra21nn21e86d5nob40c0sl0.apps.googleusercontent.com',
+		      'cookiepolicy': 'single_host_origin',
+		      'requestvisibleactions': 'http://schemas.google.com/AddActivity',
+		      'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+		    });
+		}
+		
+
 
 	    vm.logout = function() {
 	      auth.clear();

@@ -89,14 +89,9 @@
 		</div>
 		fim tabela anterior  -->
 		
-		<div ng-controller="ApplicationsEditCtrl as showCase">
 		
-		<table datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" dt-instance="showCase.dtInstance" class="row-border hover"></table>
+		<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-hover table-striped"></table>
 		
-		</div>
-		
-		
-		 
 		<button type="button" class="btn btn-default">{{ 'application.role.btn.new' | translate}}</button>
 		<br>
 		<br>

@@ -4,6 +4,7 @@ angular.module('bmauth', [
   'ngRoute',
   'pascalprecht.translate',
   'datatables',
+  'googleplus',
   'bmauth.home',
   'bmauth.applications',
   'bmauth.navigation',
@@ -12,7 +13,8 @@ angular.module('bmauth', [
   'bmauth.main'
  ]) 
 
-.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
+.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider','GooglePlusProvider', 
+         function($routeProvider, $translateProvider, $locationProvider, $httpProvider, GooglePlusProvider) {
 	// routes configuration
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/home.html',
@@ -39,6 +41,12 @@ angular.module('bmauth', [
 	
 	// support natural routes
 	$locationProvider.html5Mode(true);
+	
+    GooglePlusProvider.init({
+        clientId: '134948939899-bdres6i4dra21nn21e86d5nob40c0sl0.apps.googleusercontent.com',
+        apiKey: 'AIzaSyBlaselNuEfCO6P71bsLxZH3ASNQzfu5CY',
+        scopes: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+     });
 }])
 
 .run(['DTDefaultOptions','$translate','$rootScope','auth','facebook','google', function(DTDefaultOptions, $translate, $rootScope, auth, facebook, google) {
@@ -47,7 +55,7 @@ angular.module('bmauth', [
     
     auth.init('/', 'user', 'logout');
     facebook.init();
-    google.init();
+    //google.init();
     
 }]);  
 

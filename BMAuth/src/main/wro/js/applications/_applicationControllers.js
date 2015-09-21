@@ -5,74 +5,52 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  * 
  * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [ 'applicationService', '$routeParams', '$rootScope', '$location', function(applicationService, $routeParams, $rootScope, $location) {
-	
-	console.debug("in applications controller");
+.controller('ApplicationsEditCtrl', [ 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', 
+                                      function(applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location) {
 	
 	var vm = this;
+	var applicationsPromise = null;
 	
 	console.debug("id " + $routeParams.applicationId);
 	
 	vm.applicationField = new applicationService({"active": true, "testMode": "false", "mandatoryContract": "true"});
-	
 	if($routeParams.applicationId != 'new') {
-		vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
-		
-		console.debug("GET return:");
-	}
+		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
+		applicationsPromise = vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
+		applicationsPromise.then(function (result) {
+			vm.applicationField = result;
+		});
+	} 
 	
 	// ng-submit
 	vm.submitApplicationForm = function(){
-		
-		console.debug("chamando a funcao");
-		
 		console.debug('Will submit', vm.applicationField);
-		
 		vm.applicationField.$save(
-		
-				function(response) {
-					console.debug("Saved and redirecting");
-					$location.path($rootScope.authContext + '/applications')
-					
-				 }, function() {
-					 console.debug("Error on save");
-				 }
-		
+			function(response) {
+				console.debug("Saved and redirecting");
+				$location.path($rootScope.authContext + '/applications')
+				
+			 }, function() {
+				 console.debug("Error on save");
+			 }
 		);
-		
-		
 	}
 	
-	function DataReloadWithPromiseCtrl(DTOptionsBuilder, DTColumnBuilder, $resource) {
-	    var vm = this;
-	    vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-	        return vm.applicationField;
-	    }).withPaginationType('full_numbers');
-	    vm.dtColumns = [
-	        DTColumnBuilder.newColumn('roleId').withTitle('ID'),
-	        DTColumnBuilder.newColumn('roleName').withTitle('Role'),
-	        DTColumnBuilder.newColumn('creationDate').withTitle('Creation Date').notVisible(),
-	        DTColumnBuilder.newColumn('createdBy').withTitle('Created By').notVisible(),
-	        DTColumnBuilder.newColumn('lastUpdateDate').withTitle('Last Update Date').notVisible(),
-	        DTColumnBuilder.newColumn('lastUpdatedBy').withTitle('Last Updated By').notVisible()
-	    ];
-	    vm.newPromise = newPromise;
-	    vm.reloadData = reloadData;
-	    vm.dtInstance = {};
-
-	    function newPromise() {
-	        return vm.applicationField;
-	    }
-
-	    function reloadData() {
-	        var resetPaging = true;
-	        vm.dtInstance.reloadData(callback, resetPaging);
-	    }
-
-	    function callback(json) {
-	        console.log(json);
-	    }
+	var dtOptionsBuilder = DTOptionsBuilder.newOptions();
+	if (applicationsPromise) {
+		dtOptionsBuilder = DTOptionsBuilder.fromFnPromise(function() {
+			return applicationsPromise;
+	    })
 	}
+    
+	vm.dtOptions = dtOptionsBuilder
+		.withDataProp('rolesRest')
+	    .withBootstrap();
+	
+	vm.dtColumns = [
+	    DTColumnBuilder.newColumn('roleId').withTitle('ID'),
+	    DTColumnBuilder.newColumn('roleName').withTitle('Role')
+    ]
 	
 }])
 
@@ -81,8 +59,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  */
 .controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','applicationService', '$translate', '$location',
                                      function($scope, DTOptionsBuilder, DTColumnBuilder, applicationService, $translate, $location) {
-	
-	console.debug("in applications list controller");
 	
 	var vm = this;
 	
@@ -96,6 +72,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		}
 	}
 	
+	// Datatable exposed Options
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
 		var promise = applicationService.query().$promise;
 		promise.then(function() {
@@ -106,6 +83,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
     .withOption('rowCallback', rowCallback)
     .withBootstrap();
 	
+	// Datatable exposed Columns
 	vm.dtColumns = [
         DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
         DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')),

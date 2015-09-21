@@ -40,7 +40,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','signup', function ($scope, $rootScope, $location, $http, auth, signup) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','signup','GooglePlus', 
+	                        function ($scope, $rootScope, $location, $http, auth, signup, GooglePlus) {
 		console.debug("in controller...");
 		var vm = this;
 		vm.userCreated = false;
@@ -133,25 +134,34 @@ angular.module("bmauth.main", [])
 		 */
 		vm.googleLogin = function() {
 			console.debug("Google login clicked!");
-			
+			GooglePlus.login().then(function (authResult) {
+	            console.log(authResult);
 
-			
-		}
-		
+	            GooglePlus.getUser().then(function (user) {
+	                console.log(user);
+	            });
+	        }, function (err) {
+	            console.log(err);
+	        });
+		};
+		/*
 		window.bmauth_gprender = function () {
 			console.debug('render function');
 			
 			gapi.signin.render('googleSignup', {
-		      //'callback': 'signinCallback',
+		      'callback': signinCallback,
 		      'clientid': '134948939899-bdres6i4dra21nn21e86d5nob40c0sl0.apps.googleusercontent.com',
 		      'cookiepolicy': 'single_host_origin',
 		      'requestvisibleactions': 'http://schemas.google.com/AddActivity',
 		      'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
 		    });
+			
+			function signinCallback(authResult) {
+				console.debug('authResult', authResult);
+			}
 		}
+		*/
 		
-
-
 	    vm.logout = function() {
 	      auth.clear();
 	    };

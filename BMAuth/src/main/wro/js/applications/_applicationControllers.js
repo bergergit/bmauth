@@ -2,21 +2,60 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 
 /**
  * Application Edit controller
+ * 
+ * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [function() {
+.controller('ApplicationsEditCtrl', [ 'applicationService', '$routeParams', '$rootScope', '$location', function(applicationService, $routeParams, $rootScope, $location) {
 	
 	console.debug("in applications controller");
 	
 	var vm = this;
 	
-	vm.application = {"active": true, "testMode": "0"};
+	console.debug("id " + $routeParams.applicationId);
+	
+	vm.applicationField = new applicationService({"active": true, "testMode": "false", "mandatoryContract": "true"});
+	
+	if($routeParams.applicationId != 'new') {
+		vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
+	}
+	
+	// ng-submit
+	vm.submitApplicationForm = function(){
+		
+		console.debug("chamando a funcao");
+		
+		console.debug('Will submit', vm.applicationField);
+		
+		vm.applicationField.$save(
+		
+				function(response) {
+					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
+//					 if ($scope.signedInUri) {
+//						//console.debug("Success on save");
+//						directive.signinRedirect($location, $scope, auth, vm); 
+//					 } else {
+//						 vm.userCreated = true;
+//					 }
+					
+					console.debug("Saved and redirecting");
+					$location.path($rootScope.authContext + '/applications')
+					
+				 }, function() {
+					 console.debug("Error on save");
+				 }
+		
+		);
+		
+		
+	}
+	
 }])
 
 /**
  * Application List controller
  */
-.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','application', '$translate', '$location',
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, application, $translate, $location) {
+.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','applicationService', '$translate', '$location',
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, applicationService, $translate, $location) {
 	
 	console.debug("in applications list controller");
 	
@@ -33,7 +72,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	}
 	
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		var promise = application.query().$promise;
+		var promise = applicationService.query().$promise;
 		promise.then(function() {
 			vm.ready = true;
 		})

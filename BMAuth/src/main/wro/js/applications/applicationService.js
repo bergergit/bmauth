@@ -1,5 +1,5 @@
 angular.module('bmauth.applications')
 
-.factory('application', [ '$resource', function($resource) {
-	return $resource('bmauth/applications');
+.factory('applicationService', [ '$resource','$rootScope', function($resource, $rootScope) {
+	return $resource($rootScope.authContext + 'bmauth/applications/:applicationId');
 }]);

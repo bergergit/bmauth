@@ -3,6 +3,9 @@ package com.bergermobile.rest.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * The persistent class for the Application database table.
  * 
@@ -12,13 +15,17 @@ public class ApplicationRest extends BaseTableRest implements Serializable {
 
 	private Integer applicationId;
 
-	private short active;
+	private Boolean active;
 
-	private short mandatoryContract;
+	// Boolen to String when create JSON => "true"
+	@JsonSerialize(using=ToStringSerializer.class)
+	private Boolean mandatoryContract;
 
 	private String applicationName;
 
-	private short testMode;
+	// Boolen to String when create JSON => "true"
+	@JsonSerialize(using=ToStringSerializer.class)
+	private Boolean testMode;
 
 	private String url;
 
@@ -37,19 +44,19 @@ public class ApplicationRest extends BaseTableRest implements Serializable {
 		this.applicationId = applicationId;
 	}
 
-	public short getActive() {
+	public Boolean getActive() {
 		return active;
 	}
 
-	public void setActive(short active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 
-	public short getMandatoryContract() {
+	public Boolean getMandatoryContract() {
 		return mandatoryContract;
 	}
 
-	public void setMandatoryContract(short mandatoryContract) {
+	public void setMandatoryContract(Boolean mandatoryContract) {
 		this.mandatoryContract = mandatoryContract;
 	}
 
@@ -61,11 +68,11 @@ public class ApplicationRest extends BaseTableRest implements Serializable {
 		this.applicationName = applicationName;
 	}
 
-	public short getTestMode() {
+	public Boolean getTestMode() {
 		return testMode;
 	}
 
-	public void setTestMode(short testMode) {
+	public void setTestMode(Boolean testMode) {
 		this.testMode = testMode;
 	}
 

@@ -1,4 +1,4 @@
-<form class="form-horizontal bmauth-container" role="form" ng-submit="submitApplicationForm()">
+<form class="form-horizontal bmauth-container" role="form" ng-submit="vm.submitApplicationForm()">
 	<fieldset>
 		<legend>{{ 'application.form.header' | translate}}</legend>
 		<div class="form-group">
@@ -10,30 +10,30 @@
 		<div class="form-group">
 			<label for="inputName" class="col-md-3 control-label">{{ 'application.form.label.name' | translate}}</label>
 			<div class="col-md-3">
-				<input type="text" class="form-control" id="inputName" ng-model="application.application_name"/>
+				<input type="text" class="form-control" id="inputName" ng-model="vm.applicationField.applicationName"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputUrl" class="col-md-3 control-label">{{ 'application.form.label.url' | translate}}</label>
 			<div class="col-md-4">
-				<input type="text" class="form-control" id="inputUrl" ng-model="application.url"/>
+				<input type="text" class="form-control" id="inputUrl" ng-model="vm.applicationField.url"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputTestMode" class="col-md-3 control-label">{{ 'application.form.label.test_mode' | translate}}</label>
 				<div class="col-md-2">
-			     	<select class="form-control" id="inputTestMode" ng-model="application.testMode">
-					  <option value="0" selected="selected">{{ 'text.no' | translate}}</option>
-					  <option value="1">{{ 'text.yes' | translate}}</option>
+			     	<select class="form-control" id="inputTestMode" ng-model="vm.applicationField.testMode">
+					  <option value="false" selected="selected">{{ 'text.no' | translate}}</option>
+					  <option value="true">{{ 'text.yes' | translate}}</option>
 					</select>
 			    </div>
 		</div>
 		<div class="form-group">
 			<label for="inputMandatoryContract" class="col-md-3 control-label">{{ 'application.form.label.mandatory_contract' | translate}}</label>
 				<div class="col-md-2">
-			     	<select class="form-control" id="inputMandatoryContract" ng-model="application.mandatoryContract">
-					  <option value="0">{{ 'text.no' | translate}}</option>
-					  <option value="1" selected="selected">{{ 'text.yes' | translate}}</option>
+			     	<select class="form-control" id="inputMandatoryContract" ng-model="vm.applicationField.mandatoryContract">
+					  <option value="false">{{ 'text.no' | translate}}</option>
+					  <option value="true" selected="selected">{{ 'text.yes' | translate}}</option>
 					</select>
 			    </div>
 		</div>
@@ -41,7 +41,7 @@
 		<div class="form-group">
 			<label for="inputActive" class="col-md-3 control-label">{{ 'application.form.label.active' | translate}}</label>
 				<div class="col-md-2">
-					<input type="checkbox" id="inputActive" value="1" ng-model="application.active" checked="checked">
+					<input type="checkbox" id="inputActive" value="1" ng-model="vm.applicationField.active" checked="checked">
 			    </div>
 		</div>
 		

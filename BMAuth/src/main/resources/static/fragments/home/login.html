@@ -5,17 +5,17 @@
 	<div class="alert alert-danger" ng-show="vm.socialLoginError">
 		{{ 'login.error.social.loginError' | translate }}
 	</div>
-	<a class="btn btn-primary btn-block btn-lg" id="facebookSignup" ng-click="vm.facebookLogin()">
+	<a class="btn btn-primary btn-block btn-lg" id="facebookSignup" ng-click="vm.facebookLogin()" ng-show="showFacebook">
 		<i class="fa fa-facebook-square"></i> 
 		<strong>{{ 'login.btn.facebook.signin' | translate}}</strong>
 	</a>
 	<p/>
-	<a class="btn btn-primary btn-block btn-lg" id="googleSignup" ng-click="vm.googleLogin()">
+	<a class="btn btn-primary btn-block btn-lg" id="googleSignup" ng-click="vm.googleLogin()" ng-show="showGoogle">
 		<i class="fa fa-google-plus-square"></i> 
 		<strong>{{ 'login.btn.google.signin' | translate}}</strong>
 	</a>
 	
-	<h4 class="text-left">{{ 'login.header.or' | translate}}</h4>
+	<h4 class="text-left" ng-show="showFacebook || showGoogle">{{ 'login.header.or' | translate}}</h4>
 	<div class="alert alert-danger" ng-show="vm.error">
 		{{ 'login.error.loginError' | translate }}
 	</div>

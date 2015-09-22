@@ -10,7 +10,6 @@ angular.module('bmauth', [
   'bmauth.applications',
   'bmauth.navigation',
   'bmauth.authentication',
-  'bmauth.social.login',
   'bmauth.main'
  ]) 
 
@@ -45,13 +44,10 @@ angular.module('bmauth', [
 
 }])
 
-.run(['DTDefaultOptions','$translate','$rootScope','auth','facebook','google', function(DTDefaultOptions, $translate, $rootScope, auth, facebook, google) {
+.run(['DTDefaultOptions','$translate','$rootScope','auth', function(DTDefaultOptions, $translate, $rootScope, auth) {
     DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
     $rootScope.authContext='';
     
     auth.init('/', 'user', 'logout');
-    //facebook.init();
-    //google.init();
-    
 }]);  
 

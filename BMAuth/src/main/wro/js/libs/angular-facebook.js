@@ -527,7 +527,8 @@ provides: [facebook]
           // Initialize our Facebook app
           $timeout(function() {
             if (!settings.appId) {
-              throw 'Missing appId setting.';
+            	//throw 'Missing appId setting.';
+            	return;
             }
 
             FB.init(settings);

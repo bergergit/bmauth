@@ -6,7 +6,10 @@ angular.module("bmauth.main", [])
 
 	directive.scope = {
 		appName: '@',
-		signedInUri: '@'
+		signedInUri: '@',
+		showFacebook: '=',
+		showGoogle: '='
+			
 	};
 	
 	directive.controllerAs = 'vm';
@@ -16,7 +19,6 @@ angular.module("bmauth.main", [])
 
 	directive.link = function(scope, elements, attr) {
 		directive.init(scope);
-		
 	}
 	
 	directive.init = function($scope) { 
@@ -42,11 +44,12 @@ angular.module("bmauth.main", [])
 	
 	directive.controller = ['$scope','$rootScope','$location','$http','auth','signup','Facebook','GooglePlus', 
 	                        function ($scope, $rootScope, $location, $http, auth, signup, Facebook, GooglePlus) {
-		console.debug("in controller...");
 		var vm = this;
 		vm.userCreated = false;
-		//directive.context = $scope.context ? $scope.context : '';
 		directive.context = $rootScope.authContext;
+
+		if ($scope.showFacebook === undefined) $scope.showFacebook = true;
+		if ($scope.showGoogle === undefined) $scope.showGoogle = true;
 		
 	    vm.signup = new signup({
 			"loginType": "3"

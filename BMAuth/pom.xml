@@ -31,6 +31,7 @@
 		<font-awesome.version>4.4.0</font-awesome.version>
 		<datatables.version>1.10.7</datatables.version>
 		<angular-datatables.version>0.4.3</angular-datatables.version>
+		<angular-ui-bootstrap.version>0.13.3</angular-ui-bootstrap.version>
 	</properties>
 
 	<dependencies>
@@ -221,6 +222,11 @@
 						<artifactId>angular-mocks</artifactId>
 						<version>${angular.version}</version>
 						<scope>test</scope>
+					</dependency>
+					<dependency>
+					    <groupId>org.webjars</groupId>
+					    <artifactId>angular-ui-bootstrap</artifactId>
+					    <version>${angular-ui-bootstrap.version}</version>
 					</dependency>
 				</dependencies>
        		 </plugin>

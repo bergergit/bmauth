@@ -19,7 +19,6 @@ public class SiteController {
 
 	@RequestMapping(value = "/")
 	public String home() {
-		LOG.debug("******** Site controller");
 		return "index";
 	}
 

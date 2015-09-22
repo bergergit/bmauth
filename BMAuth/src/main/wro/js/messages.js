@@ -4,6 +4,7 @@ bmauth_translations.en = {
 	// Common text
 	"btn.ok": "OK",
 	"btn.cancel": "Cancelar",
+	"btn.save": "Salvar",
 	"text.yes": "Sim",
 	"text.no": "Não",
 
@@ -42,6 +43,7 @@ bmauth_translations.en = {
 	
 	// Applications screens
 	"application": {
+		"header.delete.success": "Aplicação removida.",
 		"btn.add": "Nova aplicação",
 		
 		"form.header": "Edição Aplicativo",
@@ -51,7 +53,6 @@ bmauth_translations.en = {
 		"form.label.test_mode": "Modo de teste",
 		"form.label.mandatory_contract": "Contrato obrigatório",
 		"form.label.active": "Ativo",
-		"form.btn.save": "Salvar",
 
 		"role.form.header": "Roles",
 		"role.form.column.id": "Id",

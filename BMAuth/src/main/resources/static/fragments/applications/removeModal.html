@@ -1,0 +1,11 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="$dismiss('cancel');" aria-hidden="true">×</button>
+	<h4 class="modal-title">Remover</h4>
+</div>
+<div class="modal-body">
+	Tem certeza que deseja remover a aplicação <strong>{{appName}}</strong>?
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="$dismiss('cancel');">Cancelar</button>
+	<button type="button" class="btn btn-primary" ng-click="$close('remove');">Remover</button>
+</div>

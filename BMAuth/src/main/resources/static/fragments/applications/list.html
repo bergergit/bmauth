@@ -1,4 +1,8 @@
-<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-hover table-striped"></table>
+<div class="alert alert-success" ng-show="vm.appDeleted">
+	{{ 'application.header.delete.success' | translate }}
+</div>
+
+<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" dt-instance="vm.dtInstance" class="table table-hover table-striped"></table>
 
 <a href="applications/new" class="btn btn-primary btn-lg" ng-show="vm.ready">
 	<i class="glyphicon glyphicon-plus"></i> 

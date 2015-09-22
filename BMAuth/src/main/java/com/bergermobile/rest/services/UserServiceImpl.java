@@ -8,15 +8,18 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.impl.FacebookTemplate;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.api.Google;
-import org.springframework.social.google.api.impl.GoogleTemplate;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Service;
 
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.rest.domain.FacebookRest;
+import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
 
 @Service
@@ -72,7 +75,6 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public void saveFacebook(FacebookRest facebookRest) {
-
 		// look for existent user
 		User facebookUser = userRepository.findByLoginTypeAndUsername(User.LoginType.FACEBOOK.getValue(), facebookRest.getAuthResponse().getUserID());
 		if (facebookUser == null) {
@@ -87,9 +89,17 @@ public class UserServiceImpl implements UserService {
 	 * role. Or else we create this user in the DB, and then authenticate
 	 */
 	@Override
-	public void saveGoogle(String accessToken) {
-		LOG.debug("Verifying google user for token " + accessToken);
-		Google google = new GoogleTemplate(accessToken);
+	public void saveGoogle(GoogleRest googleRest) {
+		LOG.debug("Verifying google user for token " + googleRest.getAccessToken() + ", clientId: " + googleRest.getClientId());
+		
+		// aquire connection
+		GoogleConnectionFactory connectionFactory = new GoogleConnectionFactory(googleRest.getClientId(), "");
+		AccessGrant accessGrant = new AccessGrant(googleRest.getAccessToken());
+		connectionFactory.createConnection(accessGrant);
+		Connection<Google> connection = connectionFactory.createConnection(accessGrant);
+		Google google = connection.getApi();
+		
+		//Google google = new GoogleTemplate(accessToken);
 		String username = google.plusOperations().getGoogleProfile().getId();
 		
 		User googleUser = userRepository.findByLoginTypeAndUsername(User.LoginType.GOOGLE_PLUS.getValue(), username);
@@ -114,9 +124,16 @@ public class UserServiceImpl implements UserService {
 	//@Async
 	public User saveFacebookInformation(FacebookRest facebookRest) {
 		LOG.debug("Will invoke facebook graph api to save the user");
+		
+		// aquire connection
+		FacebookConnectionFactory connectionFactory=new FacebookConnectionFactory(facebookRest.getAppId(),"");
+		// upon receiving the callback from the provider:
+		AccessGrant accessGrant = new AccessGrant(facebookRest.getAuthResponse().getAccessToken());
+		Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);
+		Facebook facebook = connection.getApi();
+		
 		User facebookUser = new User();
-
-		Facebook facebook = new FacebookTemplate(facebookRest.getAuthResponse().getAccessToken());
+		//Facebook facebook = new FacebookTemplate(facebookRest.getAuthResponse().getAccessToken());
 
 		// create the user object
 		facebookUser.setUsername(facebookRest.getAuthResponse().getUserID());

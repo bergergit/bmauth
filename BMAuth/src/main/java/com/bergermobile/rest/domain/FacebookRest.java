@@ -9,8 +9,17 @@ package com.bergermobile.rest.domain;
  */
 public class FacebookRest {
 
+	private String appId;
 	private AuthResponse authResponse;
 	private String status;
+	
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
 
 	public AuthResponse getAuthResponse() {
 		return authResponse;

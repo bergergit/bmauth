@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bergermobile.rest.domain.FacebookRest;
+import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.UserService;
 
@@ -41,8 +42,8 @@ public class UserCommandController {
 	 */
 	@RequestMapping(value = "/users/facebook", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void saveFacebookUser(@RequestBody FacebookRest user) {
-		userService.saveFacebook(user);
+	public void saveFacebookUser(@RequestBody FacebookRest facebookRest) {
+		userService.saveFacebook(facebookRest);
 	}
 	
 	/**
@@ -53,9 +54,9 @@ public class UserCommandController {
 	 */
 	@RequestMapping(value = "/users/google", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void saveGoogleUser(@RequestBody String accessToken) {
-		LOG.debug("UserCommandController. SaveGoogleUser for token " + accessToken);
-		userService.saveGoogle(accessToken);
+	public void saveGoogleUser(@RequestBody GoogleRest googleRest) {
+		LOG.debug("UserCommandController. SaveGoogleUser for token " + googleRest.getAccessToken());
+		userService.saveGoogle(googleRest);
 	}
 
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)

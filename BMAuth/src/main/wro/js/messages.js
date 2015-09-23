@@ -35,7 +35,7 @@ bmauth_translations.en = {
 	
 	// Signup screen
 	"signup": {
-		"header": "Cadastre-se",
+		"header": "Cadastro",
 		"header.success": "Usuário criado",
 		"label.name": "Nome",
 		"label.document_type": "CPF ou CNPJ",

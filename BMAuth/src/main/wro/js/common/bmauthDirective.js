@@ -22,7 +22,8 @@ angular.module("bmauth.main", [])
 	}
 	
 	directive.init = function($scope) { 
-		$scope.contentUrl = directive.context + 'fragments/home/login.html'
+		$scope.contentUrl = directive.context + 'fragments/home/login.html';
+		$scope.signupFormUrl = directive.context + 'fragments/home/signupForm.html';
 	}
 	
 	/**

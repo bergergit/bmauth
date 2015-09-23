@@ -1,5 +1,12 @@
-angular.module('datatables')
+angular.module('bmauth.main', ['datatables'])
+.factory('DTLoadingTemplate', function() {
+    return {
+        html: '<h1>...</h1>'
+    };
+});
 
+
+angular.module('datatables')
 .factory('dtUtils', [function() {
 	var dtUtils = {
 		instance: null,

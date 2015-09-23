@@ -5,7 +5,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
  */
 .controller('UsersEditCtrl', [ 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location',
                                       function(applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location) {
-	
+	/*
 	var vm = this;
 	var applicationsPromise = null;
 	
@@ -22,7 +22,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	
 	// cancel - goes back to application list
 	vm.cancel = function() {
-		$location.path('/applications');
+		$location.path('/users');
 	}
 	
 	// ng-submit
@@ -55,7 +55,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	    DTColumnBuilder.newColumn('roleName').withTitle('Role')
     ]
 	
-	
+	*/
 	
 }])
 
@@ -124,27 +124,6 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
 	        });
 		});
-    }
-	
-    function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-        // Unbind first in order to avoid any duplicate handler (see https://github.com/l-lin/angular-datatables/issues/87)
-        $('td', nRow).unbind('click');
-        // bind row click
-        $('td', nRow).bind('click', function() {
-            $scope.$apply(function() {
-                vm.dtClickHandler(aData);
-            });
-        });
-        
-        // bind delete button click
-        $('button', nRow).bind('click', function(event) {
-            event.stopPropagation();
-            $scope.$apply(function() {
-                vm.dtDeleteHandler(aData);
-            });
-        });
-        
-        return nRow;
     }
     
 }]);

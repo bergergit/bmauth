@@ -8,7 +8,11 @@ bmauth_translations.en = {
 	"text.yes": "Sim",
 	"text.no": "Não",
 
-	// Home screen
+	// Remove modals
+	"remove_modal": {
+		"header.remove": "Remover",
+		"text.are_you_sure": "Tem certeza que deseja remover <strong>{{name}}</strong> (ID: {{id}})?"
+	},
 
 	// Login screen
 	"login": {
@@ -64,6 +68,17 @@ bmauth_translations.en = {
 		"contract.form.column.version": "Versão",
 		"contract.form.column.creation_date": "Criado em",
 		"contract.btn.new": "Novo"	
+	},
+	
+	// Users screens
+	"user": {
+		"header.delete.success": "Usuário removido.",
+		"btn.add": "Novo usuário",
+		"form.label.id": "ID",
+		"form.label.name": "Nome",
+		"form.label.email": "Email",
+		"form.label.type": "Tipo",
+		"form.label.active": "Ativo"
 	}
 };
 

@@ -1,0 +1,10 @@
+<div class="alert alert-success" ng-show="vm.userDeleted">
+	{{ 'user.header.delete.success' | translate }}
+</div>
+
+<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" dt-instance="vm.dtInstance" class="table table-hover table-striped"></table>
+
+<a href="users/new" class="btn btn-primary btn-lg" ng-show="vm.ready">
+	<i class="glyphicon glyphicon-plus"></i> 
+	<strong>{{ 'user.btn.add' | translate }}</strong>
+</a>

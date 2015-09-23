@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.bergermobile.persistence.domain.User;
+
 /**
  * The persistent class for the user database table.
  * 
@@ -14,7 +16,7 @@ public class UserRest extends BaseTableRest implements Serializable {
 
 	private Integer userId;
 
-	private short active;
+	private Boolean active;
 
 	private Date birthday;
 
@@ -23,7 +25,7 @@ public class UserRest extends BaseTableRest implements Serializable {
 	private String email;
 
 	private Short loginType;
-
+	
 	private String name;
 
 	private String password;
@@ -47,11 +49,11 @@ public class UserRest extends BaseTableRest implements Serializable {
 		this.userId = userId;
 	}
 
-	public short getActive() {
+	public Boolean getActive() {
 		return active;
 	}
 
-	public void setActive(short active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 
@@ -81,6 +83,13 @@ public class UserRest extends BaseTableRest implements Serializable {
 
 	public Short getLoginType() {
 		return loginType;
+	}
+	
+	/** 
+	 * Convenience method that return the name of the login type
+	 */
+	public String getLoginTypeName() {
+		return User.LoginType.values()[getLoginType() -1].getDescription();
 	}
 
 	public void setLoginType(Short loginType) {

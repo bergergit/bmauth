@@ -1,11 +1,9 @@
-angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ngResource','ui.bootstrap'])
+angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResource','ui.bootstrap'])
 
 /**
- * Application Edit controller
- * 
- * Call a factory application / ApplicationService.js
+ * Users Edit controller
  */
-.controller('ApplicationsEditCtrl', [ 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', 
+.controller('UsersEditCtrl', [ 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location',
                                       function(applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location) {
 	
 	var vm = this;
@@ -62,10 +60,10 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 }])
 
 /**
- * Application List controller
+ * Users List controller
  */
-.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','applicationService', '$translate', '$location','$modal','dtUtils',
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, applicationService, $translate, $location, $modal, dtUtils) {
+.controller('UsersListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','userService', '$translate', '$location','$modal','dtUtils',
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, userService, $translate, $location, $modal, dtUtils) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
@@ -82,7 +80,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	// Datatable exposed Options
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		var promise = applicationService.query().$promise;
+		var promise = userService.query().$promise;
 		promise.then(function() {
 			vm.ready = true;
 		})
@@ -93,24 +91,26 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	// Datatable exposed Columns
 	vm.dtColumns = [
-        DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
-        DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')),
-        DTColumnBuilder.newColumn('active').withTitle($translate('application.form.label.active')).withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
-        DTColumnBuilder.newColumn('applicationId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
+        DTColumnBuilder.newColumn('userId').withTitle($translate('user.form.label.id')).withOption('width', '100px'),
+        DTColumnBuilder.newColumn('name').withTitle($translate('user.form.label.name')),
+        DTColumnBuilder.newColumn('email').withTitle($translate('user.form.label.email')),
+        DTColumnBuilder.newColumn('loginTypeName').withTitle($translate('user.form.label.type')),
+        DTColumnBuilder.newColumn('active').withTitle($translate('user.form.label.active')).withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
+        DTColumnBuilder.newColumn('userId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];
 	
 	vm.dtInstance = {};
 	
 	// Execute row click
 	vm.dtClickHandler = function(info) {
-		$location.path('applications/' + info.applicationId);
+		$location.path('users/' + info.userId);
     }
 	
 	// Execute delete
 	vm.dtDeleteHandler = function(info) {
 		$scope.translationData = {
-			name: info.applicationName,
-			id: info.applicationId
+			name: info.name,
+			id: info.userId
 		}
 		var modalInstance = $modal.open({
 			 templateUrl: 'fragments/common/removeModal.html',
@@ -118,12 +118,33 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		});
 		
 		modalInstance.result.then(function (result) {
-			vm.applicationService = new applicationService();
-	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
-	        	vm.appDeleted = true;
+			vm.userService = new userService();
+	        vm.userService.$delete({userId: info.userId}, function() {
+	        	vm.userDeleted = true;
 	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
 	        });
 		});
+    }
+	
+    function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        // Unbind first in order to avoid any duplicate handler (see https://github.com/l-lin/angular-datatables/issues/87)
+        $('td', nRow).unbind('click');
+        // bind row click
+        $('td', nRow).bind('click', function() {
+            $scope.$apply(function() {
+                vm.dtClickHandler(aData);
+            });
+        });
+        
+        // bind delete button click
+        $('button', nRow).bind('click', function(event) {
+            event.stopPropagation();
+            $scope.$apply(function() {
+                vm.dtDeleteHandler(aData);
+            });
+        });
+        
+        return nRow;
     }
     
 }]);

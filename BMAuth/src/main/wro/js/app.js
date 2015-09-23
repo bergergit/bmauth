@@ -8,6 +8,7 @@ angular.module('bmauth', [
   'facebook',
   'bmauth.home',
   'bmauth.applications',
+  'bmauth.users',
   'bmauth.navigation',
   'bmauth.authentication',
   'bmauth.main'
@@ -28,12 +29,21 @@ angular.module('bmauth', [
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
 		  controllerAs: 'vm' // replace the variable $scope for vm
-	});//.otherwise({redirectTo: '/'});
+	}).when('/users', { 
+		  templateUrl: 'fragments/users/list.html',
+		  controller: 'UsersListCtrl',
+		  controllerAs: 'vm' 
+	}).when('/users/:userId', { 
+		  templateUrl: 'fragments/users/edit.html',
+		  controller: 'UsersEditCtrl',
+		  controllerAs: 'vm' 
+	}).otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	
 	// translation configuration
-	$translateProvider.useSanitizeValueStrategy('escape');
+	//$translateProvider.useSanitizeValueStrategy('escape');
+	$translateProvider.useSanitizeValueStrategy('escapeParameters');
     $translateProvider.translations('en', bmauth_translations.en);
 	
 	$translateProvider.preferredLanguage('en');

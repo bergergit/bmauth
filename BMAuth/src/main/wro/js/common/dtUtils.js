@@ -1,4 +1,4 @@
-angular.module('bmauth.main', ['datatables'])
+angular.module('bmauth.main')
 .factory('DTLoadingTemplate', function() {
     return {
         html: '<h1>...</h1>'

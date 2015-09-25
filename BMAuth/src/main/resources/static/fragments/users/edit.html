@@ -1,17 +1,11 @@
 <form class="form-horizontal bmauth-container" role="form" ng-submit="vm.submitUserForm()">
 	<div ng-include="'fragments/home/signupForm.html'"></div>
 	
-	<pre>
-	Sistema | ROLE
-	...
-	...
-	...
-	...
-	</pre>
+	<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" dt-instance="vm.dtInstanceApplication" class="table table-hover table-striped"></table>
 	
 	<hr/>
 	<div class="col-md-8">
-		<button type="submit" class="btn btn-lg btn-primary btn-block">{{ 'signup.btn.register' | translate}}</button>
+		<button type="submit" class="btn btn-lg btn-primary btn-block">{{ 'btn.save' | translate}}</button>
 	</div>
 	<div class="col-md-4">
 		<button class="btn btn-lg btn-primary btn-block" ng-click="vm.cancel()">{{ 'btn.cancel' | translate}}</button>

@@ -3,20 +3,17 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 /**
  * Users Edit controller
  */
-.controller('UsersEditCtrl', [ 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location',
-                                      function(applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location) {
-	/*
+.controller('UsersEditCtrl', [ 'userService', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location','$translate',
+                                      function(userService, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $translate) {
 	var vm = this;
-	var applicationsPromise = null;
+	var userPromise = null;
 	
-	console.debug("id " + $routeParams.applicationId);
-	
-	vm.applicationField = new applicationService({"active": true, "testMode": "false", "mandatoryContract": "true"});
+	vm.signup = new userService();
 	if($routeParams.applicationId != 'new') {
 		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
-		applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
-		applicationsPromise.then(function (result) {
-			vm.applicationField = result;
+		userPromise = userService.get({userId: $routeParams.userId}).$promise;
+		userPromise.then(function (result) {
+			vm.signup = result;
 		});
 	}
 	
@@ -26,12 +23,12 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	}
 	
 	// ng-submit
-	vm.submitApplicationForm = function(){
-		console.debug('Will submit', vm.applicationField);
-		vm.applicationField.$save(
+	vm.submitUserForm = function(){
+		console.debug('Will submit', vm.signup);
+		vm.signup.$save(
 			function(response) {
 				console.debug("Saved and redirecting");
-				$location.path($rootScope.authContext + '/applications')
+				$location.path($rootScope.authContext + '/users')
 				
 			 }, function() {
 				 console.debug("Error on save");
@@ -39,24 +36,34 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 		);
 	}
 	
-	var dtOptionsBuilder = DTOptionsBuilder.newOptions();
-	if (applicationsPromise) {
-		dtOptionsBuilder = DTOptionsBuilder.fromFnPromise(function() {
-			return applicationsPromise;
-	    })
+	// Application and roles Datatable
+	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+		return applicationService.query().$promise;
+    })
+    //.withOption('rowCallback', dtUtils.rowCallback)
+    .withBootstrap();
+	
+	// Renderer for the datatable
+	var renderer = {
+		roles: function(data, type, full) {
+			var column = '';
+			angular.forEach(data, function(value, key) {
+				column += '<input type="checkbox"/> ' + value.roleName + '<br/>';	
+			});
+			return column;
+			
+		},
+		app: function(data, type, full) {
+			return '<input type="checkbox"/> ' + data;
+		}
 	}
-    
-	vm.dtOptions = dtOptionsBuilder
-		.withDataProp('rolesRest')
-	    .withBootstrap();
 	
+	// Datatable exposed Columns
 	vm.dtColumns = [
-	    DTColumnBuilder.newColumn('roleId').withTitle('ID'),
-	    DTColumnBuilder.newColumn('roleName').withTitle('Role')
-    ]
-	
-	*/
-	
+        DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
+        DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')).renderWith(renderer.app),
+        DTColumnBuilder.newColumn('rolesRest').withTitle($translate('application.role.form.header')).renderWith(renderer.roles)
+    ];
 }])
 
 /**

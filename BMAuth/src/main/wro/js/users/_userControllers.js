@@ -6,7 +6,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 .controller('UsersEditCtrl', [ 'userService', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location','$translate',
                                       function(userService, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $translate) {
 	var vm = this;
-	var userPromise = null;
+	var userPromise, applicationPromise;
 	
 	vm.signup = new userService();
 	if($routeParams.applicationId != 'new') {
@@ -38,7 +38,8 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	
 	// Application and roles Datatable
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		return applicationService.query().$promise;
+		applicationPromise = applicationService.query().$promise;
+		return applicationPromise;
     })
     //.withOption('rowCallback', dtUtils.rowCallback)
     .withBootstrap();
@@ -47,8 +48,8 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	var renderer = {
 		roles: function(data, type, full) {
 			var column = '';
-			angular.forEach(data, function(value, key) {
-				column += '<input type="checkbox"/> ' + value.roleName + '<br/>';	
+			angular.forEach(data, function(value, idx) {
+				column += '<input type="checkbox" name="role_' + value.roleId + '"' + setRoleCheckbox(value.roleId, idx) + '/> ' + value.roleName + '<br/>';	
 			});
 			return column;
 			
@@ -64,6 +65,23 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
         DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')).renderWith(renderer.app),
         DTColumnBuilder.newColumn('rolesRest').withTitle($translate('application.role.form.header')).renderWith(renderer.roles)
     ];
+	
+	/**
+	 * Checks the Role checkbox with 'checked' if user belongs to that Role 
+	 */
+	function setRoleCheckbox(roleId, idx) {
+		// we can only do that after application promisse has finished loading
+		applicationPromise.then(function(application) {
+			angular.forEach(application[idx].rolesRest, function(value, idx2) {
+				if (value.roleId === roleId) {
+					//return 'checked';
+					return ' checked';
+				}
+			});
+		});
+		return '';
+		
+	}
 }])
 
 /**

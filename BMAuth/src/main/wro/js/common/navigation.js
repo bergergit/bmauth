@@ -14,6 +14,11 @@ angular.module('bmauth.navigation', [])
 		return false;
 	}
 	
+	vm.activeClass = function(page) {
+		if ($location.path().match(page)) return 'active';
+		return '';
+	}
+	
 	vm.logout = function() {
 		auth.clear();
 	}

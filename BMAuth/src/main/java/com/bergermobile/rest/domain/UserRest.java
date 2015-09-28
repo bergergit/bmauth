@@ -36,7 +36,7 @@ public class UserRest extends BaseTableRest implements Serializable {
 
 	private List<ContractUserRest> contractUsersRest;
 
-	private List<UserRoleRest> userRolesRest;
+	private List<RoleRest> userRolesRest;
 
 	public UserRest() {
 	}
@@ -136,11 +136,11 @@ public class UserRest extends BaseTableRest implements Serializable {
 		this.contractUsersRest = contractUsersRest;
 	}
 
-	public List<UserRoleRest> getUserRolesRest() {
+	public List<RoleRest> getUserRolesRest() {
 		return userRolesRest;
 	}
 
-	public void setUserRolesRest(List<UserRoleRest> userRolesRest) {
+	public void setUserRolesRest(List<RoleRest> userRolesRest) {
 		this.userRolesRest = userRolesRest;
 	}
 

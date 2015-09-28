@@ -15,6 +15,7 @@ import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.LanguageContract;
 import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
+import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.LanguageContractRest;
 import com.bergermobile.rest.domain.OnlineContractRest;
@@ -76,6 +77,27 @@ public abstract class ConversionUtilities {
 			RoleRest roleRest = new RoleRest();
 
 			BeanUtils.copyProperties(role, roleRest);
+
+			roleRestList.add(roleRest);
+
+		}
+
+		return roleRestList;
+
+	}
+	
+	public static List<RoleRest> setRolesToRolesRest(List<UserRole> userRoleList) {
+
+		List<RoleRest> roleRestList = new ArrayList<RoleRest>();
+
+		for (UserRole userRole : userRoleList) {
+
+			RoleRest roleRest = new RoleRest();
+
+			BeanUtils.copyProperties(userRole.getRole(), roleRest);
+			try {
+				roleRest.setApplicationId(userRole.getRole().getApplication().getApplicationId());
+			} catch (NullPointerException npe) {}
 
 			roleRestList.add(roleRest);
 

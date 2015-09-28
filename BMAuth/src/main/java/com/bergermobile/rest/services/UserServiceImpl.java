@@ -169,20 +169,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserRest findByUserId(int userId) {
-
 		User user = userRepository.findByUserId(userId);
-
 		UserRest userRest = new UserRest();
-
 		if (user != null) {
-
 			BeanUtils.copyProperties(user, userRest);
-
+			userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
+			
 			return userRest;
 		}
 
 		return null;
-
 	}
 
 	@Override

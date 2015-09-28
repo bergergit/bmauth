@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class RoleRest extends BaseTableRest implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	private Integer applicationId;
 
 	private Integer roleId;
 
@@ -39,5 +41,15 @@ public class RoleRest extends BaseTableRest implements Serializable {
 	public void setUserRolesRest(List<UserRoleRest> userRolesRest) {
 		this.userRolesRest = userRolesRest;
 	}
+
+	public Integer getApplicationId() {
+		return applicationId;
+	}
+
+	public void setApplicationId(Integer applicationId) {
+		this.applicationId = applicationId;
+	}
+	
+	
 
 }

@@ -27,7 +27,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 			ApplicationRest applicationRest = new ApplicationRest();
 
-			applicationRest = ConversionUtilities.applicationToApplicationRest(application);
+			applicationRest = RestConversionService.applicationToApplicationRest(application);
 
 			applicationRestList.add(applicationRest);
 
@@ -44,7 +44,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		if (application != null) {
 
-			return ConversionUtilities.applicationToApplicationRest(application);
+			return RestConversionService.applicationToApplicationRest(application);
 
 		}
 
@@ -59,7 +59,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		if (application != null) {
 			
-			return ConversionUtilities.applicationToApplicationRest(application);
+			return RestConversionService.applicationToApplicationRest(application);
 
 		}
 
@@ -70,7 +70,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Override
 	public void save(ApplicationRest applicationRest) {
 
-		Application application = ConversionUtilities.applicationRestToApplication(applicationRest);
+		Application application = RestConversionService.applicationRestToApplication(applicationRest);
 		
 		applicationRepository.save(application);
 	}

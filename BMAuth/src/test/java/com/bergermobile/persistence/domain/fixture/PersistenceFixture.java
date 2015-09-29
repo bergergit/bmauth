@@ -12,7 +12,7 @@ import com.bergermobile.persistence.domain.LanguageContract;
 import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
-import com.bergermobile.rest.services.ConversionUtilities;
+import com.bergermobile.rest.services.RestConversionService;
 
 public class PersistenceFixture {
 
@@ -22,10 +22,10 @@ public class PersistenceFixture {
 		User user = new User();
 
 		// Date of Birth
-		Date dob = ConversionUtilities.stringToDate("20/01/1980");
+		Date dob = RestConversionService.stringToDate("20/01/1980");
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.FACEBOOK.getValue());
 		user.setUsername("token:12345");
@@ -49,10 +49,10 @@ public class PersistenceFixture {
 		User user = new User();
 
 		// Date of Birth
-		Date dob = ConversionUtilities.stringToDate("20/01/1981");
+		Date dob = RestConversionService.stringToDate("20/01/1981");
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.INTERNAL.getValue());
 		user.setUsername("fabioberger@gmail.com");
@@ -77,10 +77,10 @@ public class PersistenceFixture {
 		User user = new User();
 
 		// Date of Birth
-		Date dob = ConversionUtilities.stringToDate("23/01/1990");
+		Date dob = RestConversionService.stringToDate("23/01/1990");
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.INTERNAL.getValue());
 		user.setUsername("fabiofilz@gmail.com");
@@ -105,10 +105,10 @@ public class PersistenceFixture {
 		User user = new User();
 
 		// Date of Birth
-		Date DOB = ConversionUtilities.stringToDate("21/01/1981");
+		Date DOB = RestConversionService.stringToDate("21/01/1981");
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.FACEBOOK.getValue());
 		user.setUsername("token:67890");
@@ -133,10 +133,10 @@ public class PersistenceFixture {
 		User user = new User();
 
 		// Date of Birth
-		Date DOB = ConversionUtilities.stringToDate("20/01/1980");
+		Date DOB = RestConversionService.stringToDate("20/01/1980");
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.GOOGLE_PLUS.getValue());
 		user.setUsername("token:12345");
@@ -161,10 +161,10 @@ public class PersistenceFixture {
 		User user = new User();
 
 		// Date of Birth
-		Date dob = ConversionUtilities.stringToDate("21/01/1981");
+		Date dob = RestConversionService.stringToDate("21/01/1981");
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.GOOGLE_PLUS.getValue()); // Google+
 		user.setUsername("token:67890");
@@ -189,7 +189,7 @@ public class PersistenceFixture {
 		Application application = new Application();
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		application.setApplicationName("Mega Funk");
 		application.setUrl("www.megafunk.com.br");
@@ -226,7 +226,7 @@ public class PersistenceFixture {
 		Role role = new Role();
 
 		// Take current time
-		java.sql.Timestamp timestamp = ConversionUtilities.timestamp();
+		java.sql.Timestamp timestamp = RestConversionService.timestamp();
 
 		role.setRoleName("ADMIN");
 		role.setApplication(application);
@@ -244,7 +244,7 @@ public class PersistenceFixture {
 		Role role = new Role();
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		role.setRoleName("MANAGER");
 		role.setApplication(application);
@@ -262,7 +262,7 @@ public class PersistenceFixture {
 		Role role = new Role();
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		role.setRoleName("USER");
 		role.setApplication(application);
@@ -280,7 +280,7 @@ public class PersistenceFixture {
 		Role role = new Role();
 
 		// Take current time
-		Timestamp timestamp = ConversionUtilities.timestamp();
+		Timestamp timestamp = RestConversionService.timestamp();
 
 		role.setRoleName("ARTIST");
 		role.setApplication(application);
@@ -296,7 +296,7 @@ public class PersistenceFixture {
 	public static OnlineContract contractVersion1(Application application) {
 
 		// Take current time
-		java.sql.Timestamp timestamp = ConversionUtilities.timestamp();
+		java.sql.Timestamp timestamp = RestConversionService.timestamp();
 
 		OnlineContract contract = new OnlineContract();
 
@@ -342,7 +342,7 @@ public class PersistenceFixture {
 	public static OnlineContract contractVersion2(Application application) {
 
 		// Take current time
-		java.sql.Timestamp timestamp = ConversionUtilities.timestamp();
+		java.sql.Timestamp timestamp = RestConversionService.timestamp();
 
 		OnlineContract contract = new OnlineContract();
 

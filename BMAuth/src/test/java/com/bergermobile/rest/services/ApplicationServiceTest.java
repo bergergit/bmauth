@@ -49,10 +49,10 @@ public class ApplicationServiceTest {
 	@Test
 	public void testIfDublicateApplicationNameCheckWorks() {
 
-		ApplicationRest applicationRest1 = ConversionUtilities
+		ApplicationRest applicationRest1 = RestConversionService
 				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
 
-		ApplicationRest applicationRest2 = ConversionUtilities
+		ApplicationRest applicationRest2 = RestConversionService
 				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
 
 		applicationService.save(applicationRest1);
@@ -69,7 +69,7 @@ public class ApplicationServiceTest {
 	@Test
 	public void testIfSaveWorks() {
 
-		ApplicationRest applicationRest = ConversionUtilities
+		ApplicationRest applicationRest = RestConversionService
 				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
 
 		applicationService.save(applicationRest);
@@ -82,7 +82,7 @@ public class ApplicationServiceTest {
 	@Test
 	public void testIfDeleteWorks() {
 
-		ApplicationRest applicationRest = ConversionUtilities
+		ApplicationRest applicationRest = RestConversionService
 				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
 
 		applicationService.save(applicationRest);

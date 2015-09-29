@@ -34,7 +34,7 @@ angular.module("bmauth.main", [])
 		if ($scope.signedInUri) {
 			$location.path($scope.signedInUri);
 		} else {
-			if (_.indexOf(auth.data.roles, 'ROLE_ADMIN') > -1) {
+			if (_.indexOf(auth.data.roles, 'ROLE_BMAUTH-ADMIN') > -1) {
 				$location.path('/applications');
 			} else {
 				console.debug('autorization error');
@@ -43,8 +43,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','signup','Facebook','GooglePlus', 
-	                        function ($scope, $rootScope, $location, $http, auth, signup, Facebook, GooglePlus) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus', 
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus) {
 		var vm = this;
 		vm.userCreated = false;
 		directive.context = $rootScope.authContext;
@@ -52,7 +52,7 @@ angular.module("bmauth.main", [])
 		if ($scope.showFacebook === undefined) $scope.showFacebook = true;
 		if ($scope.showGoogle === undefined) $scope.showGoogle = true;
 		
-	    vm.signup = new signup({
+	    vm.signup = new userService({
 			"loginType": "3"
 		});
 		

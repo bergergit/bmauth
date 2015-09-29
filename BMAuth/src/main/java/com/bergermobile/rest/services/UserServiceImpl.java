@@ -32,6 +32,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private Environment environment;
+	
+	@Autowired
+	private RestConversionService conversionService;
 
 	@Override
 	public List<UserRest> findAllUsers() {
@@ -53,17 +56,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void save(UserRest userRest) {
+	//@Transactional
+	public void save(UserRest userRest, boolean saveRoles) {
 
 		User user = new User();
 
-		BeanUtils.copyProperties(userRest, user);
+		BeanUtils.copyProperties(userRest, user, "simpleUserRoles");
 		if (user.getUsername() == null || user.getUsername().isEmpty()) {
 			user.setUsername(user.getEmail());
 		}
 		user.setUserType(User.UserType.CPF.getValue());
-		
 		user.setActive(true);
+		
+		if (saveRoles) {
+			LOG.debug("Saving roles " + userRest.getSimpleUserRoles());
+			user.setUserRoles(conversionService.simpleUserRolesToUserRoles(userRest.getSimpleUserRoles(), user));
+		}
+		
 		userRepository.save(user);
 
 	}
@@ -173,7 +182,9 @@ public class UserServiceImpl implements UserService {
 		UserRest userRest = new UserRest();
 		if (user != null) {
 			BeanUtils.copyProperties(user, userRest);
-			userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
+			//userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
+			userRest.setSimpleUserRoles(RestConversionService.setSimpleUserRoles(user.getUserRoles()));
+			//userRest.setSimpleUserApplications(RestConversionService.setSimpleUserApplications(user.getUserRoles()));
 			
 			return userRest;
 		}

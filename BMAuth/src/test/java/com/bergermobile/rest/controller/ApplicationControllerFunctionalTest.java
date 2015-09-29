@@ -31,7 +31,7 @@ import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
 import com.bergermobile.persistence.repository.ApplicationRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
-import com.bergermobile.rest.services.ConversionUtilities;
+import com.bergermobile.rest.services.RestConversionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -99,7 +99,7 @@ public class ApplicationControllerFunctionalTest {
 
 	@Test
 	public void jsonPostCreatesApplicationCorrectly() throws Exception {
-		ApplicationRest applicationRest = ConversionUtilities
+		ApplicationRest applicationRest = RestConversionService
 				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
 
 		mockMvc.perform(post("/bmauth/applications").contentType(MediaType.APPLICATION_JSON)

@@ -90,7 +90,7 @@ public class BmAuthApplication {
 			user.setLoginType((short) User.LoginType.INTERNAL.getValue());
 
 			Role role = new Role();
-			role.setRoleName("ADMIN");
+			role.setRoleName("BMAUTH-ADMIN");
 			role = roleRepository.save(role);
 
 			UserRole userRole = new UserRole();

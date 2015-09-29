@@ -30,7 +30,7 @@ public class User extends BaseTable implements Serializable {
 	@Column(name = "user_id")
 	private Integer userId;
 
-	private boolean active;
+	private Boolean active;
 
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
@@ -57,7 +57,7 @@ public class User extends BaseTable implements Serializable {
 	private List<ContractUser> contractUsers;
 
 	// bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<UserRole> userRoles;
 
 	public User() {
@@ -71,11 +71,11 @@ public class User extends BaseTable implements Serializable {
 		this.userId = userId;
 	}
 
-	public boolean getActive() {
+	public Boolean getActive() {
 		return this.active;
 	}
 
-	public void setActive(boolean active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 
@@ -127,11 +127,11 @@ public class User extends BaseTable implements Serializable {
 		this.password = password;
 	}
 
-	public short getUserType() {
+	public Short getUserType() {
 		return this.userType;
 	}
 
-	public void setUserType(short userType) {
+	public void setUserType(Short userType) {
 		this.userType = userType;
 	}
 

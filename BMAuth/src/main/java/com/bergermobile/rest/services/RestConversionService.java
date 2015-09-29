@@ -6,22 +6,32 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.LanguageContract;
 import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
+import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
+import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.LanguageContractRest;
 import com.bergermobile.rest.domain.OnlineContractRest;
 import com.bergermobile.rest.domain.RoleRest;
 
-public abstract class ConversionUtilities {
+@Service
+public class RestConversionService {
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	public static Timestamp timestamp() {
 
@@ -106,6 +116,32 @@ public abstract class ConversionUtilities {
 		return roleRestList;
 
 	}
+	
+	/** 
+	 * Intended to simply contain the RoleID with true values, for the roles the user belongs to
+	 */
+	public static Map<Integer, Boolean> setSimpleUserRoles(List<UserRole> userRoleList) {
+		Map<Integer, Boolean> simpleUserRole = new HashMap<Integer, Boolean>(); 
+		for (UserRole userRole : userRoleList) {
+			simpleUserRole.put(userRole.getRole().getRoleId(), true);
+		}
+		return simpleUserRole;
+	}
+	
+	/** 
+	 * Intended to simply contain the ApplicationID with true values, for the roles the user belongs to
+	 */
+	/*
+	public static Map<Integer, Boolean> setSimpleUserApplications(List<UserRole> userRoleList) {
+		Map<Integer, Boolean> simpleUserRole = new HashMap<Integer, Boolean>(); 
+		for (UserRole userRole : userRoleList) {
+			try {
+				simpleUserRole.put(userRole.getRole().getApplication().getApplicationId(), true);
+			} catch (NullPointerException npe) {}
+		}
+		return simpleUserRole;
+	}
+	*/
 
 	private static List<Role> setRolesRestToRoles(List<RoleRest> rolesRestList, Application application) {
 
@@ -189,6 +225,30 @@ public abstract class ConversionUtilities {
 
 		return onlineContractList;
 
+	}
+
+	/**
+	 * Convert from a simple user role list, to a true list of UserRole
+	 * @param simpleUserRoles
+	 * @return
+	 */
+	public List<UserRole> simpleUserRolesToUserRoles(Map<Integer, Boolean> simpleUserRoles, User user) {
+		List<UserRole> userRoleList = new ArrayList<UserRole>();
+		if (simpleUserRoles != null) {
+			for (Integer roleId : simpleUserRoles.keySet()) {
+				// we only considered checked values (true)
+				if (simpleUserRoles.get(roleId)) {
+					Role role = roleRepository.findByRoleId(roleId);
+					if (role != null) {
+						UserRole userRole = new UserRole();
+						userRole.setRole(role);
+						userRole.setUser(user);
+						userRoleList.add(userRole);
+					}
+				}
+			}
+		}
+		return userRoleList;
 	}
 
 }

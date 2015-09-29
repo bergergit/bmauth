@@ -3,13 +3,13 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 /**
  * Users Edit controller
  */
-.controller('UsersEditCtrl', [ 'userService', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location','$translate',
-                                      function(userService, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $translate) {
+.controller('UsersEditCtrl', [ '$scope', '$compile', 'userService', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location','$translate',
+                                      function($scope, $compile, userService, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $translate) {
 	var vm = this;
 	var userPromise, applicationPromise;
 	
 	vm.signup = new userService();
-	if($routeParams.applicationId != 'new') {
+	if($routeParams.userId != 'new') {
 		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
 		userPromise = userService.get({userId: $routeParams.userId}).$promise;
 		userPromise.then(function (result) {
@@ -42,43 +42,35 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 		return applicationPromise;
     })
     //.withOption('rowCallback', dtUtils.rowCallback)
+    .withOption('createdRow', createdRow)
     .withBootstrap();
+	
+	function createdRow(row, data, dataIndex) {
+        // Recompiling so we can bind Angular directive to the DT
+        $compile(angular.element(row).contents())($scope);
+    }
 	
 	// Renderer for the datatable
 	var renderer = {
 		roles: function(data, type, full) {
 			var column = '';
 			angular.forEach(data, function(value, idx) {
-				column += '<input type="checkbox" name="role_' + value.roleId + '"' + setRoleCheckbox(value.roleId, idx) + '/> ' + value.roleName + '<br/>';	
+				column += '<input type="checkbox" ng-model="vm.signup.simpleUserRoles[' + value.roleId + ']"/> ' + value.roleName + '<br/>';
 			});
 			return column;
 		},
 		app: function(data, type, full) {
-			return '<input type="checkbox"/> ' + data;
+			//return '<input type="checkbox" ng-model="vm.signup.simpleUserApplications[' + full.applicationId + ']"/> ' + data
 		}
 	}
 	
 	// Datatable exposed Columns
 	vm.dtColumns = [
         DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
-        DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')).renderWith(renderer.app),
+        DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')),
         DTColumnBuilder.newColumn('rolesRest').withTitle($translate('application.role.form.header')).renderWith(renderer.roles)
     ];
 	
-	/**
-	 * Checks the Role checkbox with 'checked' if user belongs to that Role 
-	 */
-	function setRoleCheckbox(roleId, idx) {
-		var checked = '';
-		angular.forEach(userPromise.$$state.value.userRolesRest, function(value, idx2) {
-			if (value.roleId == roleId) {
-				checked = ' checked';
-			}
-		});
-		
-		return checked;
-		
-	}
 }])
 
 /**

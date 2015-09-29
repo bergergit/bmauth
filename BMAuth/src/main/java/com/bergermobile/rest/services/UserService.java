@@ -17,7 +17,7 @@ public interface UserService {
 	
 	public UserRest findByName(String name);
 	
-	public void save(UserRest userRest);
+	public void save(UserRest userRest, boolean saveRoles);
 	
 	public void saveFacebook(FacebookRest userRest);
 	public void saveGoogle(GoogleRest googleRest);

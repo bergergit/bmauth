@@ -3,6 +3,7 @@ package com.bergermobile.rest.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.bergermobile.persistence.domain.User;
 
@@ -10,6 +11,7 @@ import com.bergermobile.persistence.domain.User;
  * The persistent class for the user database table.
  * 
  */
+//@JsonIgnoreProperties(ignoreUnknown=true)
 public class UserRest extends BaseTableRest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,13 +32,23 @@ public class UserRest extends BaseTableRest implements Serializable {
 
 	private String password;
 
-	private short userType;
+	private Short userType;
 
 	private String username;
 
 	private List<ContractUserRest> contractUsersRest;
 
 	private List<RoleRest> userRolesRest;
+	
+	/** 
+	 * Intended to simply contain the RoleID with true values, for the roles the user belongs to
+	 */
+	private Map<Integer, Boolean> simpleUserRoles;
+	
+	/** 
+	 * Intended to simply contain the ApplicationID with true values, for the roles the user belongs to
+	 */
+	//private Map<Integer, Boolean> simpleUserApplications;
 
 	public UserRest() {
 	}
@@ -112,11 +124,11 @@ public class UserRest extends BaseTableRest implements Serializable {
 		this.password = password;
 	}
 
-	public short getUserType() {
+	public Short getUserType() {
 		return userType;
 	}
 
-	public void setUserType(short userType) {
+	public void setUserType(Short userType) {
 		this.userType = userType;
 	}
 
@@ -143,6 +155,24 @@ public class UserRest extends BaseTableRest implements Serializable {
 	public void setUserRolesRest(List<RoleRest> userRolesRest) {
 		this.userRolesRest = userRolesRest;
 	}
+	
+	public Map<Integer, Boolean> getSimpleUserRoles() {
+		return simpleUserRoles;
+	}
+
+	public void setSimpleUserRoles(Map<Integer, Boolean> simpleUserRoles) {
+		this.simpleUserRoles = simpleUserRoles;
+	}
+	/*
+	public Map<Integer, Boolean> getSimpleUserApplications() {
+		return simpleUserApplications;
+	}
+
+	public void setSimpleUserApplications(
+			Map<Integer, Boolean> simpleUserApplications) {
+		this.simpleUserApplications = simpleUserApplications;
+	}
+	*/
 
 	@Override
 	public int hashCode() {
@@ -153,8 +183,6 @@ public class UserRest extends BaseTableRest implements Serializable {
 		return result;
 	}
 	
-	
-
 	@Override
 	public String toString() {
 		return "UserRest [userId=" + userId + ", active=" + active + ", email="

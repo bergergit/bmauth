@@ -1,5 +1,7 @@
 package com.bergermobile.rest.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +24,19 @@ public class UserCommandController {
 	
 	static Log LOG = LogFactory.getLog(UserCommandController.class);
 
-
 	@Autowired
 	private UserService userService;
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void saveUser(@RequestBody UserRest user) {
-
-		userService.save(user);
-
+	public void saveUser(@RequestBody UserRest userRest, HttpServletRequest request) {
+		// we are very smart, and will only allow saving of the roles if user is bmauth-admin. Or else, a hacker may, you know... screw us up
+		if (request.isUserInRole("ROLE_BMAUTH-ADMIN")) {
+			userService.save(userRest, true);
+		} else {
+			userService.save(userRest, false);	
+		}
+		
 	}
 	
 	/**

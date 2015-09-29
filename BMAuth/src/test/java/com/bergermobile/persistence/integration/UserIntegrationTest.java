@@ -47,7 +47,7 @@ public class UserIntegrationTest {
 		// Copy the User attributes to UserRest attributes
 		BeanUtils.copyProperties(user, userRest);
 		
-		userService.save(userRest);
+		userService.save(userRest, false);
 
 		UserRest savedUser = userService.findByName("Facebook User Active");
 

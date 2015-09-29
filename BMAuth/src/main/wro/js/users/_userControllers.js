@@ -52,7 +52,6 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 				column += '<input type="checkbox" name="role_' + value.roleId + '"' + setRoleCheckbox(value.roleId, idx) + '/> ' + value.roleName + '<br/>';	
 			});
 			return column;
-			
 		},
 		app: function(data, type, full) {
 			return '<input type="checkbox"/> ' + data;
@@ -70,16 +69,14 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	 * Checks the Role checkbox with 'checked' if user belongs to that Role 
 	 */
 	function setRoleCheckbox(roleId, idx) {
-		// we can only do that after application promisse has finished loading
-		applicationPromise.then(function(application) {
-			angular.forEach(application[idx].rolesRest, function(value, idx2) {
-				if (value.roleId === roleId) {
-					//return 'checked';
-					return ' checked';
-				}
-			});
+		var checked = '';
+		angular.forEach(userPromise.$$state.value.userRolesRest, function(value, idx2) {
+			if (value.roleId == roleId) {
+				checked = ' checked';
+			}
 		});
-		return '';
+		
+		return checked;
 		
 	}
 }])

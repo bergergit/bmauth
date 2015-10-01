@@ -4,10 +4,10 @@
   "name": "BMAuth",
   "description": "Berger Mobile Authorization module",
   "devDependencies": {
-    "karma": "^0.13.9",
-    "jasmine-core": "^2.3.4",
-    "karma-jasmine": "^0.3.6",
-    "karma-chrome-launcher": "^0.2.0"
+    "karma": "~0.13.10",
+    "jasmine-core": "~2.3.4",
+    "karma-jasmine": "~0.3.6",
+    "karma-chrome-launcher": "~0.2.0"
   },
   "scripts": {
     "test": "node node_modules/karma/bin/karma start target/test-classes/karma.conf.js"

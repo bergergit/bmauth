@@ -3,6 +3,8 @@ var bmauth_translations = {};
 bmauth_translations.en = {
 	// Common text
 	"btn.ok": "OK",
+	"btn.new": "Novo",
+	"btn.save": "Salvar",
 	"btn.cancel": "Cancelar",
 	"text.yes": "Sim",
 	"text.no": "Não",
@@ -48,18 +50,15 @@ bmauth_translations.en = {
 		"form.label.test_mode": "Modo de teste",
 		"form.label.mandatory_contract": "Contrato obrigatório",
 		"form.label.active": "Ativo",
-		"form.btn.save": "Salvar",
 
 		"role.form.header": "Roles",
 		"role.form.column.id": "Id",
 		"role.form.column.name": "Nome",
-		"role.btn.new": "Novo",
 
 		"contract.form.header": "Contratos",
 		"contract.form.column.Id": "Id",
 		"contract.form.column.version": "Versão",
 		"contract.form.column.creation_date": "Criado em",
-		"contract.btn.new": "Novo"	
 	}
 };
 

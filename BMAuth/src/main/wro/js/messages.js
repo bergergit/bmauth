@@ -5,6 +5,7 @@ bmauth_translations.en = {
 	"btn.ok": "OK",
 	"btn.cancel": "Cancelar",
 	"btn.save": "Salvar",
+	"btn.new": "Novo",
 	"text.yes": "Sim",
 	"text.no": "Não",
 
@@ -61,13 +62,11 @@ bmauth_translations.en = {
 		"role.form.header": "Roles",
 		"role.form.column.id": "Id",
 		"role.form.column.name": "Nome",
-		"role.btn.new": "Novo",
 
 		"contract.form.header": "Contratos",
 		"contract.form.column.Id": "Id",
 		"contract.form.column.version": "Versão",
-		"contract.form.column.creation_date": "Criado em",
-		"contract.btn.new": "Novo"	
+		"contract.form.column.creation_date": "Criado em"	
 	},
 	
 	// Users screens

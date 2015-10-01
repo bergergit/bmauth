@@ -26,7 +26,7 @@ import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
 @TransactionConfiguration(defaultRollback = true)
 @ActiveProfiles("dev")
 public class UserRepositoryTest {
-
+	
 	@Autowired
 	private UserRepository userRepository;
 

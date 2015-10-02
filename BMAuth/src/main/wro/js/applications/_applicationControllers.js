@@ -5,10 +5,11 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  * 
  * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [ 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 
-                                      function(applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter) {
+.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils', 
+                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils) {
 	
 	var vm = this;
+	dtUtils.init(vm, $scope);
 	var applicationsPromise = null;
 	
 	console.debug("id " + $routeParams.applicationId);
@@ -52,7 +53,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		}
 	}
 
-	
+	// Roles
 	var dtOptionsBuilderRole = DTOptionsBuilder.newOptions();
 	if (applicationsPromise) {
 		dtOptionsBuilderRole = DTOptionsBuilder.fromFnPromise(function() {
@@ -62,6 +63,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
     
 	vm.dtOptionsRole = dtOptionsBuilderRole
 		.withDataProp('rolesRest')
+		.withOption('rowCallback', dtUtils.rowCallback)
 	    .withBootstrap();
 	
 	vm.dtColumnsRole = [
@@ -70,6 +72,46 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		DTColumnBuilder.newColumn('roleId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];
 	
+	vm.dtInstance = {};
+	
+	// Execute Role modal
+	vm.dtClickHandler = function(info, index) {
+		$scope.translationData = {
+			roleName: info.applicationName.rolesRest[index].roleName,
+			roleId: info.applicationId.rolesRest[index].roleId
+		}
+		var modalInstance = $modal.open({
+			 templateUrl: 'fragments/applications/editRoleModal.html',
+			 scope: $scope
+		});
+		
+//		modalInstance.result.then(function (result) {
+//			vm.applicationService = new applicationService();
+//	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
+//	        	vm.appDeleted = true;
+//	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
+//	        });
+//		});
+				
+//			  var idx = vm.applicationName.rolesRest.indexOf(role);
+//			  if (idx >= 0) {
+//			    vm.applicationField.rolesRest.splice(idx, 1);
+//			  }
+//		};
+		
+		
+		
+    }
+
+		vm.dtDeleteHandler = function(info, index) {
+		
+		console.debug(info);
+		console.debug(index);
+		};
+
+	
+	
+	// Contract
 	var dtOptionsBuilderContract = DTOptionsBuilder.newOptions();
 	if (applicationsPromise) {
 		dtOptionsBuilderContract = DTOptionsBuilder.fromFnPromise(function() {
@@ -88,6 +130,9 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		}),
 		DTColumnBuilder.newColumn('onlineContractId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
 	 ];
+	
+
+	
 	
 }])
 

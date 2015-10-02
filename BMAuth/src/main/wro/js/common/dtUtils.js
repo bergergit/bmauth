@@ -23,15 +23,16 @@ angular.module('datatables')
 	        // bind row click
 	        $('td', nRow).bind('click', function() {
 	            dtUtils.$scope.$apply(function() {
-	            	dtUtils.instance.dtClickHandler(aData);
+	            	dtUtils.instance.dtClickHandler(aData, iDisplayIndexFull);
 	            });
 	        });
 	        
+	        $('button', nRow).unbind('click');
 	        // bind delete button click
 	        $('button', nRow).bind('click', function(event) {
 	            event.stopPropagation();
 	            dtUtils.$scope.$apply(function() {
-	            	dtUtils.instance.dtDeleteHandler(aData);
+	            	dtUtils.instance.dtDeleteHandler(aData, iDisplayIndexFull); 
 	            });
 	        });
 	        

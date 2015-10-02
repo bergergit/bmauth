@@ -30,7 +30,7 @@
 		<angular-translate-loader-url>0.1.2-1</angular-translate-loader-url>
 		<font-awesome.version>4.4.0</font-awesome.version>
 		<datatables.version>1.10.7</datatables.version>
-		<angular-datatables.version>0.4.3</angular-datatables.version>
+		<angular-datatables.version>0.5.0</angular-datatables.version>
 		<angular-ui-bootstrap.version>0.13.3</angular-ui-bootstrap.version>
 	</properties>
 
@@ -223,7 +223,7 @@
 					    <version>${datatables.version}</version>
 					</dependency>					
 					<dependency>
-					    <groupId>org.webjars</groupId>
+					    <groupId>org.webjars.bower</groupId>
 					    <artifactId>angular-datatables</artifactId>
 					    <version>${angular-datatables.version}</version>
 					</dependency>

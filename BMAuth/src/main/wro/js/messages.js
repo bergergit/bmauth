@@ -62,13 +62,24 @@ bmauth_translations.en = {
 		"role.form.header": "Roles",
 		"role.form.column.id": "Id",
 		"role.form.column.name": "Nome",
+		"role.form.header.delete.success" : "Role removida",
 
 		"contract.form.header": "Contratos",
 		"contract.form.column.Id": "Id",
 		"contract.form.column.version": "Versão",
-		"contract.form.column.creation_date": "Criado em"	
+		"contract.form.column.creation_date": "Criado em",
+		"contract.form.header.delete.success" : "Contrato removido",
 	},
 	
+	// edit Role modal
+	"edit_role_modal": {
+		"role.form.header": "Edição de Role",
+		"role.form.column.id": "Id",
+		"role.form.column.name": "Nome",
+	},
+	
+	
+		
 	// Users screens
 	"user": {
 		"header.delete.success": "Usuário removido.",

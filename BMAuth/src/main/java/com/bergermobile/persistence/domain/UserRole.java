@@ -62,4 +62,32 @@ public class UserRole extends BaseTable implements Serializable {
 		this.user = user;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((userRoleId == null) ? 0 : userRoleId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserRole other = (UserRole) obj;
+		if (userRoleId == null) {
+			if (other.userRoleId != null)
+				return false;
+		} else if (!userRoleId.equals(other.userRoleId))
+			return false;
+		return true;
+	}
+	
+	
+
 }

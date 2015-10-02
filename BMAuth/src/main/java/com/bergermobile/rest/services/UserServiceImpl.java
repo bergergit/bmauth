@@ -3,6 +3,8 @@ package com.bergermobile.rest.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.repository.UserRepository;
+import com.bergermobile.persistence.repository.UserRoleRepository;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
@@ -29,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 	
 	@Autowired
 	private Environment environment;
@@ -56,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	//@Transactional
+	@Transactional
 	public void save(UserRest userRest, boolean saveRoles) {
 
 		User user = new User();
@@ -70,10 +76,18 @@ public class UserServiceImpl implements UserService {
 		
 		if (saveRoles) {
 			LOG.debug("Saving roles " + userRest.getSimpleUserRoles());
+			//roleRepository.deleteOrphanUserRoles(user);
+
+			// delete old roles
+			if (user.getUserRoles() != null) {
+				userRoleRepository.delete(user.getUserRoles());
+			}
+			
+			// store new roles (from json)
 			user.setUserRoles(conversionService.simpleUserRolesToUserRoles(userRest.getSimpleUserRoles(), user));
 		}
 		
-		userRepository.save(user);
+		user = userRepository.save(user);
 
 	}
 	

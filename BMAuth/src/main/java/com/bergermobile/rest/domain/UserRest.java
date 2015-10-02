@@ -94,7 +94,7 @@ public class UserRest extends BaseTableRest implements Serializable {
 	}
 
 	public Short getLoginType() {
-		return loginType;
+		return loginType != null ? loginType : 1;
 	}
 	
 	/** 

@@ -8,7 +8,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	var vm = this;
 	var userPromise, applicationPromise;
 	
-	vm.signup = new userService();
+	vm.signup = new userService({"loginType": "3"});
 	if($routeParams.userId != 'new') {
 		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
 		userPromise = userService.get({userId: $routeParams.userId}).$promise;

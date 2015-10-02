@@ -13,8 +13,4 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	public User findByLoginTypeAndUsername(Short type, String usernameg);
 
 	public User findByUserId(Integer userId);
-	
-	//@Query("delete u.userRoles from User u where u.userRoles in :userRoles")
-	//public void deleteUserRoles(@Param("userRoles") List<UserRole> userRoles);
-	
 }

@@ -10,14 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * The persistent class for the user_role database table.
  * 
  */
 @Entity
-@Table(name = "user_role", uniqueConstraints=@UniqueConstraint(columnNames = {"role_id", "user_id"}))
+@Table(name = "user_role")
 public class UserRole extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -67,8 +66,8 @@ public class UserRole extends BaseTable implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result
+				+ ((userRoleId == null) ? 0 : userRoleId.hashCode());
 		return result;
 	}
 
@@ -81,17 +80,18 @@ public class UserRole extends BaseTable implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		UserRole other = (UserRole) obj;
-		if (role == null) {
-			if (other.role != null)
+		if (userRoleId == null) {
+			if (other.userRoleId != null)
 				return false;
-		} else if (!role.equals(other.role))
-			return false;
-		if (user == null) {
-			if (other.user != null)
-				return false;
-		} else if (!user.equals(other.user))
+		} else if (!userRoleId.equals(other.userRoleId))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "UserRole [userRoleId=" + userRoleId + ", role=" + role
+				+ ", user=" + user + "]";
 	}
 
 	

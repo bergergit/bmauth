@@ -111,6 +111,12 @@ public class Role extends BaseTable implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Role [roleId=" + roleId + ", roleName=" + roleName + "]";
+	}
+	
 	
 	
 

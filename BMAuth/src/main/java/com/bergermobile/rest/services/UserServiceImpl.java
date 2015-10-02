@@ -77,24 +77,18 @@ public class UserServiceImpl implements UserService {
 		
 		if (saveRoles) {
 			LOG.debug("Saving roles " + userRest.getSimpleUserRoles());
-			//roleRepository.deleteOrphanUserRoles(user);
-			
-			List<UserRole> userRoles = userRoleRepository.findByUser(user);
+			List<UserRole> userRoles = userRoleRepository.findByUserUserIdAndRoleApplicationIsNotNull(user.getUserId());
 
-			
 			// delete old roles
 			if (userRoles != null) {
 				userRoleRepository.delete(userRoles);
-				user = userRepository.save(user);
 			}
-			
 			
 			// store new roles (from json)
 			user.setUserRoles(conversionService.simpleUserRolesToUserRoles(userRest.getSimpleUserRoles(), user));
 		}
 		
 		user = userRepository.save(user);
-
 	}
 	
 	/**

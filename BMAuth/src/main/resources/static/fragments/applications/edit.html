@@ -3,8 +3,8 @@
 		<legend>{{ 'application.form.header' | translate}}</legend>
 		<div class="form-group">
 			<label for="inputId" class="col-md-3 control-label">{{ 'application.form.label.id' | translate}}</label>
-			<div class="col-md-5">
-				1
+			<div class="col-md-2">
+				<input type="text" class="form-control" id="applicationId" ng-model="vm.applicationField.applicationId" disabled/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -48,98 +48,25 @@
 			
 		<legend>{{ 'application.role.form.header' | translate}}</legend>
 
-    <!--   tabela anterior
-		<div>
-			<table id="rolesTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="rolesTable_info">
-				<thead>
-					<tr role="row">
-						<th class="sorting_asc" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">{{ 'application.role.form.column.id' | translate}}</th>
-						<th class="sorting" tabindex="0" aria-controls="rolesTable" rowspan="1" colspan="1" aria-label="Role: Ordenar colunas de forma ascendente" style="width: 21px;">{{ 'application.role.form.column.name' | translate}}</th>
-						<th class="sorting_disabled" rowspan="1" colspan="1" aria-label="&amp;nbsp;" style="width: 21px;">&nbsp;</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr role="row" class="odd">
-						<td class="sorting_1">1</td>
-						<td class="sorting_1">Usuário</td>
-						<td>
-							<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-						</td>
-					</tr>
-					<tr role="row" class="even">
-						<td class="sorting_1">2</td>
-						<td class="sorting_1">Manager</td>
-						<td>
-							<button type="button" class="remove btn btn-danger">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-						</td>
-					</tr>
-					<tr role="row" class="even">
-						<td class="sorting_1">3</td>
-						<td class="sorting_1">Admin</td>
-						<td>
-							<button type="button" class="remove btn btn-danger">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="alert alert-success" ng-show="vm.appRoleDeleted">
+			{{ 'application.role.form.header.delete.success' | translate }}
 		</div>
-		fim tabela anterior  -->
-		
-		
-		<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-hover table-striped"></table>
-		
-		<button type="button" class="btn btn-default">{{ 'application.role.btn.new' | translate}}</button>
+
+		<table datatable="" dt-options="vm.dtOptionsRole" dt-columns="vm.dtColumnsRole"  dt-instance="vm.dtInstanceRole" class="table table-hover table-striped"></table>
+
+		<button type="button" class="btn btn-default">{{ 'btn.new' | translate}}</button>
 		<br>
 		<br>
 		
 		<legend>{{ 'application.contract.form.header' | translate}}</legend>
-		<div>
-			<table id="contractTable" class="table table-condensed table-striped table-hover dataTable no-footer" role="grid" aria-describedby="contractTable_info">
-				<thead>
-					<tr role="row">
-						<th class="sorting_asc" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id Ordenar colunas de forma descendente" style="width: 21px;">{{ 'application.contract.form.column.Id' | translate}}</th>
-						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="Contract: Ordenar colunas de forma ascendente" style="width: 21px;">{{ 'application.contract.form.column.version' | translate}}</th>
-						<th class="sorting" tabindex="0" aria-controls="contractTable" rowspan="1" colspan="1" aria-label="CreationDate: Ordenar colunas de forma ascendente" style="width: 21px;">{{ 'application.contract.form.column.creation_date' | translate}}</th>
-						<th class="sorting_disabled" rowspan="1" colspan="1" aria-label="&amp;nbsp;" style="width: 21px;">&nbsp;</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr role="row" class="odd">
-						<td class="sorting_1">1</td>
-						<td class="sorting_1">1.0</td>
-						<td class="sorting_2">01/01/2015 10:22:05</td>
-						<td>
-							<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-						</td>
-					</tr>
-					<tr role="row" class="even">
-						<td class="sorting_1">2</td>
-						<td class="sorting_1">2.0</td>
-						<td class="sorting_2">21/05/2015 20:32:05</td>
-						<td>
-							<button type="button" class="remove btn btn-danger">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-						</td>
-					</tr>
-					<tr role="row" class="even">
-						<td class="sorting_1">3</td>
-						<td class="sorting_1">2.1</td>
-						<td class="sorting_2">21/08/2015 11:02:55</td>
-						<td>
-							<button type="button" class="remove btn btn-danger">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+
+		<div class="alert alert-success" ng-show="vm.appContractDeleted">
+			{{ 'application.contract.form.header.delete.success' | translate }}
 		</div>
-		<button type="button" class="btn btn-default">{{ 'application.role.btn.new' | translate}}</button>
+
+		<table datatable="" dt-options="vm.dtOptionsContract" dt-columns="vm.dtColumnsContract"  dt-instance="vm.dtInstanceContract" class="table table-hover table-striped"></table>		
+
+		<button type="button" class="btn btn-default">{{ 'btn.new' | translate}}</button>
 		<br>
 		<br>
 	
@@ -150,7 +77,7 @@
 			<button class="btn btn-lg btn-primary btn-block" ng-click="vm.cancel()">{{ 'btn.cancel' | translate}}</button>
 		</div>
 		
-		
+		<!-- <pre> {{vm.applicationField  | json}}</pre> -->
 		
 		</fieldset>
 	

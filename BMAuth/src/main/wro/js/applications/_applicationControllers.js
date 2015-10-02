@@ -5,14 +5,16 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  * 
  * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [ 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', 
-                                      function(applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location) {
+.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils', 
+                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils) {
 	
 	var vm = this;
+	dtUtils.init(vm, $scope);
 	var applicationsPromise = null;
 	
 	console.debug("id " + $routeParams.applicationId);
 	
+	// Default parameters
 	vm.applicationField = new applicationService({"active": true, "testMode": "false", "mandatoryContract": "true"});
 	if($routeParams.applicationId != 'new') {
 		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
@@ -41,22 +43,95 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		);
 	}
 	
-	var dtOptionsBuilder = DTOptionsBuilder.newOptions();
+	// Renderer for the datatable
+	var renderer = {
+		active: function(data, type, full) {
+			return data == '1' ? '<span class="glyphicon glyphicon-ok-circle"></span>' : '';
+		},
+		trash: function(data, type, full) {
+			return '<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>';
+		}
+	}
+
+	// Roles
+	var dtOptionsBuilderRole = DTOptionsBuilder.newOptions();
 	if (applicationsPromise) {
-		dtOptionsBuilder = DTOptionsBuilder.fromFnPromise(function() {
+		dtOptionsBuilderRole = DTOptionsBuilder.fromFnPromise(function() {
 			return applicationsPromise;
 	    })
 	}
     
-	vm.dtOptions = dtOptionsBuilder
+	vm.dtOptionsRole = dtOptionsBuilderRole
 		.withDataProp('rolesRest')
+		.withOption('rowCallback', dtUtils.rowCallback)
 	    .withBootstrap();
 	
-	vm.dtColumns = [
+	vm.dtColumnsRole = [
 	    DTColumnBuilder.newColumn('roleId').withTitle('ID'),
-	    DTColumnBuilder.newColumn('roleName').withTitle('Role')
-    ]
+	    DTColumnBuilder.newColumn('roleName').withTitle('Role'),
+		DTColumnBuilder.newColumn('roleId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
+    ];
 	
+	vm.dtInstance = {};
+	
+	// Execute Role modal
+	vm.dtClickHandler = function(info, index) {
+		$scope.translationData = {
+			roleName: info.applicationName.rolesRest[index].roleName,
+			roleId: info.applicationId.rolesRest[index].roleId
+		}
+		var modalInstance = $modal.open({
+			 templateUrl: 'fragments/applications/editRoleModal.html',
+			 scope: $scope
+		});
+		
+//		modalInstance.result.then(function (result) {
+//			vm.applicationService = new applicationService();
+//	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
+//	        	vm.appDeleted = true;
+//	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
+//	        });
+//		});
+				
+//			  var idx = vm.applicationName.rolesRest.indexOf(role);
+//			  if (idx >= 0) {
+//			    vm.applicationField.rolesRest.splice(idx, 1);
+//			  }
+//		};
+		
+		
+		
+    }
+
+		vm.dtDeleteHandler = function(info, index) {
+		
+		console.debug(info);
+		console.debug(index);
+		};
+
+	
+	
+	// Contract
+	var dtOptionsBuilderContract = DTOptionsBuilder.newOptions();
+	if (applicationsPromise) {
+		dtOptionsBuilderContract = DTOptionsBuilder.fromFnPromise(function() {
+			return applicationsPromise;
+	    })
+	}
+	
+	vm.dtOptionsContract = dtOptionsBuilderContract
+	.withDataProp('onlineContractsRest')
+    .withBootstrap();
+
+	vm.dtColumnsContract = [
+	    DTColumnBuilder.newColumn('contractVersion').withTitle('Version'),
+	    DTColumnBuilder.newColumn('creationDate').withTitle('Creation Date').renderWith(function(data, type) {
+		return $filter('date')(data, 'dd/MM/yyyy @ HH:mm:ss');
+		}),
+		DTColumnBuilder.newColumn('onlineContractId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
+	 ];
+	
+
 	
 	
 }])

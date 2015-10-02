@@ -30,7 +30,7 @@ import com.bergermobile.persistence.repository.OnlineContractRepository;
 @TransactionConfiguration(defaultRollback = true)
 @ActiveProfiles("dev")
 public class ApplicationRepositoryTest {
-
+	
 	@Autowired
 	private ApplicationRepository applicationRepository;
 

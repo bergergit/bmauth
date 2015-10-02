@@ -1,13 +1,8 @@
 package com.bergermobile.persistence.repository;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import com.bergermobile.persistence.domain.User;
-import com.bergermobile.persistence.domain.UserRole;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 

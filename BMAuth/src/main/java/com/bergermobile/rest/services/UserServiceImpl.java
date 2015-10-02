@@ -19,6 +19,7 @@ import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Service;
 
 import com.bergermobile.persistence.domain.User;
+import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.persistence.repository.UserRoleRepository;
 import com.bergermobile.rest.domain.FacebookRest;
@@ -77,11 +78,16 @@ public class UserServiceImpl implements UserService {
 		if (saveRoles) {
 			LOG.debug("Saving roles " + userRest.getSimpleUserRoles());
 			//roleRepository.deleteOrphanUserRoles(user);
+			
+			List<UserRole> userRoles = userRoleRepository.findByUser(user);
 
+			
 			// delete old roles
-			if (user.getUserRoles() != null) {
-				userRoleRepository.delete(user.getUserRoles());
+			if (userRoles != null) {
+				userRoleRepository.delete(userRoles);
+				user = userRepository.save(user);
 			}
+			
 			
 			// store new roles (from json)
 			user.setUserRoles(conversionService.simpleUserRolesToUserRoles(userRest.getSimpleUserRoles(), user));

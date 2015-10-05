@@ -12,7 +12,7 @@ import com.bergermobile.persistence.domain.User;
  * 
  */
 //@JsonIgnoreProperties(ignoreUnknown=true)
-public class UserRest extends BaseTableRest implements Serializable {
+public class UserRest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

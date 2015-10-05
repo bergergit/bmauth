@@ -7,7 +7,7 @@ import java.util.List;
  * The persistent class for the role database table.
  * 
  */
-public class RoleRest extends BaseTableRest implements Serializable {
+public class RoleRest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer applicationId;

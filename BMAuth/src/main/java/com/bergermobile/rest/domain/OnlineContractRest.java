@@ -7,7 +7,7 @@ import java.util.List;
  * The persistent class for the online_contract database table.
  * 
  */
-public class OnlineContractRest extends BaseTableRest implements Serializable {
+public class OnlineContractRest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer onlineContractId;

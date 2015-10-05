@@ -6,7 +6,7 @@ import java.io.Serializable;
  * The persistent class for the language_contract database table.
  * 
  */
-public class LanguageContractRest extends BaseTableRest implements Serializable {
+public class LanguageContractRest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer languageContractId;

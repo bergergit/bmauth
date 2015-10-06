@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
  * The persistent class for the Application database table.
  * 
  */
-public class ApplicationRest extends BaseTableRest implements Serializable {
+public class ApplicationRest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer applicationId;

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * The persistent class for the user_role database table.
  * 
  */
-public class UserRoleRest extends BaseTableRest implements Serializable {
+public class UserRoleRest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer userRoleId;

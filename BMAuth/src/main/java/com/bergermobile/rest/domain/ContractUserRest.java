@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  * The persistent class for the contract_user database table.
  * 
  */
-public class ContractUserRest extends BaseTableRest implements Serializable {
+public class ContractUserRest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer contractUserId;

@@ -1,12 +1,18 @@
 package com.bergermobile.rest.services;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.*;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
-import java.text.ParseException;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,7 +22,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.BmAuthApplication;
+import com.bergermobile.persistence.domain.Application;
+import com.bergermobile.persistence.domain.Role;
+import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
+import com.bergermobile.persistence.repository.ApplicationRepository;
+import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.rest.domain.UserRest;
 
@@ -33,23 +44,74 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
+	
+	@Autowired
+	private ApplicationRepository applicationRepository;
 
 	@Test
 	public void testIfFindAllReturnsAllUsers() {
 
-		try {
-			userRepository.save(PersistenceFixture.facebookUserActive());
-			userRepository.save(PersistenceFixture.facebookUserInactive());
-			userRepository.save(PersistenceFixture.googlePlusUserActive());
-			userRepository.save(PersistenceFixture.googlePlusUserInactive());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		userRepository.save(PersistenceFixture.facebookUserActive());
+		userRepository.save(PersistenceFixture.facebookUserInactive());
+		userRepository.save(PersistenceFixture.googlePlusUserActive());
+		userRepository.save(PersistenceFixture.googlePlusUserInactive());
 
 		List<UserRest> listUser = userService.findAllUsers();
 
 		assertEquals(5, listUser.size());	// the application creates a new admin user for default, if this table is empty
 
 	}
+	
+	@Test
+	public void testThatInsertWorks() {
+
+		UserRest userRest = new UserRest();
+		User user = PersistenceFixture.facebookUserActive();
+
+		// Copy the User attributes to UserRest attributes
+		BeanUtils.copyProperties(user, userRest);
+		
+		userService.save(userRest, false);
+
+		UserRest savedUser = userService.findByName("Facebook User Active");
+
+		assertNotNull(savedUser);
+
+		assertEquals(savedUser.getName(), "Facebook User Active");
+
+	}
+	
+	@Test
+	public void thatSaveUserRolesWorks() {
+		// create 2 new roles
+		Application application = applicationRepository.save(application1());
+		Role roleAdmin = roleRepository.save(roleAdmin(application));
+		Role roleUser = roleRepository.save(roleUser(application));
+		
+		// we 1st insert 2 roles in the user, to check if service correctly remove the old ones first
+		User user1 = userWithRoles(internalUser1(), roleAdmin, roleUser);
+		User savedUser = userRepository.save(user1);
+		
+		// create the UserRest with the roles above
+		UserRest userRest = new UserRest();
+		BeanUtils.copyProperties(savedUser, userRest);
+		Map<Integer, Boolean> simpleRoleMap = new Hashtable<Integer, Boolean>();
+		simpleRoleMap.put(roleAdmin.getRoleId(), true);
+		simpleRoleMap.put(roleUser.getRoleId(), true);
+		userRest.setSimpleUserRoles(simpleRoleMap);
+		userService.save(userRest, true);
+		
+		User foundUser = userRepository.findByUserId(savedUser.getUserId());
+		
+		assertNotNull(foundUser);
+		assertThat(foundUser.getUserRoles(), hasSize(2));
+		assertNotNull(foundUser.getUserRoles().get(0).getRole());
+		assertEquals("USER", foundUser.getUserRoles().get(0).getRole().getRoleName());
+		assertEquals("ADMIN", foundUser.getUserRoles().get(1).getRole().getRoleName());
+	}
+
 
 }

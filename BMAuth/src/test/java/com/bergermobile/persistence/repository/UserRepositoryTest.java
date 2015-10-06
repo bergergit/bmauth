@@ -2,8 +2,9 @@ package com.bergermobile.persistence.repository;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-
-import java.text.ParseException;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.*;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,19 +30,11 @@ public class UserRepositoryTest {
 	
 	@Autowired
 	private UserRepository userRepository;
-
-	// This test is test the logic
-
+	
 	@Test
 	public void testThatFindByNameWorks() {
 
-		User user = null;
-		try {
-			user = PersistenceFixture.facebookUserActive();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
+		User user = PersistenceFixture.facebookUserActive();
 		User savedUser = userRepository.save(user);
 
 		assertNotNull(savedUser);
@@ -54,14 +47,10 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	public void testThatFindByUserTypeAndUsernameWorks() {
+	public void testThatFindByUserTypeAndUsernameWorks() throws Exception {
 
 		User user = null;
-		try {
-			user = PersistenceFixture.facebookUserActive();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		user = PersistenceFixture.facebookUserActive();
 
 		User savedUser = userRepository.save(user);
 
@@ -72,6 +61,16 @@ public class UserRepositoryTest {
 		// check if returns the same record
 		assertEquals(foundUser, user);
 
+	}
+	
+	@Test
+	public void testThatRolesAreCorrectlySaved() {
+		User user1 = internalUser1WithRoles("ADMIN");
+		User savedUser = userRepository.save(user1);
+		
+		assertThat(savedUser.getUserRoles(), hasSize(1));
+		assertNotNull(savedUser.getUserRoles().get(0).getRole());
+		assertEquals("ADMIN", savedUser.getUserRoles().get(0).getRole().getRoleName());
 	}
 
 }

@@ -23,7 +23,7 @@ import com.bergermobile.persistence.repository.RoleRepository;
 @WebAppConfiguration
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
-public class RoleIntegationTest {
+public class RoleRepositoryTest {
 
 	@Autowired
 	private RoleRepository roleRepository;

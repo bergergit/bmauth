@@ -12,17 +12,32 @@ import com.bergermobile.persistence.domain.LanguageContract;
 import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
+import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.rest.services.RestConversionService;
 
 public class PersistenceFixture {
+	
+	public static Application application1() {
+		Application application = new Application();
+		application.setApplicationName( "Bomber Cast");
+		application.setMandatoryContract(true);
+		application.setTestMode(false);
+		application.setUrl("http://localhost");
+		return application;
+	}
 
 
-	public static User facebookUserActive() throws ParseException {
+	public static User facebookUserActive() {
 
 		User user = new User();
 
 		// Date of Birth
-		Date dob = RestConversionService.stringToDate("20/01/1980");
+		Date dob;
+		try {
+			dob = RestConversionService.stringToDate("20/01/1980");
+		} catch (ParseException e) {
+			dob = null;
+		}
 
 		// Take current time
 		Timestamp timestamp = RestConversionService.timestamp();
@@ -44,12 +59,17 @@ public class PersistenceFixture {
 		return user;
 	}
 
-	public static User internalUser1() throws ParseException {
+	public static User internalUser1() {
 
 		User user = new User();
 
 		// Date of Birth
-		Date dob = RestConversionService.stringToDate("20/01/1981");
+		Date dob;
+		try {
+			dob = RestConversionService.stringToDate("20/01/1981");
+		} catch (ParseException e) {
+			dob = null;
+		}
 
 		// Take current time
 		Timestamp timestamp = RestConversionService.timestamp();
@@ -72,12 +92,17 @@ public class PersistenceFixture {
 
 	}
 
-	public static User internalUser2() throws ParseException {
+	public static User internalUser2() {
 
 		User user = new User();
 
 		// Date of Birth
-		Date dob = RestConversionService.stringToDate("23/01/1990");
+		Date dob;
+		try {
+			dob = RestConversionService.stringToDate("23/01/1990");
+		} catch (ParseException e) {
+			dob = null;
+		}
 
 		// Take current time
 		Timestamp timestamp = RestConversionService.timestamp();
@@ -99,13 +124,50 @@ public class PersistenceFixture {
 		return user;
 
 	}
+	
+	public static User internalUser1WithRoles(String... roles) {
+		User user = internalUser1();
+		for (String roleStr : roles) {
+			Role role = new Role();
+			role.setRoleName(roleStr);
+			UserRole userRole = new UserRole();
+			userRole.setRole(role);
+			user.addUserRole(userRole);
+		}
+		return user;
+	}
+	
+	public static User userWithRoles(User user, String... roles) {
+		for (String roleStr : roles) {
+			Role role = new Role();
+			role.setRoleName(roleStr);
+			UserRole userRole = new UserRole();
+			userRole.setRole(role);
+			user.addUserRole(userRole);
+		}
+		return user;
+	}
+	
+	public static User userWithRoles(User user, Role... roles) {
+		for (Role role : roles) {
+			UserRole userRole = new UserRole();
+			userRole.setRole(role);
+			user.addUserRole(userRole);
+		}
+		return user;
+	}
 
-	public static User facebookUserInactive() throws ParseException {
+	public static User facebookUserInactive() {
 
 		User user = new User();
 
 		// Date of Birth
-		Date DOB = RestConversionService.stringToDate("21/01/1981");
+		Date dob;
+		try {
+			dob = RestConversionService.stringToDate("21/01/1981");
+		} catch (ParseException e) {
+			dob = null;
+		}
 
 		// Take current time
 		Timestamp timestamp = RestConversionService.timestamp();
@@ -116,7 +178,7 @@ public class PersistenceFixture {
 		user.setDocumentNumber("098.765.543-11");
 		user.setName("Facebook User Inactive");
 		user.setEmail("facebook_user_inactive@gmail.com");
-		user.setBirthday(DOB);
+		user.setBirthday(dob);
 		user.setPassword("password:67890");
 		user.setActive(true);
 		user.setCreatedBy(0); // user Admin
@@ -128,12 +190,17 @@ public class PersistenceFixture {
 
 	}
 
-	public static User googlePlusUserActive() throws ParseException {
+	public static User googlePlusUserActive() {
 
 		User user = new User();
 
 		// Date of Birth
-		Date DOB = RestConversionService.stringToDate("20/01/1980");
+		Date dob;
+		try {
+			dob = RestConversionService.stringToDate("20/01/1980");
+		} catch (ParseException e) {
+			dob = null;
+		}
 
 		// Take current time
 		Timestamp timestamp = RestConversionService.timestamp();
@@ -144,7 +211,7 @@ public class PersistenceFixture {
 		user.setDocumentNumber("123.456.786-00");
 		user.setName("Google Plus User Active");
 		user.setEmail("googleplus_user_active@gmail.com");
-		user.setBirthday(DOB);
+		user.setBirthday(dob);
 		user.setPassword("password:123456");
 		user.setActive(true);
 		user.setCreatedBy(0); // user Admin
@@ -156,12 +223,17 @@ public class PersistenceFixture {
 
 	}
 
-	public static User googlePlusUserInactive() throws ParseException {
+	public static User googlePlusUserInactive() {
 
 		User user = new User();
 
 		// Date of Birth
-		Date dob = RestConversionService.stringToDate("21/01/1981");
+		Date dob;
+		try {
+			dob = RestConversionService.stringToDate("21/01/1981");
+		} catch (ParseException e) {
+			dob = null;
+		}
 
 		// Take current time
 		Timestamp timestamp = RestConversionService.timestamp();

@@ -1,6 +1,7 @@
 package com.bergermobile.persistence.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -174,6 +175,9 @@ public class User extends BaseTable implements Serializable {
 	}
 
 	public UserRole addUserRole(UserRole userRole) {
+		if (getUserRoles() == null) {
+			setUserRoles(new ArrayList<UserRole>());
+		}
 		getUserRoles().add(userRole);
 		userRole.setUser(this);
 

@@ -1,4 +1,4 @@
-package com.bergermobile.rest.controller;
+package com.bergermobile.rest.functional;
 
 import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.internalUser1;
 import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.internalUser2;
@@ -31,6 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.bergermobile.BmAuthApplication;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.repository.UserRepository;
+import com.bergermobile.rest.controller.UserQueryController;
 import com.bergermobile.rest.domain.UserRest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,9 +42,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @TransactionConfiguration(defaultRollback = true)
 @ActiveProfiles("dev")
 public class UserControllerFunctionalTest {
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@Autowired
 	private WebApplicationContext context;
@@ -63,35 +61,10 @@ public class UserControllerFunctionalTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
+
+	
 	@Test
-	public void userQueryControllerReturnJsonCorrectly() throws Exception {
-
-		userRepository.save(internalUser1());
-		userRepository.save(internalUser2());
-
-		MvcResult result = mockMvc.perform(get("/bmauth/users")).andDo(print()).andExpect(status().isOk()).andReturn();
-
-		String content = result.getResponse().getContentAsString();
-
-		assertTrue(content.contains("Fabio Berger"));
-		assertTrue(content.contains("Fabio Filz"));
-
-	}
-
-	@Test
-	public void jsonPostCreatesUserCorrectly() throws Exception {
-		UserRest userRest = new UserRest();
-		userRest.setName("Fabio Berger");
-		userRest.setEmail("fabioberger@gmail.com");
-		userRest.setUsername("fabioberger@gmail.com");
-		userRest.setLoginType(UserRest.LoginType.INTERNAL.getValue());
-
-		mockMvc.perform(post("/bmauth/users").contentType(MediaType.APPLICATION_JSON)
-				.content(mapper.writeValueAsBytes(userRest))).andExpect(status().isCreated());
-
-		User user1 = userRepository.findByName("Fabio Berger");
-
-		assertThat(user1.getUsername(), is("fabioberger@gmail.com"));
-
+	public void thatAdminJsonPostWillSaveUserAndRoles() throws Exception {
+		
 	}
 }

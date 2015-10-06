@@ -1,4 +1,4 @@
-package com.bergermobile.rest.controller;
+package com.bergermobile.rest.functional;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -30,6 +30,7 @@ import com.bergermobile.BmAuthApplication;
 import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
 import com.bergermobile.persistence.repository.ApplicationRepository;
+import com.bergermobile.rest.controller.ApplicationQueryController;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.services.RestConversionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,8 +93,7 @@ public class ApplicationControllerFunctionalTest {
 	 @Test
 	 public void jsonDeleteApplicationIsNotFound() throws Exception {
 	
-	 mockMvc.perform(delete("/bmauth/applications/{id}",
-	 99)).andExpect(status().isNotFound());
+	 mockMvc.perform(delete("/bmauth/applications/{id}",99)).andExpect(status().isNotFound());
 	
 	 }
 

@@ -1,7 +1,8 @@
 'use strict';
 
 /* jasmine specs for controllers go here */
-describe('Application controllers', function() {
+/*
+describe('User controllers', function() {
 	beforeEach(function() {
 		jasmine.addMatchers({
 			toEqualData : function() {
@@ -50,3 +51,4 @@ describe('Application controllers', function() {
 
 	});
 });
+*/

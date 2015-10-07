@@ -19,7 +19,6 @@ angular.module('bmauth', [
 	// routes configuration
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/home.html',
-		  //controller: 'LoginCtrl',
 		  controllerAs: 'vm'
 	}).when('/applications', { 
 		  templateUrl: 'fragments/applications/list.html',

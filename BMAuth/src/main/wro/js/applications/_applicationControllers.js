@@ -96,30 +96,30 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 //		};
     }
 
-	// Execute delete
-	vm.dtDeleteHandler = function(info) {
-		$scope.translationData = {
-			name: info.applicationName,
-			id: info.applicationId
-		}
-		var modalInstance = $modal.open({
-			 templateUrl: 'fragments/common/removeModal.html',
-			 scope: $scope
-		});
-		
-		modalInstance.result.then(function (result) {
-			vm.applicationService = new applicationService();
-	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
-	        	vm.appDeleted = true;
-	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
-	        });
-		});
-    }
+//	// Execute delete
+//	vm.dtDeleteHandler = function(info) {
+//		$scope.translationData = {
+//			name: info.applicationName,
+//			id: info.applicationId
+//		}
+//		var modalInstance = $modal.open({
+//			 templateUrl: 'fragments/common/removeModal.html',
+//			 scope: $scope
+//		});
+//		
+//		modalInstance.result.then(function (result) {
+//			vm.applicationService = new applicationService();
+//	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
+//	        	vm.appDeleted = true;
+//	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
+//	        });
+//		});
+//    }
 	
 	vm.dtDeleteHandler = function(info, index) {
 	
-		//console.debug(info);
-		//console.debug(index);
+		console.debug(info);
+		console.debug(index);
 		
 		$scope.translationData = {
 				name: info.roleName,
@@ -135,10 +135,12 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 			if (idx >= 0) {
 				vm.applicationField.rolesRest.splice(idx, 1);
 				vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
+				vm.appRoleDeleted = true;
 			}
 		});
 	};
 
+	
 	// Contract
 	var dtOptionsBuilderContract = DTOptionsBuilder.newOptions();
 	if (applicationsPromise) {
@@ -149,6 +151,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	vm.dtOptionsContract = dtOptionsBuilderContract
 	.withDataProp('onlineContractsRest')
+	.withOption('rowCallback', dtUtils.rowCallback)
     .withBootstrap();
 
 	vm.dtColumnsContract = [

@@ -20,12 +20,12 @@ describe('Application controllers', function() {
 	beforeEach(module('bmauth.applications'));
 	
 	describe('ApplicationsListCtrl', function() {
-		var scope, ctrl, $httpBackend, $translate, applicationService;
+		var scope = {}, ctrl, $httpBackend, $translate, createController;
 
-		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, _$translate_, _applicationService_) {
+		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, _$translate_) {
 			$httpBackend = _$httpBackend_;
 			$translate = _$translate_;
-			$httpBackend.expectGET('bmauth/applications').respond(200, 
+			$httpBackend.when('GET', 'undefinedbmauth/applications').respond( 
 					[{
 						applicationId : 1,
 						applicationName: 'Bomber Cast'
@@ -35,31 +35,28 @@ describe('Application controllers', function() {
 					}]
 			);
 
-			$rootScope.authContext='';
 			scope = $rootScope.$new();
-			$rootScope.authContext='';
-
-			ctrl = $controller('ApplicationsListCtrl', {$scope : scope});
 			
-			applicationService = _applicationService_;
-			spyOn(applicationService, 'query');
+			createController = function() {
+		       return $controller('ApplicationsListCtrl', {'$scope' : $rootScope });
+		    };
+			
+			//ctrl = $controller('ApplicationsListCtrl', {$scope : scope});
 		}));
 		
+		afterEach(function() {
+		     $httpBackend.verifyNoOutstandingExpectation();
+		     $httpBackend.verifyNoOutstandingRequest();
+		});
 		
 		
-		it('should invoke the applications rest service', inject(function(applicationService) {
-			//debugger;
-			
-			
-			
-			expect(applicationService).toBeDefined();
+		
+		it('should invoke the applications rest service', inject(function() {
+			$httpBackend.expectGET('undefinedbmauth/applications');
+			var ctrl = createController();
 			expect(ctrl.dtOptions).toBeDefined();
 			
 			$httpBackend.flush();
-			
-			expect(applicationService.query).toHaveBeenCalled();
-			
-			//expect(ctrl.applicationService.length).toBe(2);
 		}));
 		
 		it('should have a datatable HTML element with 2 rows', function() {

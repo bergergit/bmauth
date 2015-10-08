@@ -16,7 +16,7 @@ public class RoleRest implements Serializable {
 
 	private String roleName;
 
-	private List<UserRoleRest> userRolesRest;
+	// private List<UserRoleRest> userRolesRest;
 
 	public Integer getRoleId() {
 		return roleId;
@@ -32,14 +32,6 @@ public class RoleRest implements Serializable {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-	}
-
-	public List<UserRoleRest> getUserRolesRest() {
-		return userRolesRest;
-	}
-
-	public void setUserRolesRest(List<UserRoleRest> userRolesRest) {
-		this.userRolesRest = userRolesRest;
 	}
 
 	public Integer getApplicationId() {

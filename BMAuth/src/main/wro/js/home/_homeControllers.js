@@ -1,4 +1,4 @@
-angular.module('bmauth.home', [ 'ngResource' ])
+angular.module('bmauth.home', [ 'ngResource'])
 
 .controller('LoginCtrl', ['auth','$location', function(auth, $location) {
 	

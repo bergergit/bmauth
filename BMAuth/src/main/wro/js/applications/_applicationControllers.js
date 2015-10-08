@@ -54,6 +54,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	}
 
 	// Roles
+	vm.dtInstanceRole = {};
+	
 	var dtOptionsBuilderRole = DTOptionsBuilder.newOptions();
 	if (applicationsPromise) {
 		dtOptionsBuilderRole = DTOptionsBuilder.fromFnPromise(function() {
@@ -72,76 +74,9 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		DTColumnBuilder.newColumn('roleId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];
 	
-	vm.dtInstanceRole = {};
-	
-	// Execute Role modal
-	vm.dtClickHandler = function(info, index) {
-		$scope.translationData = {
-			roleName: info.applicationName.rolesRest[index].roleName,
-			roleId: info.applicationId.rolesRest[index].roleId
-		}
-		var modalInstance = $modal.open({
-			 templateUrl: 'fragments/applications/editRoleModal.html',
-			 scope: $scope
-		});
-		
-//		modalInstance.result.then(function (result) {
-//			vm.applicationService = new applicationService();
-//	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
-//	        	vm.appDeleted = true;
-//	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
-//	        });
-//		});
-				
-//		};
-    }
-
-//	// Execute delete
-//	vm.dtDeleteHandler = function(info) {
-//		$scope.translationData = {
-//			name: info.applicationName,
-//			id: info.applicationId
-//		}
-//		var modalInstance = $modal.open({
-//			 templateUrl: 'fragments/common/removeModal.html',
-//			 scope: $scope
-//		});
-//		
-//		modalInstance.result.then(function (result) {
-//			vm.applicationService = new applicationService();
-//	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
-//	        	vm.appDeleted = true;
-//	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
-//	        });
-//		});
-//    }
-	
-	vm.dtDeleteHandler = function(info, index) {
-	
-		console.debug(info);
-		console.debug(index);
-		
-		$scope.translationData = {
-				name: info.roleName,
-				id: info.roleId
-			}
-		var modalInstance = $modal.open({
-			 templateUrl: 'fragments/common/removeModal.html',
-			 scope: $scope
-		});
-
-		modalInstance.result.then(function (result) {
-			var idx = vm.applicationField.rolesRest.indexOf(info);
-			if (idx >= 0) {
-				vm.applicationField.rolesRest.splice(idx, 1);
-				vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
-				vm.appRoleDeleted = true;
-			}
-		});
-	};
-
-	
 	// Contract
+	vm.dtInstanceContract = {};
+	
 	var dtOptionsBuilderContract = DTOptionsBuilder.newOptions();
 	if (applicationsPromise) {
 		dtOptionsBuilderContract = DTOptionsBuilder.fromFnPromise(function() {
@@ -155,6 +90,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
     .withBootstrap();
 
 	vm.dtColumnsContract = [
+	    DTColumnBuilder.newColumn('onlineContractId').withTitle('ID'),
 	    DTColumnBuilder.newColumn('contractVersion').withTitle('Version'),
 	    /*
 	     * The fields creationDate e etc was removed from rests
@@ -165,6 +101,98 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	 ];
 	
 	
+	vm.dtClickHandler = function(info, index) {
+		
+		console.debug(info);
+		console.debug(index);
+		
+		if (info.roleId) {
+
+			vm.data = {
+				roleName: info.roleName,
+				roleId: info.roleId
+			}
+
+			vm.idx = vm.applicationField.rolesRest.indexOf(info);
+			
+			$modal.open({
+				templateUrl: 'fragments/applications/editRoleModal.html',
+                scope: $scope
+			}).result.then(function (result) {
+					if (vm.idx >= 0) {
+						vm.applicationField.rolesRest[vm.idx] = vm.data;
+						vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
+						vm.appRoleSaved = true;
+					} 
+			});
+			
+		} else if (info.onlineContractId){
+				vm.data = {
+					contractVersion: info.contractVersion,
+					onlineContractId: info.onlineContractId,
+					description: info.description,
+					languageContractsRest: info.languageContractsRest
+				}
+				
+				vm.idx = vm.applicationField.onlineContractsRest.indexOf(info);
+
+				console.debug(vm.idx);
+				
+				$modal.open({
+					templateUrl: 'fragments/applications/editContractModal.html',
+	                scope: $scope
+				}).result.then(function (result) {
+						if (vm.idx >= 0) {
+							vm.applicationField.onlineContractsRest[vm.idx] = vm.data;
+							vm.dtInstanceContract.reloadData(null, true);	// reload the datatable
+							vm.appContractSaved = true;
+						} 
+				});
+		}
+	};
+	
+	
+	vm.dtDeleteHandler = function(info, index) {
+		
+		console.debug(info);
+		console.debug(index);
+		
+		if (info.roleId) {
+			$scope.translationData = {
+				name: info.roleName,
+				id: info.roleId
+			}
+		} else if (info.onlineContractId){
+				$scope.translationData = {
+					name: "Contrato " + info.contractVersion,
+					id: info.onlineContractId
+				}
+		}
+		
+		var modalInstance = $modal.open({
+			 templateUrl: 'fragments/common/removeModal.html',
+			 scope: $scope
+		});
+
+		modalInstance.result.then(function (result) {
+			if (info.roleId){
+				var idx = vm.applicationField.rolesRest.indexOf(info);
+				if (idx >= 0) {
+					vm.applicationField.rolesRest.splice(idx, 1);
+					vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
+					vm.appRoleDeleted = true;
+				}
+			} else if (info.onlineContractId){
+				var idx = vm.applicationField.onlineContractsRest.indexOf(info);
+				if (idx >= 0) {
+					vm.applicationField.onlineContractsRest.splice(idx, 1);
+					vm.dtInstanceContract.reloadData(null, true);	// reload the datatable
+					vm.appContractDeleted = true;
+				}
+			}
+		});
+	};
+
 }])
 
 /**

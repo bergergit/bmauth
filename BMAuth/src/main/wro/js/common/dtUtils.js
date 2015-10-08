@@ -32,6 +32,9 @@ angular.module('datatables')
 	        $('button', nRow).bind('click', function(event) {
 	            event.stopPropagation();
 	            dtUtils.$scope.$apply(function() {
+	            	console.debug(nRow);
+	            	console.debug(dtUtils.instance);
+	            	console.debug(dtUtils.$scope);
 	            	dtUtils.instance.dtDeleteHandler(aData, iDisplayIndexFull); 
 	            });
 	        });

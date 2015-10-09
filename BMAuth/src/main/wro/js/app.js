@@ -27,7 +27,7 @@ angular.module('bmauth', [
 	}).when('/applications/:applicationId', { 
 		  templateUrl: 'fragments/applications/edit.html',
 		  controller: 'ApplicationsEditCtrl',
-		  controllerAs: 'vm' // replace the variable $scope for vm
+		  controllerAs: 'vm' // replace the variable $scope for "this"
 	}).when('/users', { 
 		  templateUrl: 'fragments/users/list.html',
 		  controller: 'UsersListCtrl',

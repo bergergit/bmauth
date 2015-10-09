@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="$dismiss('cancel');" aria-hidden="true">×</button>
+	<h4 class="modal-title">{{ 'edit_contract_modal.contract.form.header' | translate }}</h4>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal bmauth-container" role="form">
+		<fieldset>
+			<div class="form-group">
+				<label for="inputId" class="col-md-3 control-label">{{'edit_contract_modal.contract.form.label.id' | translate}}</label>
+				<div class="col-md-2">
+					<input type="text" class="form-control" id="applicationId" ng-model="vm.data.onlineContractId" disabled />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputName" class="col-md-3 control-label">{{'edit_contract_modal.contract.form.label.contractVersion' | translate}}</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="inputName"	ng-model="vm.data.contractVersion" />
+				</div>
+			</div>
+			<div class="form-group">
+			    <label for="inputName" class="col-md-3 control-label">{{'edit_contract_modal.contract.form.label.description' | translate}}</label>
+			    <div class="col-md-8">
+					<textarea class="form-control" rows="5" type="text" id="inputDescription" rows="3" cols="30" ng-model="vm.data.description"></textarea>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="$close('save');">{{ 'btn.save' | translate}}</button>
+	<button type="button" class="btn btn-default" ng-click="$dismiss('cancel');">{{ 'btn.cancel' | translate}}</button>
+</div>

@@ -93,8 +93,8 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	}
 	
 	// Datatable exposed Options
+	var promise = userService.query().$promise;
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		var promise = userService.query().$promise;
 		promise.then(function() {
 			vm.ready = true;
 		})

@@ -5,8 +5,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  * 
  * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$modal', 
-                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $modal) {
+.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$modal', '$window',  
+                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $modal, $window) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
@@ -138,9 +138,12 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 
 				console.debug(vm.idx);
 				
+				console.debug(vm.data);
+				
 				$modal.open({
 					templateUrl: 'fragments/applications/editContractModal.html',
-	                scope: $scope
+	                scope: $scope,
+	                size: "lg"
 				}).result.then(function (result) {
 						if (vm.idx >= 0) {
 							vm.applicationField.onlineContractsRest[vm.idx] = vm.data;

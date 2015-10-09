@@ -171,9 +171,9 @@ public class RestConversionService {
 
 		List<OnlineContract> onlineContractList = application.getOnlineContracts();
 		List<OnlineContractRest> onlineContractRestList = new ArrayList<OnlineContractRest>();
-		List<LanguageContractRest> languageContractRestList = new ArrayList<LanguageContractRest>();
 
 		for (OnlineContract onlineContract : onlineContractList) {
+			List<LanguageContractRest> languageContractRestList = new ArrayList<LanguageContractRest>();
 			OnlineContractRest onlineContractRest = new OnlineContractRest();
 			// Copy attributes from onlineContract to onlineContractRest
 			BeanUtils.copyProperties(onlineContract, onlineContractRest);

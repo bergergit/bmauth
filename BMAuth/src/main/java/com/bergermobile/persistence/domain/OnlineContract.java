@@ -40,8 +40,7 @@ public class OnlineContract extends BaseTable implements Serializable {
 	private List<ContractUser> contractUsers;
 
 	// bi-directional many-to-one association to LanguageContract
-	@OneToMany(mappedBy = "onlineContract", cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE }, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "onlineContract", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<LanguageContract> languageContract;
 
 	// bi-directional many-to-one association to Application

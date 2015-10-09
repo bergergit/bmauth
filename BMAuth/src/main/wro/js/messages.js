@@ -85,7 +85,8 @@ bmauth_translations.en = {
 		"contract.form.header": "Edição de Contrato",
 		"contract.form.label.id": "Id",
 		"contract.form.label.contractVersion": "Versão",
-		"contract.form.label.description": "Descrição"
+		"contract.form.label.description": "Descrição",
+		"contract.form.label.htmlContract": "Contrato HTML"
 	},
 	
 	// Users screens

@@ -76,8 +76,8 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 /**
  * Users List controller
  */
-.controller('UsersListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','userService', '$translate', '$location','$modal','dtUtils',
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, userService, $translate, $location, $modal, dtUtils) {
+.controller('UsersListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','userService', '$translate', '$location','$uibModal','dtUtils',
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, userService, $translate, $location, $uibModal, dtUtils) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
@@ -126,7 +126,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 			name: info.name,
 			id: info.userId
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			 templateUrl: 'fragments/common/removeModal.html',
 			 scope: $scope
 		});

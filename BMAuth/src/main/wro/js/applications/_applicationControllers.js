@@ -5,8 +5,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  * 
  * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$modal', '$window',  
-                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $modal, $window) {
+.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$uibModal', '$window',  
+                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $uibModal, $window) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
@@ -115,7 +115,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 
 			vm.idx = vm.applicationField.rolesRest.indexOf(info);
 			
-			$modal.open({
+			$uibModal.open({
 				templateUrl: 'fragments/applications/editRoleModal.html',
                 scope: $scope
 			}).result.then(function (result) {
@@ -140,7 +140,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 				
 				console.debug(vm.data);
 				
-				$modal.open({
+				$uibModal.open({
 					templateUrl: 'fragments/applications/editContractModal.html',
 	                scope: $scope,
 	                size: "lg"
@@ -172,7 +172,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 				}
 		}
 		
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			 templateUrl: 'fragments/common/removeModal.html',
 			 scope: $scope
 		});
@@ -201,8 +201,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 /**
  * Application List controller
  */
-.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','applicationService', '$translate', '$location','$modal','dtUtils',
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, applicationService, $translate, $location, $modal, dtUtils) {
+.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','applicationService', '$translate', '$location','$uibModal','dtUtils',
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, applicationService, $translate, $location, $uibModal, dtUtils) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
@@ -249,7 +249,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 			name: info.applicationName,
 			id: info.applicationId
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			 templateUrl: 'fragments/common/removeModal.html',
 			 scope: $scope
 		});

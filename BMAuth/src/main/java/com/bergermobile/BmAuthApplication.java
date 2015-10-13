@@ -14,10 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.support.ConnectionFactoryRegistry;
-import org.springframework.social.google.connect.GoogleConnectionFactory;
 
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
@@ -41,12 +39,8 @@ public class BmAuthApplication {
 	}
 	
 	@Bean
-	public ConnectionFactoryLocator connectionFactoryLocator() {
-		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
-		registry.addConnectionFactory(new GoogleConnectionFactory(
-				environment.getProperty("google.consumerKey"), 
-				environment.getProperty("google.consumerSecret")));
-		return registry;
+	public BCryptPasswordEncoder bcryptEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Configuration

@@ -1,7 +1,6 @@
 package com.bergermobile.rest.security;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
@@ -28,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
-//@ContextConfiguration
 @WebAppConfiguration
 @Transactional
 @TransactionConfiguration(defaultRollback = true)

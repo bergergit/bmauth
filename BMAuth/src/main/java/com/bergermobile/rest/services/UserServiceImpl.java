@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
@@ -42,6 +43,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private RestConversionService conversionService;
+	
+	@Autowired
+    BCryptPasswordEncoder bcryptEncoder;
 
 	@Override
 	public List<UserRest> findAllUsers() {
@@ -74,6 +78,9 @@ public class UserServiceImpl implements UserService {
 		}
 		user.setUserType(User.UserType.CPF.getValue());
 		user.setActive(true);
+		
+		// encoding the passworod
+		user.setPassword(bcryptEncoder.encode(userRest.getPassword()));
 		
 		if (saveRoles) {
 			LOG.debug("Saving roles " + userRest.getSimpleUserRoles());

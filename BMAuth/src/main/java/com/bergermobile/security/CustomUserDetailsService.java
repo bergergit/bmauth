@@ -39,22 +39,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 		
 		return new SecurityUser(user.getUsername(), user.getPassword(), user.getActive(), userRoles);
 	}
-	
-	
-	/*
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("*** loadUserByUsername ***");
-		User user = userRepository.findByLoginTypeAndUsername(User.LoginType.INTERNAL.getValue(), username);
-		if (user == null) {
-			return null;
-		}
-		List<GrantedAuthority> auth = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
-
-		String password = user.getPassword();
-		return new org.springframework.security.core.userdetails.User(username, password,
-				auth);
-	}
-	*/
 }

@@ -168,6 +168,10 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 				
 				vm.idx = vm.applicationField.onlineContractsRest.indexOf(info);
 
+				console.debug(vm.idx);
+				
+				console.debug(vm.data);
+				
 				$uibModal.open({
 					templateUrl: 'fragments/applications/editContractModal.html',
 	                scope: $scope,

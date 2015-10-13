@@ -23,69 +23,31 @@
 					<textarea class="form-control" type="text" id="inputDescription" rows="5" cols="30" ng-model="vm.data.description"></textarea>
 				</div>
 			</div>
-
- 
-
-<uib-tabset>
-    <uib-tab ng-repeat="tabLanguageContract in vm.data.languageContractsRest">
-      <uib-tab-heading>
-        {{tabLanguageContract.language}} <i class="glyphicon glyphicon-plus text-right"></i>
-      </uib-tab-heading>
- 		<p/>
- 		<label for="inputHtmlContract">{{'edit_contract_modal.contract.form.label.htmlContract' | translate}}</label>
-			<div class="form-group">
-			    <div class="col-md-12">
-					<textarea class="form-control" type="text" id="inputHtmlContract" rows="20" cols="30" ng-model="tabLanguageContract.htmlContract"></textarea>
-				</div>
-			</div>
-    </uib-tab>
-    <uib-tab select="alertMe()">
-      <uib-tab-heading>
-        <i class="glyphicon glyphicon-plus"></i>
-      </uib-tab-heading>
-    </uib-tab>
-</uib-tabset>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-    
-    <tab select="alertMe()">
-      <tab-heading>
-    </uib-tab>
-    <uib-tab select="alertMe()">
-      <uib-tab-heading>
-        <i class="glyphicon glyphicon-bell"></i> Alert!
-      </tab-heading>
-      </uib-tab-heading>
-      I've got an HTML heading, and a select callback. Pretty cool!
-    </tab>
-  </tabset>
-    </uib-tab>
-  </uib-tabset>
-
- -->
-
-
-
-
-
-
-
-
- 
- 
+			<uib-tabset>
+			    <uib-tab ng-repeat="tabLanguageContract in vm.data.languageContractsRest" active="tabLanguageContract.active">
+			      <uib-tab-heading>
+			        {{tabLanguageContract.language}} <a ng-click="vm.removeLanguage(tabLanguageContract)" class="close closeTab" type="button"> x </a>
+ 			      </uib-tab-heading>
+			 		<p/>
+					<label for="inputLanguage">{{'edit_contract_modal.contract.form.label.language' | translate}}</label>
+						<div class="form-group">
+							<div class="col-md-2">
+								<input type="text" class="form-control" id="inputLanguage" ng-model="tabLanguageContract.language" />
+							</div>
+						</div>
+			 		<label for="inputHtmlContract">{{'edit_contract_modal.contract.form.label.htmlContract' | translate}}</label>
+						<div class="form-group">
+						    <div class="col-md-12">
+								<textarea class="form-control" type="text" id="inputHtmlContract" rows="20" cols="30" ng-model="tabLanguageContract.htmlContract"></textarea>
+							</div>
+						</div>
+			    </uib-tab>
+			    <uib-tab select="vm.dtAddNewLanguageContract()" active="false">
+			      <uib-tab-heading>
+			        <i class="glyphicon glyphicon-plus"></i>
+			      </uib-tab-heading>
+			    </uib-tab>
+			</uib-tabset>
 		</fieldset>
 	</form>
 </div>

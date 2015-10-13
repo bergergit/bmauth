@@ -5,14 +5,12 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  * 
  * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$modal', '$window',  
-                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $modal, $window) {
+.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$uibModal', '$window',  
+                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $uibModal, $window) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
 	var applicationsPromise = null;
-	
-	console.debug("id " + $routeParams.applicationId);
 	
 	// Default parameters
 	vm.applicationField = new applicationService({"active": true, "testMode": "false", "mandatoryContract": "true"});
@@ -100,11 +98,35 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		DTColumnBuilder.newColumn('onlineContractId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
 	 ];
 	
-	
-	vm.dtClickHandler = function(info, index) {
+	vm.dtNewRole = function(){
+
+		console.debug("Chamando nova Role");
 		
-		console.debug(info);
-		console.debug(index);
+		newRole = {
+				roleName: "",
+				roleId: "NEW"
+		}
+		
+		vm.dtClickHandler(newRole, null);
+		
+	}
+	
+	vm.dtNewOnlineContract = function(){
+
+		console.debug("Chamando novo Contrato");
+
+		newContract = {
+						contractVersion: "",
+						onlineContractId: "NEW",
+						description: "",
+						languageContractsRest: []
+		}
+		
+		vm.dtClickHandler(newContract, null);
+		
+	}
+
+	vm.dtClickHandler = function(info, index) {
 		
 		if (info.roleId) {
 
@@ -115,15 +137,18 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 
 			vm.idx = vm.applicationField.rolesRest.indexOf(info);
 			
-			$modal.open({
+			$uibModal.open({
 				templateUrl: 'fragments/applications/editRoleModal.html',
                 scope: $scope
 			}).result.then(function (result) {
 					if (vm.idx >= 0) {
 						vm.applicationField.rolesRest[vm.idx] = vm.data;
-						vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
-						vm.appRoleSaved = true;
-					} 
+					} else {
+						//vm.data.roleId = ""; // remover o valor NEW do roleId
+						vm.applicationField.rolesRest.push(vm.data);
+					}
+					vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
+					vm.appRoleSaved = true;
 			});
 			
 		} else if (info.onlineContractId){
@@ -131,34 +156,37 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 					contractVersion: info.contractVersion,
 					onlineContractId: info.onlineContractId,
 					description: info.description,
-					languageContractsRest: info.languageContractsRest
+					languageContractsRest: []
+				}
+				
+				angular.copy(info.languageContractsRest, vm.data.languageContractsRest);
+				
+				// Check if array is null
+				if (vm.data.languageContractsRest.length > 0){ 
+					vm.data.languageContractsRest[0].active = true;
 				}
 				
 				vm.idx = vm.applicationField.onlineContractsRest.indexOf(info);
 
-				console.debug(vm.idx);
-				
-				console.debug(vm.data);
-				
-				$modal.open({
+				$uibModal.open({
 					templateUrl: 'fragments/applications/editContractModal.html',
 	                scope: $scope,
 	                size: "lg"
 				}).result.then(function (result) {
 						if (vm.idx >= 0) {
 							vm.applicationField.onlineContractsRest[vm.idx] = vm.data;
-							vm.dtInstanceContract.reloadData(null, true);	// reload the datatable
-							vm.appContractSaved = true;
-						} 
+						} else {
+							//vm.data.onlineContractId = ""; // remover o valor NEW do onlineContractId
+							vm.applicationField.onlineContractsRest.push(vm.data);
+						}
+						vm.dtInstanceContract.reloadData(null, true);	// reload the datatable
+						vm.appContractSaved = true;
 				});
 		}
 	};
 	
 	
 	vm.dtDeleteHandler = function(info, index) {
-		
-		console.debug(info);
-		console.debug(index);
 		
 		if (info.roleId) {
 			$scope.translationData = {
@@ -172,7 +200,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 				}
 		}
 		
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			 templateUrl: 'fragments/common/removeModal.html',
 			 scope: $scope
 		});
@@ -195,14 +223,49 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 			}
 		});
 	};
+	
+	vm.dtAddNewLanguageContract = function() {
+		
+		newData = {
+		          "htmlContract": "",
+		          "language": "New"
+		};
 
+		vm.data.languageContractsRest.push(newData);
+		var idx = vm.data.languageContractsRest.length -1;
+		vm.data.languageContractsRest[idx].active = true;
+				
+	};
+	
+	vm.removeLanguage = function(data){
+		
+		$scope.translationData = {
+			name: "Idioma " + data.language,
+			id: data.languageContractId
+		}
+		
+		var modalInstance = $uibModal.open({
+			 templateUrl: 'fragments/common/removeModal.html',
+			 scope: $scope
+		});
+
+		modalInstance.result.then(function (result) {
+			var idx = vm.data.languageContractsRest.indexOf(data);
+			if (idx >= 0) {
+				vm.data.languageContractsRest.splice(idx, 1);
+			}
+		});
+
+	}; 
+
+	
 }])
 
 /**
  * Application List controller
  */
-.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','applicationService', '$translate', '$location','$modal','dtUtils',
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, applicationService, $translate, $location, $modal, dtUtils) {
+.controller('ApplicationsListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','applicationService', '$translate', '$location','$uibModal','dtUtils',
+                                     function($scope, DTOptionsBuilder, DTColumnBuilder, applicationService, $translate, $location, $uibModal, dtUtils) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
@@ -249,7 +312,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 			name: info.applicationName,
 			id: info.applicationId
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			 templateUrl: 'fragments/common/removeModal.html',
 			 scope: $scope
 		});

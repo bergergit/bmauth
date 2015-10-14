@@ -40,11 +40,11 @@ public class Application extends BaseTable implements Serializable {
 	private String url;
 
 	// bi-directional many-to-one association to OnlineContract
-	@OneToMany(mappedBy = "application", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+	@OneToMany(mappedBy = "application", cascade = {CascadeType.ALL }, orphanRemoval = true)
 	private List<OnlineContract> onlineContracts;
 
 	// bi-directional many-to-one association to Role
-	@OneToMany(mappedBy = "application", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+	@OneToMany(mappedBy = "application", cascade = {CascadeType.ALL }, orphanRemoval = true)
 	private List<Role> roles;
 
 	public Application() {

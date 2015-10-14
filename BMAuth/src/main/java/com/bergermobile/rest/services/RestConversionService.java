@@ -105,12 +105,8 @@ public class RestConversionService {
 			RoleRest roleRest = new RoleRest();
 
 			BeanUtils.copyProperties(userRole.getRole(), roleRest);
-			try {
-				roleRest.setApplicationId(userRole.getRole().getApplication().getApplicationId());
-			} catch (NullPointerException npe) {}
 
 			roleRestList.add(roleRest);
-
 		}
 
 		return roleRestList;

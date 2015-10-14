@@ -34,7 +34,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 			function(response) {
 				console.debug("Saved and redirecting");
 				$location.path($rootScope.authContext + '/applications')
-				
 			 }, function() {
 				 console.debug("Error on save");
 			 }
@@ -104,7 +103,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 		
 		newRole = {
 				roleName: "",
-				roleId: "NEW"
+				roleId: "-1"
 		}
 		
 		vm.dtClickHandler(newRole, null);
@@ -117,7 +116,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 
 		newContract = {
 						contractVersion: "",
-						onlineContractId: "NEW",
+						onlineContractId: "-1",
 						description: "",
 						languageContractsRest: []
 		}
@@ -167,10 +166,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 				}
 				
 				vm.idx = vm.applicationField.onlineContractsRest.indexOf(info);
-
-				console.debug(vm.idx);
-				
-				console.debug(vm.data);
 				
 				$uibModal.open({
 					templateUrl: 'fragments/applications/editContractModal.html',
@@ -178,9 +173,16 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	                size: "lg"
 				}).result.then(function (result) {
 						if (vm.idx >= 0) {
+							console.debug(vm.data);
+							for (var i = 0; i < vm.data.languageContractsRest.length; i++) {
+								delete vm.data.languageContractsRest[i]["active"];
+							}
 							vm.applicationField.onlineContractsRest[vm.idx] = vm.data;
 						} else {
 							//vm.data.onlineContractId = ""; // remover o valor NEW do onlineContractId
+							for (var i = 0; i < vm.data.languageContractsRest.length; i++) {
+								delete vm.data.languageContractsRest[i]["active"];
+							}
 							vm.applicationField.onlineContractsRest.push(vm.data);
 						}
 						vm.dtInstanceContract.reloadData(null, true);	// reload the datatable
@@ -199,7 +201,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 			}
 		} else if (info.onlineContractId){
 				$scope.translationData = {
-					name: "Contrato " + info.contractVersion,
+					name: info.contractVersion,
 					id: info.onlineContractId
 				}
 		}
@@ -244,7 +246,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	vm.removeLanguage = function(data){
 		
 		$scope.translationData = {
-			name: "Idioma " + data.language,
+			name: data.language,
 			id: data.languageContractId
 		}
 		

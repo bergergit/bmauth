@@ -10,8 +10,6 @@ import java.util.List;
 public class RoleRest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer applicationId;
-
 	private Integer roleId;
 
 	private String roleName;
@@ -33,15 +31,5 @@ public class RoleRest implements Serializable {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-
-	public Integer getApplicationId() {
-		return applicationId;
-	}
-
-	public void setApplicationId(Integer applicationId) {
-		this.applicationId = applicationId;
-	}
-	
-	
 
 }

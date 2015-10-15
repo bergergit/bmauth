@@ -11,7 +11,8 @@ angular.module('bmauth', [
   'bmauth.users',
   'bmauth.navigation',
   'bmauth.authentication',
-  'bmauth.main'
+  'bmauth.main',
+  'ngSanitize'
  ]) 
 
 .config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', 

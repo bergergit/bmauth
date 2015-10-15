@@ -300,7 +300,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	// Datatable exposed Columns
 	vm.dtColumns = [
         DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
-        DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')),
+        DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')).renderWith(dtUtils.sanitize),
         DTColumnBuilder.newColumn('active').withTitle($translate('application.form.label.active')).withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
         DTColumnBuilder.newColumn('applicationId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];

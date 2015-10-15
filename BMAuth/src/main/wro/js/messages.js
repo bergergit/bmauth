@@ -1,6 +1,7 @@
 var bmauth_translations = {};
 
 bmauth_translations.en = {
+
 	// Common text
 	"btn.ok": "OK",
 	"btn.cancel": "Cancelar",

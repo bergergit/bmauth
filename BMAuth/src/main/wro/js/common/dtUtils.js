@@ -5,7 +5,6 @@ angular.module('bmauth.main')
     };
 });
 
-
 angular.module('datatables')
 .factory('dtUtils', [function() {
 	var dtUtils = {
@@ -40,7 +39,12 @@ angular.module('datatables')
 	        });
 	        
 	        return nRow;
-	    }
+	    },
+		
+		sanitize: function (data){
+			return _.escape(data);
+		}
+				
 	}
 	
 	return dtUtils;

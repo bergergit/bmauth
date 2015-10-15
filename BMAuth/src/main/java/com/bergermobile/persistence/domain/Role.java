@@ -35,7 +35,7 @@ public class Role extends BaseTable implements Serializable {
 	private Application application;
 
 	// bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy = "role", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "role", cascade={CascadeType.REMOVE})
 	private List<UserRole> userRoles;
 
 	public Role() {

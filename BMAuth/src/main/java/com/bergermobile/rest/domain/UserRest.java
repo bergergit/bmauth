@@ -5,7 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.bergermobile.persistence.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The persistent class for the user database table.
@@ -28,6 +32,7 @@ public class UserRest implements Serializable {
 
 	private Short loginType;
 	
+	@NotBlank
 	private String name;
 
 	private String password;
@@ -51,6 +56,7 @@ public class UserRest implements Serializable {
 	//private Map<Integer, Boolean> simpleUserApplications;
 
 	public UserRest() {
+		userType = 0;
 	}
 
 	public Integer getUserId() {
@@ -116,10 +122,12 @@ public class UserRest implements Serializable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}

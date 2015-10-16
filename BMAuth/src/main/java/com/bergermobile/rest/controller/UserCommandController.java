@@ -1,11 +1,13 @@
 package com.bergermobile.rest.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
+import com.bergermobile.rest.services.FormValidationException;
 import com.bergermobile.rest.services.UserService;
 
 @RestController
@@ -29,7 +32,12 @@ public class UserCommandController {
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void saveUser(@RequestBody UserRest userRest, HttpServletRequest request) {
+	public void saveUser(@Valid @RequestBody UserRest userRest, BindingResult result, HttpServletRequest request) throws FormValidationException {
+		
+		if (result.hasErrors()) {
+			throw new FormValidationException(userRest.getUserId() , result);
+		}
+		
 		// we are very smart, and will only allow saving of the roles if user is bmauth-admin. Or else, a hacker may, you know... screw us up
 		if (request.isUserInRole("ROLE_BMAUTH-ADMIN")) {
 			userService.save(userRest, true);

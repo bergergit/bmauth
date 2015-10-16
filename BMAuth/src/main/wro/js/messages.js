@@ -9,6 +9,13 @@ bmauth_translations.en = {
 	"btn.new": "Novo",
 	"text.yes": "Sim",
 	"text.no": "Não",
+	
+	// Field errors
+	"fieldErrors": {
+		"message": "O campo {{field}} {{message}}.",
+		"NotBlank": "não pode estar em branco",
+		"NotNull": "não pode ser nula"
+	},
 
 	// Remove modals
 	"remove_modal": {

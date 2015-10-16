@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void save(UserRest userRest, boolean saveRoles) {
+		LOG.debug("Saving userId " + userRest.getUserId());
 
 		User user = new User();
 
@@ -79,8 +80,14 @@ public class UserServiceImpl implements UserService {
 		user.setUserType(User.UserType.CPF.getValue());
 		user.setActive(true);
 		
-		// encoding the passworod
-		user.setPassword(bcryptEncoder.encode(userRest.getPassword()));
+		// if password is not set and this is an update, then we need to set the original password back to user object
+		if (userRest.getUserId() != null && userRest.getPassword() == null) {
+			user.setPassword(userRepository.findOne(userRest.getUserId()).getPassword());
+		} else {
+			// encoding the password
+			user.setPassword(bcryptEncoder.encode(userRest.getPassword()));
+		}
+		
 		
 		if (saveRoles) {
 			LOG.debug("Saving roles " + userRest.getSimpleUserRoles());

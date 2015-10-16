@@ -1,7 +1,6 @@
 package com.bergermobile.rest.domain;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * The persistent class for the role database table.

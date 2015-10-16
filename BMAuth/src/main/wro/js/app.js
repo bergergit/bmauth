@@ -12,6 +12,7 @@ angular.module('bmauth', [
   'bmauth.navigation',
   'bmauth.authentication',
   'bmauth.main',
+  'bmauth.common',
   'ngSanitize'
  ]) 
 

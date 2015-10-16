@@ -2,6 +2,8 @@ package com.bergermobile.rest.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
@@ -10,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
@@ -46,6 +49,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
     BCryptPasswordEncoder bcryptEncoder;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	@Override
 	public List<UserRest> findAllUsers() {
@@ -235,8 +241,30 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return null;
-
-
+	}
+	
+	/**
+	 * Generates a random token, and adds to redis with a specific expiration time
+	 * @param userId
+	 * @return
+	 */
+	public String generateUserToken(Integer userId) {
+		String token = UUID.randomUUID().toString();
+		redisTemplate.opsForValue().set("token_" + userId, token);
+		redisTemplate.expire("token_" + userId, Long.parseLong(environment.getProperty("bmauth.passwordtoken.expire").trim()), TimeUnit.MINUTES);
+		return token;
+	}
+	
+	/**
+	 * Checks if this token is valid
+	 * @param userId
+	 * @param token
+	 * @return
+	 */
+	public boolean validateUserToken(Integer userId, String token) {
+		String redisToken = redisTemplate.opsForValue().get("token_" + userId);
+		//redisTemplate.delete("token_" + userId);   // this will have to be implemented in another method, after password is set
+		return redisToken != null && redisToken.equals(token);
 	}
 
 }

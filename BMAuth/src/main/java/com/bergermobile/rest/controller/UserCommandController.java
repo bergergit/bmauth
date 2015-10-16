@@ -75,9 +75,13 @@ public class UserCommandController {
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteUser(@PathVariable int userId) {
-
 		userService.delete(userId);
-
+	}
+	
+	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public String generateToeken(@RequestBody UserRest userRes) {
+		return userService.generateUserToken(1);
 	}
 	
 	

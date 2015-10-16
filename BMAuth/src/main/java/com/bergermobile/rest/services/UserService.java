@@ -23,5 +23,8 @@ public interface UserService {
 	public void saveGoogle(GoogleRest googleRest);
 
 	public void delete(int userId);
+	
+	public String generateUserToken(Integer userId);
+	public boolean validateUserToken(Integer userId, String token);
 
 }

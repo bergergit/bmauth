@@ -35,25 +35,6 @@ body {
 	padding-bottom: 30px;
 }
 
-/*
-body::after {
-	content: "";
-	background: url('../images/bg.png') repeat fixed;
-	opacity: 0.5;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	position: absolute;
-	z-index: -1;
-}
-*/
-
-.closeTab {
-    margin: -2px 0 0 10px;
-    font-size: 18px;
-}
-
 /** NAVIGATION BAR */
 .navbar-brand.main-logo {
 	padding-top: 5px;
@@ -61,43 +42,6 @@ body::after {
 .navbar.navbar-inverse.navbar-fixed-top.navbar-transparent {
 	background-color: transparent;
     border: none;
-}
-
-/** HOME PAGE **/
-.jumbotron .home-cellphone {
-	background: url('../images/home-cellphone.png') no-repeat left top;
-    position: absolute;
-    height: 400px;
-    min-width: 400px;
-    margin: 40px 30px;
-    background-size: contain;
-}
-.home-showcase {
-	width: 100%;
-	background-color: #000;
-	
-	.text {
-		display: inline-block;
-		line-height: normal;  
-		text-align: center;
-	}
-	
-	.top {
-		padding: 30px;
-		height: 300px;
-		line-height: 350px;
-		margin-left: 300px;
-	}
-	
-	.bottom {
-		background: #d1d1d1 url('../images/home-showcase-line.png') repeat-x top;
-		height: 167px;
-		
-		.dl-button {
-			float: left;
-			margin: 50px -250px 0 410px;
-		}
-	}
 }
 
 /** SIGN IN PAGE **/
@@ -129,20 +73,6 @@ body::after {
 	z-index: 2;
 }
 
-/*
-.form-signin input[type="text"] {
-	margin-bottom: -1px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-	margin-bottom: 10px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-}
-*/
-
 .form-signin .text-left {
 	margin: 30px 0;
 }
@@ -161,8 +91,18 @@ body::after {
 	max-width: 700px;
 }
 
+/** GENERAL FORM **/
+.form-horizontal input.ng-invalid.ng-touched {
+    background-color: @brand-danger;
+}
 
-/** Datatable **/
+/** APPLICATIONS SCREEN **/
+.closeTab {
+    margin: -2px 0 0 10px;
+    font-size: 18px;
+}
+
+/** DATATABLE **/
 .table-hover {
     cursor: pointer;
 }

@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/", "/fonts/**", "/webjars/**", "/messageBundle/**",
-					"/fragments/**", "/signup", "/bmauth/login")
+					"/fragments/**", "/signup", "/bmauth/login", "/bmauth/token/**")
 				.permitAll()
 			.antMatchers(HttpMethod.POST, "/bmauth/users","/bmauth/users/facebook","/bmauth/users/google")
 				.permitAll()

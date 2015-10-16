@@ -80,10 +80,7 @@ public class UserCommandController {
 	
 	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public String generateToeken(@RequestBody UserRest userRes) {
-		return userService.generateUserToken(1);
+	public String generateToken(@RequestBody UserRest userRest) {
+		return userService.generateUserToken(userRest.getUserId());
 	}
-	
-	
-
 }

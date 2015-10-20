@@ -3,6 +3,8 @@ package com.bergermobile.rest.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.print.attribute.standard.Chromaticity;
+
 /**
  * The persistent class for the role database table.
  * 
@@ -29,7 +31,7 @@ public class RoleRest implements Serializable {
 	}
 
 	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+		this.roleName = roleName.toUpperCase().replaceAll("\\s", "");
 	}
 
 }

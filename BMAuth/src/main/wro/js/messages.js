@@ -9,6 +9,13 @@ bmauth_translations.en = {
 	"btn.new": "Novo",
 	"text.yes": "Sim",
 	"text.no": "Não",
+	
+	// Field errors
+	"fieldErrors": {
+		"message": "O campo {{field}} {{message}}.",
+		"NotBlank": "não pode estar em branco",
+		"NotNull": "não pode ser nula"
+	},
 
 	// Remove modals
 	"remove_modal": {
@@ -50,6 +57,7 @@ bmauth_translations.en = {
 	// Applications screens
 	"application": {
 		"header.delete.success": "Aplicação removida.",
+		"header.save.success": "Aplicação salva.",
 		"btn.add": "Nova aplicação",
 		
 		"form.header": "Edição Aplicativo",
@@ -71,7 +79,7 @@ bmauth_translations.en = {
 		"contract.form.column.version": "Versão",
 		"contract.form.column.creation_date": "Criado em",
 		"contract.form.header.delete.success" : "Contrato removido",
-		"contract.form.header.save.success" : "Contract salvo"
+		"contract.form.header.save.success" : "Contrato salvo"
 	},
 	
 	// edit Role modal

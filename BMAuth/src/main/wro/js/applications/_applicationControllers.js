@@ -66,8 +66,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	    .withBootstrap();
 	
 	vm.dtColumnsRole = [
-	    DTColumnBuilder.newColumn('roleId').withTitle('ID'),
-	    DTColumnBuilder.newColumn('roleName').withTitle('Role'),
+	    //DTColumnBuilder.newColumn('roleId').withTitle('ID'),
+	    DTColumnBuilder.newColumn('roleName').withTitle('Role').renderWith(dtUtils.sanitize),
 		DTColumnBuilder.newColumn('roleId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];
 	
@@ -87,8 +87,8 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
     .withBootstrap();
 
 	vm.dtColumnsContract = [
-	    DTColumnBuilder.newColumn('onlineContractId').withTitle('ID'),
-	    DTColumnBuilder.newColumn('contractVersion').withTitle('Version'),
+	    //DTColumnBuilder.newColumn('onlineContractId').withTitle('ID'),
+	    DTColumnBuilder.newColumn('contractVersion').withTitle('Version').renderWith(dtUtils.sanitize),
 	    /*
 	     * The fields creationDate e etc was removed from rests
 	     * DTColumnBuilder.newColumn('creationDate').withTitle('Creation Date').renderWith(function(data, type) {
@@ -99,8 +99,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	vm.dtNewRole = function(){
 
-		console.debug("Chamando nova Role");
-		
 		newRole = {
 				roleName: "",
 				roleId: "-1"
@@ -111,8 +109,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	}
 	
 	vm.dtNewOnlineContract = function(){
-
-		console.debug("Chamando novo Contrato");
 
 		newContract = {
 						contractVersion: "",
@@ -128,7 +124,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	vm.dtClickHandler = function(info, index) {
 		
 		if (info.roleId) {
-
 			vm.data = {
 				roleName: info.roleName,
 				roleId: info.roleId
@@ -143,11 +138,13 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 					if (vm.idx >= 0) {
 						vm.applicationField.rolesRest[vm.idx] = vm.data;
 					} else {
-						//vm.data.roleId = ""; // remover o valor NEW do roleId
 						vm.applicationField.rolesRest.push(vm.data);
 					}
 					vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
 					vm.appRoleSaved = true;
+					vm.appRoleDeleted = false;
+					vm.appContractSaved = false;
+					vm.appContractDeleted = false;
 			});
 			
 		} else if (info.onlineContractId){
@@ -160,7 +157,6 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 				
 				angular.copy(info.languageContractsRest, vm.data.languageContractsRest);
 				
-				// Check if array is null
 				if (vm.data.languageContractsRest.length > 0){ 
 					vm.data.languageContractsRest[0].active = true;
 				}
@@ -173,13 +169,11 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	                size: "lg"
 				}).result.then(function (result) {
 						if (vm.idx >= 0) {
-							console.debug(vm.data);
 							for (var i = 0; i < vm.data.languageContractsRest.length; i++) {
 								delete vm.data.languageContractsRest[i]["active"];
 							}
 							vm.applicationField.onlineContractsRest[vm.idx] = vm.data;
 						} else {
-							//vm.data.onlineContractId = ""; // remover o valor NEW do onlineContractId
 							for (var i = 0; i < vm.data.languageContractsRest.length; i++) {
 								delete vm.data.languageContractsRest[i]["active"];
 							}
@@ -187,6 +181,9 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 						}
 						vm.dtInstanceContract.reloadData(null, true);	// reload the datatable
 						vm.appContractSaved = true;
+						vm.appContractDeleted = false;
+						vm.appRoleDeleted = false;
+						vm.appRoleSaved = false;
 				});
 		}
 	};
@@ -218,6 +215,9 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 					vm.applicationField.rolesRest.splice(idx, 1);
 					vm.dtInstanceRole.reloadData(null, true);	// reload the datatable
 					vm.appRoleDeleted = true;
+					vm.appRoleSaved = false;
+					vm.appContractSaved = false;
+					vm.appContractDeleted = false;
 				}
 			} else if (info.onlineContractId){
 				var idx = vm.applicationField.onlineContractsRest.indexOf(info);
@@ -225,6 +225,9 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 					vm.applicationField.onlineContractsRest.splice(idx, 1);
 					vm.dtInstanceContract.reloadData(null, true);	// reload the datatable
 					vm.appContractDeleted = true;
+					vm.appContractSaved = false;
+					vm.appRoleDeleted = false;
+					vm.appRoleSaved = false;
 				}
 			}
 		});
@@ -299,7 +302,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	// Datatable exposed Columns
 	vm.dtColumns = [
-        DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
+        //DTColumnBuilder.newColumn('applicationId').withTitle($translate('application.form.label.id')).withOption('width', '100px'),
         DTColumnBuilder.newColumn('applicationName').withTitle($translate('application.form.label.name')).renderWith(dtUtils.sanitize),
         DTColumnBuilder.newColumn('active').withTitle($translate('application.form.label.active')).withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
         DTColumnBuilder.newColumn('applicationId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
@@ -327,6 +330,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 			vm.applicationService = new applicationService();
 	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
 	        	vm.appDeleted = true;
+	        	vm.appSaved = false;
 	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
 	        });
 		});

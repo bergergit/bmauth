@@ -2,12 +2,6 @@
 	<fieldset>
 		<legend>{{ 'application.form.header' | translate}}</legend>
 		<div class="form-group">
-			<label for="inputId" class="col-md-3 control-label">{{ 'application.form.label.id' | translate}}</label>
-			<div class="col-md-2">
-				<input type="text" class="form-control" id="applicationId" ng-model="vm.applicationField.applicationId" disabled/>
-			</div>
-		</div>
-		<div class="form-group">
 			<label for="inputName" class="col-md-3 control-label">{{ 'application.form.label.name' | translate}}</label>
 			<div class="col-md-8">
 				<input type="text" class="form-control" id="inputName" ng-model="vm.applicationField.applicationName"/>
@@ -48,7 +42,7 @@
 			
 		<legend>{{ 'application.role.form.header' | translate}}</legend>
 
-		<div class="alert alert-success" ng-show="vm.appRoleDeleted">
+		<div class="alert alert-danger" ng-show="vm.appRoleDeleted">
 			{{ 'application.role.form.header.delete.success' | translate }}
 		</div>
 		<div class="alert alert-success" ng-show="vm.appRoleSaved">
@@ -63,7 +57,7 @@
 		
 		<legend>{{ 'application.contract.form.header' | translate}}</legend>
 
-		<div class="alert alert-success" ng-show="vm.appContractDeleted">
+		<div class="alert alert-danger" ng-show="vm.appContractDeleted">
 			{{ 'application.contract.form.header.delete.success' | translate }}
 		</div>
 		<div class="alert alert-success" ng-show="vm.appContractSaved">

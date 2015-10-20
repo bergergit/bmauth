@@ -1,4 +1,4 @@
-angular.module('bmauth.main')
+angular.module('datatables')
 .factory('DTLoadingTemplate', function() {
     return {
         html: '<h1>...</h1>'
@@ -31,9 +31,6 @@ angular.module('datatables')
 	        $('button', nRow).bind('click', function(event) {
 	            event.stopPropagation();
 	            dtUtils.$scope.$apply(function() {
-	            	console.debug(nRow);
-	            	console.debug(dtUtils.instance);
-	            	console.debug(dtUtils.$scope);
 	            	dtUtils.instance.dtDeleteHandler(aData, iDisplayIndexFull); 
 	            });
 	        });

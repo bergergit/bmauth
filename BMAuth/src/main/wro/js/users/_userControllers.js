@@ -3,8 +3,8 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 /**
  * Users Edit controller
  */
-.controller('UsersEditCtrl', [ '$scope', '$compile', 'userService', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location','$translate',
-                                      function($scope, $compile, userService, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $translate) {
+.controller('UsersEditCtrl', [ '$scope', '$compile', 'userService', 'applicationService', 'formUtils', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location','$translate',
+                                      function($scope, $compile, userService, applicationService, formUtils, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $translate) {
 	var vm = this;
 	var userPromise, applicationPromise;
 	
@@ -25,13 +25,13 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	// ng-submit
 	vm.submitUserForm = function(){
 		console.debug('Will submit', vm.signup);
+		
 		vm.signup.$save(
 			function(response) {
-				console.debug("Saved and redirecting");
 				$location.path($rootScope.authContext + '/users')
-				
-			 }, function() {
-				 console.debug("Error on save");
+			 }, function(error) {
+				console.debug("Error on save", error);
+				formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
 			 }
 		);
 	}

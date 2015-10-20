@@ -1,7 +1,6 @@
 package com.bergermobile.rest.domain;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.print.attribute.standard.Chromaticity;
 

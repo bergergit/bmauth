@@ -31,5 +31,10 @@ public class UserQueryController {
 		return userService.findByUserId(userId);
 
 	}
+	
+	@RequestMapping(value = "/token/check_token/{token}/{userId}")
+	public boolean validateToken(@PathVariable String token, @PathVariable int userId) {
+		return userService.validateUserToken(userId, token);
+	}
 
 }

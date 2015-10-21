@@ -6,6 +6,7 @@ bmauth_translations.en = {
 	"btn.ok": "OK",
 	"btn.cancel": "Cancelar",
 	"btn.save": "Salvar",
+	"btn.send": "Enviar",
 	"btn.new": "Novo",
 	"text.yes": "Sim",
 	"text.no": "Não",
@@ -108,6 +109,11 @@ bmauth_translations.en = {
 		"form.label.email": "Email",
 		"form.label.type": "Tipo",
 		"form.label.active": "Ativo"
+	},
+	
+	"forgotPassword": { 
+		"form.header": "Reset sua senha",
+		"form.label.email": "email"
 	}
 };
 

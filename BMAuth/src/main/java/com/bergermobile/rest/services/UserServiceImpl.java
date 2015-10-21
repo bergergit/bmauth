@@ -30,6 +30,8 @@ import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
 
+import javassist.NotFoundException;
+
 @Service
 public class UserServiceImpl implements UserService {
 	
@@ -219,13 +221,25 @@ public class UserServiceImpl implements UserService {
 			//userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
 			userRest.setSimpleUserRoles(RestConversionService.setSimpleUserRoles(user.getUserRoles()));
 			//userRest.setSimpleUserApplications(RestConversionService.setSimpleUserApplications(user.getUserRoles()));
-			
 			return userRest;
 		}
-
 		return null;
 	}
-
+	
+	@Override
+	public UserRest findByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		UserRest userRest = new UserRest();
+		if (user != null) {
+			BeanUtils.copyProperties(user, userRest);
+			//userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
+			userRest.setSimpleUserRoles(RestConversionService.setSimpleUserRoles(user.getUserRoles()));
+			//userRest.setSimpleUserApplications(RestConversionService.setSimpleUserApplications(user.getUserRoles()));
+			return userRest;
+		}
+		return null;
+	}
+	
 	@Override
 	public UserRest findByName(String name) {
 
@@ -247,11 +261,22 @@ public class UserServiceImpl implements UserService {
 	 * Generates a random token, and adds to redis with a specific expiration time
 	 * @param userId
 	 * @return
+	 * @throws NotFoundException 
 	 */
-	public String generateUserToken(Integer userId) {
-		String token = UUID.randomUUID().toString();
-		redisTemplate.opsForValue().set("token_" + userId, token);
-		redisTemplate.expire("token_" + userId, Long.parseLong(environment.getProperty("bmauth.passwordtoken.expire").trim()), TimeUnit.MINUTES);
+	@Override
+	public String generateUserToken(UserRest userRest) throws NotFoundException{
+		
+		String token;
+		UserRest user = findByEmail(userRest.getEmail());
+		
+		if (user == null){
+			throw new NotFoundException(userRest.getEmail());
+		} 
+		
+		token = UUID.randomUUID().toString();
+		redisTemplate.opsForValue().set("token_" + user.getUserId(), token);
+		redisTemplate.expire("token_" + user.getUserId(), Long.parseLong(environment.getProperty("bmauth.passwordtoken.expire").trim()), TimeUnit.MINUTES);
+
 		return token;
 	}
 	
@@ -261,10 +286,12 @@ public class UserServiceImpl implements UserService {
 	 * @param token
 	 * @return
 	 */
+	@Override
 	public boolean validateUserToken(Integer userId, String token) {
 		String redisToken = redisTemplate.opsForValue().get("token_" + userId);
+		UserRest user = findByUserId(userId);
 		//redisTemplate.delete("token_" + userId);   // this will have to be implemented in another method, after password is set
-		return redisToken != null && redisToken.equals(token);
+		return redisToken != null && redisToken.equals(token) && user != null;
 	}
 
 }

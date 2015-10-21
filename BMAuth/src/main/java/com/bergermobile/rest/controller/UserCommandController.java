@@ -21,6 +21,8 @@ import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.FormValidationException;
 import com.bergermobile.rest.services.UserService;
 
+import javassist.NotFoundException;
+
 @RestController
 @RequestMapping(value = "/bmauth")
 public class UserCommandController {
@@ -80,7 +82,11 @@ public class UserCommandController {
 	
 	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public String generateToken(@RequestBody UserRest userRest) {
-		return userService.generateUserToken(userRest.getUserId());
+	public void generateToken(@RequestBody UserRest userRest) throws NotFoundException {
+		
+		String token = userService.generateUserToken(userRest);
+
+		// mandar e-mail
+	
 	}
 }

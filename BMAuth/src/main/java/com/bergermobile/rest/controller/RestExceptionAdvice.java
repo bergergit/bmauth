@@ -18,14 +18,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.bergermobile.rest.domain.CommandResult;
 import com.bergermobile.rest.services.FormValidationException;
 
+import javassist.NotFoundException;
+import scala.annotation.meta.setter;
+
 /**
  * Controller advice to handle basic exceptions
+ * 
  * @author fabioberger
  *
  */
 @ControllerAdvice
 public class RestExceptionAdvice {
-	
+
 	static Log LOG = LogFactory.getLog(RestExceptionAdvice.class);
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
@@ -33,14 +37,21 @@ public class RestExceptionAdvice {
 	public void handleEmptyResultDataAccessException(EmptyResultDataAccessException e) {
 		LOG.error("DataIntegrityException raised", e);
 	}
-	
+
+	@ExceptionHandler(NotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public void notFoundException(NotFoundException e) {
+		LOG.error("Data not found", e);
+	}
+
 	@ExceptionHandler(FormValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	/**
-	 * This intercepts the response when there are form validation errors
-	 * This will set the in the CommandResult, all the fields that have errors, so they ca
-	 * be used by our lovely screen interface.
+	 * This intercepts the response when there are form validation errors This
+	 * will set the in the CommandResult, all the fields that have errors, so
+	 * they ca be used by our lovely screen interface.
+	 * 
 	 * @param e
 	 * @return
 	 */
@@ -50,9 +61,9 @@ public class RestExceptionAdvice {
 		commandResult.setCode(CommandResult.CodeResults.FIELD_ERRORS.ordinal());
 		commandResult.setMessage("Form validation error");
 		commandResult.setId(e.getId());
-		
+
 		List<Map<String, String>> fieldErrors = new ArrayList<Map<String, String>>();
-		
+
 		Map<String, String> errorMap = new HashMap<String, String>();
 		for (FieldError error : e.getResult().getFieldErrors()) {
 			errorMap.put("fieldName", error.getField());
@@ -62,5 +73,6 @@ public class RestExceptionAdvice {
 		}
 		commandResult.setFieldErrors(fieldErrors);
 		return commandResult;
+		
 	}
 }

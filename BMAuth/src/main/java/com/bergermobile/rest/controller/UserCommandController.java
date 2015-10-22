@@ -86,6 +86,8 @@ public class UserCommandController {
 		
 		String token = userService.generateUserToken(userRest);
 
+		System.out.println("token: " + token);
+		
 		// mandar e-mail
 	
 	}

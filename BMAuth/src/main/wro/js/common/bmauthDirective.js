@@ -43,8 +43,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus', 
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus', 'forgotMyPasswordService', 
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, forgotMyPasswordService) {
 		var vm = this;
 		vm.userCreated = false;
 		directive.context = $rootScope.authContext;
@@ -55,15 +55,22 @@ angular.module("bmauth.main", [])
 	    vm.signup = new userService({
 			"loginType": "3"
 		});
-		
+
+	    vm.forgotMyPassword = new forgotMyPasswordService({
+	    	"email" : ""
+	    });	    
+	    
 		/**
 		 * Sign up form
 		 */
 		vm.signupForm = function() {
 			$scope.contentUrl = directive.context + "fragments/home/signup.html";
-			//$location.path('/signup', false);
 		}
-		
+
+		vm.forgotMyPassowrd = function() {
+			$scope.contentUrl = directive.context + "fragments/home/forgotPassword.html";
+		}
+
 		vm.authenticated = function() {
 	        return auth.authenticated;
 	    };
@@ -208,6 +215,22 @@ angular.module("bmauth.main", [])
 				 console.debug("Error on save");
 			 });
 		}
+		
+		vm.submitForgotMyPasswordForm = function() {
+			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
+			
+			 vm.forgotMyPassword.$save(function(response) {
+					console.debug("Forgot my password Success on save");
+					vm.emailInvalido = false;
+					vm.forgotMyPasswordCreated = true;
+					//directive.signinRedirect($location, $scope, auth, vm);
+					directive.init($scope);
+			 }, function() {
+				 console.debug("Error on save token");
+				 vm.emailInvalido = true;
+			 });
+		}
+		
 	}];
 	
 	return directive;

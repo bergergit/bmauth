@@ -41,7 +41,7 @@ public class RestExceptionAdvice {
 	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public void notFoundException(NotFoundException e) {
-		LOG.error("Data not found", e);
+		LOG.info("User email not found for resetting password: " + e.getMessage());
 	}
 
 	@ExceptionHandler(FormValidationException.class)

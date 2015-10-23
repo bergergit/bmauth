@@ -222,12 +222,20 @@ angular.module("bmauth.main", [])
 			 vm.forgotMyPassword.$save(function(response) {
 					console.debug("Forgot my password Success on save");
 					vm.emailInvalido = false;
+					vm.showError = false;
 					vm.forgotMyPasswordCreated = true;
-					//directive.signinRedirect($location, $scope, auth, vm);
 					directive.init($scope);
-			 }, function() {
+			 }, function(response) {
 				 console.debug("Error on save token");
-				 vm.emailInvalido = true;
+				 
+				 if(response.status == 404){
+					 vm.emailInvalido = true;
+					 vm.showError = false;
+				 } else {
+					 vm.emailInvalido = false;
+					 vm.showError = true;
+					 vm.error = "Error: " + response.status + " - " + response.statusText;  
+				 }
 			 });
 		}
 		

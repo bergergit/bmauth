@@ -114,7 +114,7 @@ bmauth_translations.en = {
 	
 	"forgotPassword": { 
 		"form.header": "Reset sua senha",
-		"form.label.email": "email",
+		"form.label.email": "Digite seu email",
 		"form.emailInvalido": "Email inválido"
 	}
 };

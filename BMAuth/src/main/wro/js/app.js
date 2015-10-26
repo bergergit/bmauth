@@ -16,8 +16,8 @@ angular.module('bmauth', [
   'ngSanitize'
  ]) 
 
-.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider', 
-         function($routeProvider, $translateProvider, $locationProvider, $httpProvider) {
+.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider','bmauthFormErrorsConfigProvider', 
+         function($routeProvider, $translateProvider, $locationProvider, $httpProvider, bmauthFormErrorsConfigProvider) {
 	// routes configuration
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/home.html',
@@ -49,6 +49,9 @@ angular.module('bmauth', [
 	
 	$translateProvider.preferredLanguage('en');
 	$translateProvider.fallbackLanguage('en');
+	
+	// enabled front end form validation
+	bmauthFormErrorsConfigProvider.enabled = true;
 	
 	// support natural routes
 	$locationProvider.html5Mode(true);

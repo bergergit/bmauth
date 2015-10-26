@@ -14,7 +14,6 @@ angular.module("bmauth.main", [])
 	
 	directive.controllerAs = 'vm';
 
-	//directive.templateUrl = "/bmauth/fragments/home/login.html";
 	directive.template = '<div ng-include="contentUrl"></div>'
 
 	directive.link = function(scope, elements, attr) {
@@ -43,8 +42,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus', 
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils', 
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils) {
 		var vm = this;
 		vm.userCreated = false;
 		directive.context = $rootScope.authContext;
@@ -61,7 +60,6 @@ angular.module("bmauth.main", [])
 		 */
 		vm.signupForm = function() {
 			$scope.contentUrl = directive.context + "fragments/home/signup.html";
-			//$location.path('/signup', false);
 		}
 		
 		vm.authenticated = function() {
@@ -84,7 +82,6 @@ angular.module("bmauth.main", [])
 	            if (authenticated) {
 	                console.log("Login succeeded");
 	                vm.error = false;
-	                //$location.path($scope.signedInUri ? $scope.signedInUri : "/applications");
 	                directive.signinRedirect($location, $scope, auth, vm);
 	            } else {
 	                console.log("Login failed");
@@ -122,24 +119,6 @@ angular.module("bmauth.main", [])
 					// they are logged into this app or not.
 				}
 		      });
-			
-			
-			/*
-			FB.login(function(response) {
-				console.debug("Facebook response", response);
-				if (response.status === 'connected') {
-					// Logged into your app and Facebook.
-					authenticateFacebook($http, response);
-				} else if (response.status === 'not_authorized') {
-					// The person is logged into Facebook, but not your app.
-				} else {
-					// The person is not logged into Facebook, so we're not sure if
-					// they are logged into this app or not.
-				}
-			}, { scope : 'public_profile,email' });
-			*/
-			
-			
 		};
 		
 		/**
@@ -204,8 +183,9 @@ angular.module("bmauth.main", [])
 					 vm.userCreated = true;
 				 }
 				 
-			 }, function() {
+			 }, function(error) {
 				 console.debug("Error on save");
+				 formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
 			 });
 		}
 	}];

@@ -15,7 +15,9 @@ bmauth_translations.en = {
 	"fieldErrors": {
 		"message": "O campo {{field}} {{message}}.",
 		"NotBlank": "não pode estar em branco",
-		"NotNull": "não pode ser nula"
+		"NotNull": "não pode ser nulo",
+		"email": "Email inválido.",
+		"required": "Campo obrigatório."
 	},
 
 	// Remove modals

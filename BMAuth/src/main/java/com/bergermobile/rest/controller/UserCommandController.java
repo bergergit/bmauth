@@ -45,7 +45,7 @@ public class UserCommandController {
 		if (result.hasErrors()) {
 			throw new FormValidationException(userRest.getUserId() , result);
 		}
-		
+				
 		// we are very smart, and will only allow saving of the roles if user is bmauth-admin. Or else, a hacker may, you know... screw us up
 		if (request.isUserInRole("ROLE_BMAUTH-ADMIN")) {
 			userService.save(userRest, true);
@@ -85,17 +85,33 @@ public class UserCommandController {
 	public void deleteUser(@PathVariable int userId) {
 		userService.delete(userId);
 	}
-	
+		
 	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void generateToken(@RequestBody UserRest userRest) throws NotFoundException, MessagingException {
+	public void generateToken(@RequestBody UserRest userRest, HttpServletRequest httpServletRequest) throws NotFoundException, MessagingException {
 		
 		String token = userService.generateUserToken(userRest);
-		
-		// send e-mail
-		
-		emailService.send(userRest.getEmail(), "Troque a senha", "Token: " + token);
-			
-		}
 
+//		System.out.println(httpServletRequest.getServerName());
+//
+//		System.out.println(httpServletRequest.getServerPort());
+		
+		System.out.println(httpServletRequest.getRequestURL().toString()); // completo
+		System.out.println(httpServletRequest.getRequestURI()); // depois do nome do servidor
+		System.out.println(httpServletRequest.getServerName()); // nome
+		System.out.println(httpServletRequest.getServerPort()); // porta
+
+		String x = userService.generateBodyMailForgotMyPassword(userRest, token, "Link");
+		
+		
+
+//		// send e-mail
+//		try {
+//			emailService.send(userRest.getEmail(), "Troque a senha", "Token: " + token);
+//		} catch (Exception e) {
+//			LOG.error("UserCommandController. generateToken sending email " + e.getMessage());
+//		}
+		
+		}
+	
 }

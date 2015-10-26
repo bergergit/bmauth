@@ -2,6 +2,8 @@ package com.bergermobile.rest.services;
 
 import java.util.List;
 
+import org.springframework.security.web.header.writers.frameoptions.StaticAllowFromStrategy;
+
 import com.bergermobile.rest.controller.RestToken;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
@@ -32,5 +34,7 @@ public interface UserService {
 	public String generateUserToken(UserRest userRest) throws NotFoundException;
 	
 	public boolean validateUserToken(Integer userId, String token);
+	
+	public String generateBodyMailForgotMyPassword(UserRest userRest, String token, String Link);
 
 }

@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,26 +35,29 @@ import javassist.NotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	static Log LOG = LogFactory.getLog(UserServiceImpl.class);
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private UserRoleRepository userRoleRepository;
-	
+
 	@Autowired
 	private Environment environment;
-	
+
 	@Autowired
 	private RestConversionService conversionService;
-	
+
 	@Autowired
-    BCryptPasswordEncoder bcryptEncoder;
-	
+	BCryptPasswordEncoder bcryptEncoder;
+
 	@Autowired
 	private StringRedisTemplate redisTemplate;
+
+	@Autowired
+	SerializableResourceBundleMessageSource messageBundle;
 
 	@Override
 	public List<UserRest> findAllUsers() {
@@ -87,16 +91,16 @@ public class UserServiceImpl implements UserService {
 		}
 		user.setUserType(User.UserType.CPF.getValue());
 		user.setActive(true);
-		
-		// if password is not set and this is an update, then we need to set the original password back to user object
+
+		// if password is not set and this is an update, then we need to set the
+		// original password back to user object
 		if (userRest.getUserId() != null && userRest.getPassword() == null) {
 			user.setPassword(userRepository.findOne(userRest.getUserId()).getPassword());
 		} else {
 			// encoding the password
 			user.setPassword(bcryptEncoder.encode(userRest.getPassword()));
 		}
-		
-		
+
 		if (saveRoles) {
 			LOG.debug("Saving roles " + userRest.getSimpleUserRoles());
 			List<UserRole> userRoles = userRoleRepository.findByUserUserIdAndRoleApplicationIsNotNull(user.getUserId());
@@ -105,48 +109,50 @@ public class UserServiceImpl implements UserService {
 			if (userRoles != null) {
 				userRoleRepository.delete(userRoles);
 			}
-			
+
 			// store new roles (from json)
 			user.setUserRoles(conversionService.simpleUserRolesToUserRoles(userRest.getSimpleUserRoles(), user));
 		}
-		
+
 		user = userRepository.save(user);
 	}
-	
+
 	/**
-	 * This will verify if we already have the social media user (Facebook) 
-	 * in the DB. If we have, we just authenticate the user with USER
-	 * role. Or else we create this user in the DB, and then authenticate
+	 * This will verify if we already have the social media user (Facebook) in
+	 * the DB. If we have, we just authenticate the user with USER role. Or else
+	 * we create this user in the DB, and then authenticate
 	 */
 	@Override
 	public void saveFacebook(FacebookRest facebookRest) {
 		// look for existent user
-		User facebookUser = userRepository.findByLoginTypeAndUsername(User.LoginType.FACEBOOK.getValue(), facebookRest.getAuthResponse().getUserID());
+		User facebookUser = userRepository.findByLoginTypeAndUsername(User.LoginType.FACEBOOK.getValue(),
+				facebookRest.getAuthResponse().getUserID());
 		if (facebookUser == null) {
 			LOG.debug("No Facebook user found for Facebok userid: " + facebookRest.getAuthResponse().getUserID());
 			facebookUser = saveFacebookInformation(facebookRest);
 		}
 	}
-	
+
 	/**
-	 * This will verify if we already have the social media user (Google) 
-	 * in the DB. If we have, we just authenticate the user with USER
-	 * role. Or else we create this user in the DB, and then authenticate
+	 * This will verify if we already have the social media user (Google) in the
+	 * DB. If we have, we just authenticate the user with USER role. Or else we
+	 * create this user in the DB, and then authenticate
 	 */
 	@Override
 	public void saveGoogle(GoogleRest googleRest) {
-		LOG.debug("Verifying google user for token " + googleRest.getAccessToken() + ", clientId: " + googleRest.getClientId());
-		
+		LOG.debug("Verifying google user for token " + googleRest.getAccessToken() + ", clientId: "
+				+ googleRest.getClientId());
+
 		// aquire connection
 		GoogleConnectionFactory connectionFactory = new GoogleConnectionFactory(googleRest.getClientId(), "");
 		AccessGrant accessGrant = new AccessGrant(googleRest.getAccessToken());
 		connectionFactory.createConnection(accessGrant);
 		Connection<Google> connection = connectionFactory.createConnection(accessGrant);
 		Google google = connection.getApi();
-		
-		//Google google = new GoogleTemplate(accessToken);
+
+		// Google google = new GoogleTemplate(accessToken);
 		String username = google.plusOperations().getGoogleProfile().getId();
-		
+
 		User googleUser = userRepository.findByLoginTypeAndUsername(User.LoginType.GOOGLE_PLUS.getValue(), username);
 		if (googleUser == null) {
 			LOG.debug("No Google user found for id " + username + ". Saving new");
@@ -160,25 +166,28 @@ public class UserServiceImpl implements UserService {
 		userRepository.delete(userId);
 
 	}
-	
+
 	/**
-	 * This assynchronously retrieves Facebook information using the Graph API, and saves the result in the Database
+	 * This assynchronously retrieves Facebook information using the Graph API,
+	 * and saves the result in the Database
 	 * 
-	 * (obs: I dont think we can do this asynchronously since we need to authenticate the user right after save)
+	 * (obs: I dont think we can do this asynchronously since we need to
+	 * authenticate the user right after save)
 	 */
-	//@Async
+	// @Async
 	public User saveFacebookInformation(FacebookRest facebookRest) {
 		LOG.debug("Will invoke facebook graph api to save the user");
-		
+
 		// aquire connection
-		FacebookConnectionFactory connectionFactory=new FacebookConnectionFactory(facebookRest.getAppId(),"");
+		FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookRest.getAppId(), "");
 		// upon receiving the callback from the provider:
 		AccessGrant accessGrant = new AccessGrant(facebookRest.getAuthResponse().getAccessToken());
 		Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);
 		Facebook facebook = connection.getApi();
-		
+
 		User facebookUser = new User();
-		//Facebook facebook = new FacebookTemplate(facebookRest.getAuthResponse().getAccessToken());
+		// Facebook facebook = new
+		// FacebookTemplate(facebookRest.getAuthResponse().getAccessToken());
 
 		// create the user object
 		facebookUser.setUsername(facebookRest.getAuthResponse().getUserID());
@@ -187,16 +196,17 @@ public class UserServiceImpl implements UserService {
 		facebookUser.setUserType(User.UserType.CPF.getValue());
 		facebookUser.setEmail(facebook.userOperations().getUserProfile().getEmail());
 		facebookUser.setName(facebook.userOperations().getUserProfile().getName());
-		
+
 		LOG.debug("Saving Facebook user " + facebookUser);
-		
+
 		return userRepository.save(facebookUser);
 	}
-	
+
 	/**
-	 * This assynchronously retrieves Google information using the OAuth API, and saves the result in the Database
+	 * This assynchronously retrieves Google information using the OAuth API,
+	 * and saves the result in the Database
 	 */
-	//@Async
+	// @Async
 	public User saveGoogleInformation(Google google) {
 		// create the user object
 		User googleUser = new User();
@@ -206,9 +216,9 @@ public class UserServiceImpl implements UserService {
 		googleUser.setUserType(User.UserType.CPF.getValue());
 		googleUser.setEmail(google.plusOperations().getGoogleProfile().getAccountEmail());
 		googleUser.setName(google.plusOperations().getGoogleProfile().getDisplayName());
-		
+
 		LOG.debug("Saving Google user " + googleUser);
-		
+
 		return userRepository.save(googleUser);
 	}
 
@@ -218,28 +228,28 @@ public class UserServiceImpl implements UserService {
 		UserRest userRest = new UserRest();
 		if (user != null) {
 			BeanUtils.copyProperties(user, userRest);
-			//userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
+			// userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
 			userRest.setSimpleUserRoles(RestConversionService.setSimpleUserRoles(user.getUserRoles()));
-			//userRest.setSimpleUserApplications(RestConversionService.setSimpleUserApplications(user.getUserRoles()));
+			// userRest.setSimpleUserApplications(RestConversionService.setSimpleUserApplications(user.getUserRoles()));
 			return userRest;
 		}
 		return null;
 	}
-	
+
 	@Override
 	public UserRest findByEmail(String email) {
 		User user = userRepository.findByEmail(email);
 		UserRest userRest = new UserRest();
 		if (user != null) {
 			BeanUtils.copyProperties(user, userRest);
-			//userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
+			// userRest.setUserRolesRest(ConversionUtilities.setRolesToRolesRest(user.getUserRoles()));
 			userRest.setSimpleUserRoles(RestConversionService.setSimpleUserRoles(user.getUserRoles()));
-			//userRest.setSimpleUserApplications(RestConversionService.setSimpleUserApplications(user.getUserRoles()));
+			// userRest.setSimpleUserApplications(RestConversionService.setSimpleUserApplications(user.getUserRoles()));
 			return userRest;
 		}
 		return null;
 	}
-	
+
 	@Override
 	public UserRest findByName(String name) {
 
@@ -256,32 +266,38 @@ public class UserServiceImpl implements UserService {
 
 		return null;
 	}
-	
+
 	/**
-	 * Generates a random token, and adds to redis with a specific expiration time
+	 * Generates a random token, and adds to redis with a specific expiration
+	 * time
+	 * 
 	 * @param userId
 	 * @return
-	 * @throws NotFoundException 
+	 * @throws NotFoundException
 	 */
 	@Override
-	public String generateUserToken(UserRest userRest) throws NotFoundException{
-		
+	public String generateUserToken(UserRest userRest) throws NotFoundException {
+
 		String token;
 		UserRest user = findByEmail(userRest.getEmail());
-		
-		if (user == null){
+
+		if (user == null) {
 			throw new NotFoundException(userRest.getEmail());
-		} 
-		
+		} else {
+			BeanUtils.copyProperties(user, userRest);
+		}
+
 		token = UUID.randomUUID().toString();
-		redisTemplate.opsForValue().set("token_" + user.getUserId(), token);
-		redisTemplate.expire("token_" + user.getUserId(), Long.parseLong(environment.getProperty("bmauth.passwordtoken.expire").trim()), TimeUnit.MINUTES);
+		redisTemplate.opsForValue().set("token_" + userRest.getUserId(), token);
+		redisTemplate.expire("token_" + userRest.getUserId(),
+				Long.parseLong(environment.getProperty("bmauth.passwordtoken.expire").trim()), TimeUnit.MINUTES);
 
 		return token;
 	}
-	
+
 	/**
 	 * Checks if this token is valid
+	 * 
 	 * @param userId
 	 * @param token
 	 * @return
@@ -290,8 +306,26 @@ public class UserServiceImpl implements UserService {
 	public boolean validateUserToken(Integer userId, String token) {
 		String redisToken = redisTemplate.opsForValue().get("token_" + userId);
 		UserRest user = findByUserId(userId);
-		//redisTemplate.delete("token_" + userId);   // this will have to be implemented in another method, after password is set
+		// redisTemplate.delete("token_" + userId); // this will have to be
+		// implemented in another method, after password is set
 		return redisToken != null && redisToken.equals(token) && user != null;
+	}
+
+	@Override
+	public String generateBodyMailForgotMyPassword(UserRest userRest, String token, String Link) {
+
+		// do berger
+		// messageSource.getMessage("dt.format.integradora", null,
+		// LocaleContextHolder.getLocale())));
+		
+		System.out.println("Host addr: " );
+
+		System.out.println("msg : "
+				+ this.messageBundle.getMessage("error.application.notFound", null, LocaleContextHolder.getLocale()));
+		System.out.println("msg : " + this.messageBundle.getMessage("drawing.point",
+				new Object[] { userRest.getEmail(), userRest.getName() }, LocaleContextHolder.getLocale()));
+
+		return null;
 	}
 
 }

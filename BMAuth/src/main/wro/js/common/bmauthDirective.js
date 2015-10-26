@@ -42,8 +42,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils', 
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService) {
 		var vm = this;
 		vm.userCreated = false;
 		directive.context = $rootScope.authContext;
@@ -54,14 +54,22 @@ angular.module("bmauth.main", [])
 	    vm.signup = new userService({
 			"loginType": "3"
 		});
-		
+
+	    vm.forgotMyPassword = new forgotMyPasswordService({
+	    	"email" : ""
+	    });	    
+	    
 		/**
 		 * Sign up form
 		 */
 		vm.signupForm = function() {
 			$scope.contentUrl = directive.context + "fragments/home/signup.html";
 		}
-		
+
+		vm.forgotMyPassowrd = function() {
+			$scope.contentUrl = directive.context + "fragments/home/forgotPassword.html";
+		}
+
 		vm.authenticated = function() {
 	        return auth.authenticated;
 	    };
@@ -188,6 +196,78 @@ angular.module("bmauth.main", [])
 				 formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
 			 });
 		}
+		
+		vm.submitForgotMyPasswordForm = function() {
+			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
+			
+			 vm.forgotMyPassword.$save(function(response) {
+					console.debug("Forgot my password Success on save");
+					vm.emailInvalido = false;
+					vm.showError = false;
+					vm.forgotMyPasswordCreated = true;
+					directive.init($scope);
+			 }, function(response) {
+				 console.debug("Error on save token");
+				 
+				 if(response.status == 404){
+					 vm.emailInvalido = true;
+					 vm.showError = false;
+				 } else {
+					 vm.emailInvalido = false;
+					 vm.showError = true;
+					 vm.error = "Error: " + response.status + " - " + response.statusText;  
+				 }
+			 });
+		}
+		
+		
+		vm.submitForgotMyPasswordForm = function() {
+			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
+			
+			 vm.forgotMyPassword.$save(function(response) {
+					console.debug("Forgot my password Success on save");
+					vm.emailInvalido = false;
+					vm.showError = false;
+					vm.forgotMyPasswordCreated = true;
+					directive.init($scope);
+			 }, function(response) {
+				 console.debug("Error on save token");
+				 
+				 if(response.status == 404){
+					 vm.emailInvalido = true;
+					 vm.showError = false;
+				 } else {
+					 vm.emailInvalido = false;
+					 vm.showError = true;
+					 vm.error = "Error: " + response.status + " - " + response.statusText;  
+				 }
+			 });
+		}
+		
+		
+		vm.submitForgotMyPasswordForm = function() {
+			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
+			
+			 vm.forgotMyPassword.$save(function(response) {
+					console.debug("Forgot my password Success on save");
+					vm.emailInvalido = false;
+					vm.showError = false;
+					vm.forgotMyPasswordCreated = true;
+					directive.init($scope);
+			 }, function(response) {
+				 console.debug("Error on save token");
+				 
+				 if(response.status == 404){
+					 vm.emailInvalido = true;
+					 vm.showError = false;
+				 } else {
+					 vm.emailInvalido = false;
+					 vm.showError = true;
+					 vm.error = "Error: " + response.status + " - " + response.statusText;  
+				 }
+			 });
+		}
+		
 	}];
 	
 	return directive;

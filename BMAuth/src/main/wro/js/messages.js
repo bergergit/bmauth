@@ -42,7 +42,8 @@ bmauth_translations.en = {
 		"form.label.user": "Usuário",
 		"form.label.password": "Senha",
 		"form.label.remember": "Lembrar de mim",
-		"form.label.forgot_password": "Esqueci minha senha"
+		"form.label.forgot_password": "Esqueci minha senha",
+		"form.msg.forgotMyPasswordCreated": "Procedimento enviado para seu e-mail"
 	},
 	
 	// Signup screen
@@ -115,7 +116,8 @@ bmauth_translations.en = {
 	
 	"forgotPassword": { 
 		"form.header": "Reset sua senha",
-		"form.label.email": "email"
+		"form.label.email": "Digite seu email",
+		"form.emailInvalido": "Email inválido"
 	}
 };
 

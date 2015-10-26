@@ -42,8 +42,13 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
+<<<<<<< HEAD
 	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 
 	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService) {
+=======
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus', 'forgotMyPasswordService', 
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, forgotMyPasswordService) {
+>>>>>>> branch 'Login' of http://projects.bergermobile.com.br/git/bergermobile/bmauth.git
 		var vm = this;
 		vm.userCreated = false;
 		directive.context = $rootScope.authContext;
@@ -220,6 +225,7 @@ angular.module("bmauth.main", [])
 			 });
 		}
 		
+<<<<<<< HEAD
 		
 		vm.submitForgotMyPasswordForm = function() {
 			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
@@ -268,6 +274,8 @@ angular.module("bmauth.main", [])
 			 });
 		}
 		
+=======
+>>>>>>> branch 'Login' of http://projects.bergermobile.com.br/git/bergermobile/bmauth.git
 	}];
 	
 	return directive;

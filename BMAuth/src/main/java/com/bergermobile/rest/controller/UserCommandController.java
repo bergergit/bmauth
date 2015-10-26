@@ -1,5 +1,6 @@
 package com.bergermobile.rest.controller;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
+import com.bergermobile.rest.services.EmailService;
 import com.bergermobile.rest.services.FormValidationException;
 import com.bergermobile.rest.services.UserService;
 
@@ -31,6 +33,10 @@ public class UserCommandController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EmailService emailService;
+	
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
@@ -82,11 +88,14 @@ public class UserCommandController {
 	
 	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void generateToken(@RequestBody UserRest userRest) throws NotFoundException {
+	public void generateToken(@RequestBody UserRest userRest) throws NotFoundException, MessagingException {
 		
 		String token = userService.generateUserToken(userRest);
+		
+		// send e-mail
+		
+		emailService.send(userRest.getEmail(), "Troque a senha", "Token: " + token);
+			
+		}
 
-		// mandar e-mail
-	
-	}
 }

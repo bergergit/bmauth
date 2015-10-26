@@ -37,7 +37,7 @@ angular.module('bmauth', [
 	}).when('/users/:userId', { 
 		  templateUrl: 'fragments/users/edit.html',
 		  controller: 'UsersEditCtrl',
-		  controllerAs: 'vm' 
+		  controllerAs: 'vm'
 	}).otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

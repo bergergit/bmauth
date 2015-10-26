@@ -42,13 +42,9 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-<<<<<<< HEAD
 	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 
 	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService) {
-=======
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus', 'forgotMyPasswordService', 
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, forgotMyPasswordService) {
->>>>>>> branch 'Login' of http://projects.bergermobile.com.br/git/bergermobile/bmauth.git
+
 		var vm = this;
 		vm.userCreated = false;
 		directive.context = $rootScope.authContext;
@@ -224,9 +220,7 @@ angular.module("bmauth.main", [])
 				 }
 			 });
 		}
-		
-<<<<<<< HEAD
-		
+
 		vm.submitForgotMyPasswordForm = function() {
 			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
 			
@@ -250,32 +244,6 @@ angular.module("bmauth.main", [])
 			 });
 		}
 		
-		
-		vm.submitForgotMyPasswordForm = function() {
-			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
-			
-			 vm.forgotMyPassword.$save(function(response) {
-					console.debug("Forgot my password Success on save");
-					vm.emailInvalido = false;
-					vm.showError = false;
-					vm.forgotMyPasswordCreated = true;
-					directive.init($scope);
-			 }, function(response) {
-				 console.debug("Error on save token");
-				 
-				 if(response.status == 404){
-					 vm.emailInvalido = true;
-					 vm.showError = false;
-				 } else {
-					 vm.emailInvalido = false;
-					 vm.showError = true;
-					 vm.error = "Error: " + response.status + " - " + response.statusText;  
-				 }
-			 });
-		}
-		
-=======
->>>>>>> branch 'Login' of http://projects.bergermobile.com.br/git/bergermobile/bmauth.git
 	}];
 	
 	return directive;

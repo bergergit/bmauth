@@ -8,15 +8,15 @@ angular.module("bmauth.main", [])
 		appName: '@',
 		signedInUri: '@',
 		showFacebook: '=',
-		showGoogle: '='
-			
+		showGoogle: '=',
 	};
 	
 	directive.controllerAs = 'vm';
+	directive.require = '?ngModel';
 
 	directive.template = '<div ng-include="contentUrl"></div>'
 
-	directive.link = function(scope, elements, attr) {
+	directive.link = function(scope, elements, attr, ctrl) {
 		directive.init(scope);
 	}
 	
@@ -158,69 +158,32 @@ angular.module("bmauth.main", [])
 				});
 	    }
 		
-		/*
-		window.bmauth_gprender = function () {
-			console.debug('render function');
-			
-			gapi.signin.render('googleSignup', {
-		      'callback': signinCallback,
-		      'clientid': '134948939899-bdres6i4dra21nn21e86d5nob40c0sl0.apps.googleusercontent.com',
-		      'cookiepolicy': 'single_host_origin',
-		      'requestvisibleactions': 'http://schemas.google.com/AddActivity',
-		      'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
-		    });
-			
-			function signinCallback(authResult) {
-				console.debug('authResult', authResult);
-			}
-		}
-		*/
-		
 	    vm.logout = function() {
 	      auth.clear();
 	    };
 	    
 		// saves the user with a post, and redirects to signed in experience
 		vm.submitSignup = function() {
+			 
+			 //console.debug('form valid?', vm.form.$valid, vm.form);
 			 console.debug('Will submit', vm.signup);
-			 vm.signup.$save(function(response) {
-				 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
-				 if ($scope.signedInUri) {
-					//console.debug("Success on save");
-					directive.signinRedirect($location, $scope, auth, vm); 
-				 } else {
-					 vm.userCreated = true;
-				 }
-				 
-			 }, function(error) {
-				 console.debug("Error on save");
-				 formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
-			 });
+			 //if (vm.form.$valid) {
+				 vm.signup.$save(function(response) {
+					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
+					 if ($scope.signedInUri) {
+						//console.debug("Success on save");
+						directive.signinRedirect($location, $scope, auth, vm); 
+					 } else {
+						 vm.userCreated = true;
+					 }
+					 
+				 }, function(error) {
+					 console.debug("Error on save");
+					 formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
+				 });
+			 //}
 		}
 		
-		vm.submitForgotMyPasswordForm = function() {
-			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
-			
-			 vm.forgotMyPassword.$save(function(response) {
-					console.debug("Forgot my password Success on save");
-					vm.emailInvalido = false;
-					vm.showError = false;
-					vm.forgotMyPasswordCreated = true;
-					directive.init($scope);
-			 }, function(response) {
-				 console.debug("Error on save token");
-				 
-				 if(response.status == 404){
-					 vm.emailInvalido = true;
-					 vm.showError = false;
-				 } else {
-					 vm.emailInvalido = false;
-					 vm.showError = true;
-					 vm.error = "Error: " + response.status + " - " + response.statusText;  
-				 }
-			 });
-		}
-
 		vm.submitForgotMyPasswordForm = function() {
 			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
 			

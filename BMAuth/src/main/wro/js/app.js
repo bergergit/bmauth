@@ -6,7 +6,6 @@ angular.module('bmauth', [
   'datatables',
   'googleplus',
   'facebook',
-  'bmauth.home',
   'bmauth.applications',
   'bmauth.users',
   'bmauth.navigation',

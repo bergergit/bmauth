@@ -1,4 +1,4 @@
-<form class="form-horizontal form-signin" role="form" ng-submit="vm.login()">
+<form class="form-horizontal form-signin" role="form" ng-submit="vm.login()" name="form" novalidate>
 	<div class="alert alert-danger" ng-show="vm.authorizationError">
 		{{ 'login.error.authorizationError' | translate }}
 	</div>

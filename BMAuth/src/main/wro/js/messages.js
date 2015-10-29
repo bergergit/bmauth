@@ -17,7 +17,9 @@ bmauth_translations.en = {
 		"NotBlank": "não pode estar em branco",
 		"NotNull": "não pode ser nulo",
 		"email": "Email inválido.",
-		"required": "Campo obrigatório."
+		"required": "Campo obrigatório.",
+		"bmauthPasswordMatch": "As senhas não coindicem."
+			
 	},
 
 	// Remove modals

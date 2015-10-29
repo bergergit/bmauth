@@ -11,28 +11,30 @@
 				<input type="text" name="name" class="form-control" id="inputName" ng-model="vm.signup.name" required="required"/>
 			</div>
 		</div>
+		<!-- 
 		<div class="form-group">
 			<label for="inputDocument" class="col-md-4 control-label">{{ 'signup.label.document_type' | translate}}</label>
 			<div class="col-md-8">
 				<input type="text" class="form-control" id="inputDocument" ng-model="vm.signup.document_number"/>
 			</div>
 		</div>
-		<div class="form-group" ng-class="{'has-error' : form.email.$error.email && form.email.$touched}" bmauth-form-errors>
+		-->
+		<div class="form-group" bmauth-form-errors>
 			<label for="inputEmail" class="col-md-4 control-label">{{ 'signup.label.email' | translate}}</label>
 			<div class="col-md-8">
-				<input type="email" name="email" class="form-control" id="inputEmail" ng-model="vm.signup.email"/>
+				<input type="email" name="email" class="form-control" id="inputEmail" ng-model="vm.signup.email" required="required"/>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group" bmauth-form-errors>
 			<label for="inputPassword" class="col-md-4 control-label">{{ 'signup.label.password' | translate}}</label>
 			<div class="col-md-8">
-				<input type="password" class="form-control" id="inputPassword" ng-model="vm.signup.password"/>
+				<input type="password" name="password" class="form-control" id="inputPassword" ng-model="vm.signup.password" required="required"/>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group" bmauth-form-errors>
 			<label for="inputPassword2" class="col-md-4 control-label">{{ 'signup.label.repeat_password' | translate}}</label>
 			<div class="col-md-8">
-				<input type="password" class="form-control" id="inputPassword2" ng-model="vm.signup.password2"/>
+				<input type="password" name="password2" class="form-control" id="inputPassword2" ng-model="vm.signup.password2" bmauth-password-match match-with-id="inputPassword"/>
 			</div>
 		</div>
 		

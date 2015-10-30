@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javassist.NotFoundException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,9 +19,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.bergermobile.rest.domain.CommandResult;
 import com.bergermobile.rest.services.FormValidationException;
-
-import javassist.NotFoundException;
-import scala.annotation.meta.setter;
 
 /**
  * Controller advice to handle basic exceptions
@@ -63,9 +62,9 @@ public class RestExceptionAdvice {
 		commandResult.setId(e.getId());
 
 		List<Map<String, String>> fieldErrors = new ArrayList<Map<String, String>>();
-
-		Map<String, String> errorMap = new HashMap<String, String>();
+		
 		for (FieldError error : e.getResult().getFieldErrors()) {
+			Map<String, String> errorMap = new HashMap<String, String>();
 			errorMap.put("fieldName", error.getField());
 			errorMap.put("errorCode", error.getCode());
 			errorMap.put("defaultMessage", error.getDefaultMessage());

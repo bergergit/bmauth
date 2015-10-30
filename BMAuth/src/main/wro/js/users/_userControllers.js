@@ -23,17 +23,19 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	}
 	
 	// ng-submit
-	vm.submitUserForm = function(){
+	vm.submitUserForm = function() {
 		console.debug('Will submit', vm.signup);
 		
-		vm.signup.$save(
-			function(response) {
-				$location.path($rootScope.authContext + '/users')
-			 }, function(error) {
-				console.debug("Error on save", error);
-				formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
-			 }
-		);
+		if ($scope.form.$valid) {
+			vm.signup.$save(
+				function(response) {
+					$location.path($rootScope.authContext + '/users')
+				 }, function(error) {
+					console.debug("Error on save", error);
+					formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
+				 }
+			);
+		}
 	}
 	
 	// Application and roles Datatable
@@ -135,6 +137,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 			vm.userService = new userService();
 	        vm.userService.$delete({userId: info.userId}, function() {
 	        	vm.userDeleted = true;
+	        	promise = userService.query().$promise;
 	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
 	        });
 		});

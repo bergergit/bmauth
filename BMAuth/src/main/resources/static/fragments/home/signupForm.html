@@ -34,7 +34,7 @@
 		<div class="form-group" bmauth-form-errors>
 			<label for="inputPassword2" class="col-md-4 control-label">{{ 'signup.label.repeat_password' | translate}}</label>
 			<div class="col-md-8">
-				<input type="password" name="password2" class="form-control" id="inputPassword2" ng-model="vm.signup.password2" bmauth-password-match match-with-id="inputPassword"/>
+				<input type="password" name="password2" class="form-control" id="inputPassword2" ng-model="vm.signup.password2" required="required" bmauth-password-match match-with-id="inputPassword"/>
 			</div>
 		</div>
 		

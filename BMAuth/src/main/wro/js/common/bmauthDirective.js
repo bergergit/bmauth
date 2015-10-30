@@ -12,11 +12,10 @@ angular.module("bmauth.main", [])
 	};
 	
 	directive.controllerAs = 'vm';
-	directive.require = '?ngModel';
 
 	directive.template = '<div ng-include="contentUrl"></div>'
 
-	directive.link = function(scope, elements, attr, ctrl) {
+	directive.link = function(scope, elements, attr) {
 		directive.init(scope);
 	}
 	
@@ -163,11 +162,9 @@ angular.module("bmauth.main", [])
 	    };
 	    
 		// saves the user with a post, and redirects to signed in experience
-		vm.submitSignup = function() {
-			 
-			 //console.debug('form valid?', vm.form.$valid, vm.form);
+		vm.submitSignup = function(form) {
 			 console.debug('Will submit', vm.signup);
-			 //if (vm.form.$valid) {
+			 if (form.form.$valid) {
 				 vm.signup.$save(function(response) {
 					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
 					 if ($scope.signedInUri) {
@@ -181,7 +178,7 @@ angular.module("bmauth.main", [])
 					 console.debug("Error on save");
 					 formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
 				 });
-			 //}
+			 }
 		}
 		
 		vm.submitForgotMyPasswordForm = function() {

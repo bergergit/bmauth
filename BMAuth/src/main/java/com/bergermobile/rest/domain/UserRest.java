@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.bergermobile.persistence.domain.User;
@@ -28,6 +29,8 @@ public class UserRest implements Serializable {
 
 	private String documentNumber;
 
+	@Email(message="Email")
+	@NotBlank
 	private String email;
 
 	private Short loginType;
@@ -35,6 +38,7 @@ public class UserRest implements Serializable {
 	@NotBlank
 	private String name;
 
+	@NotBlank
 	private String password;
 
 	private Short userType;

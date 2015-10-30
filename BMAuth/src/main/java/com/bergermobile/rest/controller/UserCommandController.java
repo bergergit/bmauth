@@ -1,5 +1,7 @@
 package com.bergermobile.rest.controller;
 
+import javassist.NotFoundException;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -22,8 +24,6 @@ import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.EmailService;
 import com.bergermobile.rest.services.FormValidationException;
 import com.bergermobile.rest.services.UserService;
-
-import javassist.NotFoundException;
 
 @RestController
 @RequestMapping(value = "/bmauth")

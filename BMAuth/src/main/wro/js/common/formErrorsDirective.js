@@ -23,22 +23,22 @@ angular.module("bmauth.main")
 	directive.link = function(scope, el, attrs, form) {
 		if (!bmauthFormErrorsConfig.enabled) return; 	// ignore if not enabled
 		
-		var formName;
+		var formName, inputElement;
 		
 		// toggle error class and add a popover
 		var toggleClasses = function(invalid, error) {
 			el.toggleClass('has-error', invalid);
 
 			// attaches a popover with information about the error
+			inputElement.popover('destroy');	
 			if (invalid) {
-				el.popover({ content: translatedError(error) }).popover('show');	
-			} else {
-				el.popover('destroy');	
-			}
+				//el.popover({ content: translatedError(error) }).popover('show');
+				inputElement.popover({ content: translatedError(error) }).popover('show');
+			} 
 		}
 		
 		// find the form element inside this directive
-		var inputElement = el.find('.form-control');
+		inputElement = el.find('.form-control');
 		if (inputElement) {
 			formName = inputElement.attr('name');
 			if (!formName) {
@@ -48,11 +48,21 @@ angular.module("bmauth.main")
 			
 			// bind lost focus event to perform validation
 			inputNgElement.bind('blur', function() {
-				if (form[formName].$touched) {
+				//if (form[formName].$touched) {
 					//el.toggleClass('has-error', form[formName].$invalid);
 					toggleClasses(form[formName].$invalid, form[formName].$error);
-				}
+				//}
 			});
+			
+			// always watch for form changes
+			scope.$watch(function() {
+				
+	            return form[formName].$invalid;
+	        }, function(invalid) {
+	        	if (form[formName] && form[formName].$dirty) {
+	        		return toggleClasses(invalid, form[formName].$error);
+	        	}
+	        });
 			
 			// broadcast event to decorate form with errors;
 			scope.$on('check-validity', function() {
@@ -95,13 +105,13 @@ angular.module("bmauth.main")
 		},
 		link : function(scope, el, attrs, ctrl) {
 			ctrl.$validators.bmauthPasswordMatch = function(modelValue, viewValue) {
-				if (ctrl.$isEmpty(modelValue)) {
-					// consider empty models to be valid
-					return true;
-				}
-
+				modelValue = modelValue ? modelValue : '';
 				// gets the id to match with
 				var matchElement = el.parents('form').find('#' + scope.matchWithId);
+
+				// verifies the match
+				//debugger;
+				//if (matchElement && matchElement.length > 0 && ((ctrl.$isEmpty(matchElement.val()) && ctrl.$isEmpty(modelValue)) || matchElement.val() === modelValue)) {
 				if (matchElement && matchElement.length > 0 && matchElement.val() === modelValue) {
 					// it is valid
 					return true;

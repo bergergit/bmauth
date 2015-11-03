@@ -1,14 +1,14 @@
 package com.bergermobile.rest.controller;
 
-import javassist.NotFoundException;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.neo4j.cypher.internal.compiler.v2_1.ast.rewriters.normalizeEqualsArgumentOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bergermobile.rest.domain.FacebookRest;
+import com.bergermobile.rest.domain.ForgotPasswordRestparameters;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.EmailService;
 import com.bergermobile.rest.services.FormValidationException;
 import com.bergermobile.rest.services.UserService;
+
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping(value = "/bmauth")
@@ -88,10 +91,22 @@ public class UserCommandController {
 		
 	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void generateToken(@RequestBody UserRest userRest, HttpServletRequest httpServletRequest) throws NotFoundException, MessagingException {
+	public void generateToken(@RequestBody ForgotPasswordRestparameters forgotPasswordRestparameters, HttpServletRequest httpServletRequest) throws NotFoundException, MessagingException {
 		
-		String token = userService.generateUserToken(userRest);
+		System.out.println("-----------------------------");
+		UserRest userRest = userService.findByEmail(forgotPasswordRestparameters.getEmail());
+		
+		System.out.println("-----------------------------");
+		System.out.println("userRest: " + userRest);
+		System.out.println("email: " + forgotPasswordRestparameters.getEmail());
+		System.out.println("nome da aplicacao: " + forgotPasswordRestparameters.getAppName());
+		System.out.println("-----------------------------");
+		
+		//String token = userService.generateUserToken(userRest);
 
+		// System.out.println(userRest);
+		//System.out.println(appName);
+		
 //		System.out.println(httpServletRequest.getServerName());
 //
 //		System.out.println(httpServletRequest.getServerPort());
@@ -101,7 +116,7 @@ public class UserCommandController {
 		System.out.println(httpServletRequest.getServerName()); // nome
 		System.out.println(httpServletRequest.getServerPort()); // porta
 
-		String x = userService.generateBodyMailForgotMyPassword(userRest, token, "Link");
+		// String x = userService.generateBodyMailForgotMyPassword(userRest, token, "Link");
 		
 		
 

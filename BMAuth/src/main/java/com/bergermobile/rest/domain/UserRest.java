@@ -195,12 +195,14 @@ public class UserRest implements Serializable {
 		return result;
 	}
 	
-//	@Override
-//	public String toString() {
-//		return "UserRest [userId=" + userId + ", active=" + active + ", email="
-//				+ email + ", name=" + name + ", password=" + password
-//				+ ", username=" + username + "]";
-//	}
+	
+	@Override
+	public String toString() {
+		return "UserRest [userId=" + userId + ", active=" + active + ", birthday=" + birthday + ", documentNumber="
+				+ documentNumber + ", email=" + email + ", loginType=" + loginType + ", name=" + name + ", password="
+				+ password + ", userType=" + userType + ", username=" + username + ", contractUsersRest="
+				+ contractUsersRest + ", userRolesRest=" + userRolesRest + ", simpleUserRoles=" + simpleUserRoles + "]";
+	}
 
 	@Override
 	public boolean equals(Object obj) {

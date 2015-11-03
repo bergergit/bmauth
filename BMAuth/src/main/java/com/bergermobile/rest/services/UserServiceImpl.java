@@ -1,5 +1,8 @@
 package com.bergermobile.rest.services;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -318,12 +321,24 @@ public class UserServiceImpl implements UserService {
 		// messageSource.getMessage("dt.format.integradora", null,
 		// LocaleContextHolder.getLocale())));
 		
-		System.out.println("Host addr: " );
+		StringBuilder contentBuilder = new StringBuilder();
+		try {
+		    BufferedReader in = new BufferedReader(new FileReader("forgotPasswordEmail.html"));
+		    String str;
+		    while ((str = in.readLine()) != null) {
+		        contentBuilder.append(str);
+		    }
+		    in.close();
+		} catch (IOException e) {
+		}
+		String content = contentBuilder.toString();
+		
+		
+		
+		System.out.println("LocaleContextHolder.getLocale(): " + LocaleContextHolder.getLocale());
 
-		System.out.println("msg : "
-				+ this.messageBundle.getMessage("error.application.notFound", null, LocaleContextHolder.getLocale()));
-		System.out.println("msg : " + this.messageBundle.getMessage("drawing.point",
-				new Object[] { userRest.getEmail(), userRest.getName() }, LocaleContextHolder.getLocale()));
+		System.out.println("msg : "	+ this.messageBundle.getMessage("error.application.notFound", null, LocaleContextHolder.getLocale()));
+		System.out.println("msg : " + this.messageBundle.getMessage("drawing.point", new Object[] { userRest.getEmail(), userRest.getName() }, LocaleContextHolder.getLocale()));
 
 		return null;
 	}

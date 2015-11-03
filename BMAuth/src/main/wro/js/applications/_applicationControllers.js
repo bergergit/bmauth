@@ -12,8 +12,43 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	dtUtils.init(vm, $scope);
 	var applicationsPromise = null;
 	
+	
+	
+//	{"active": true, 
+//        "testMode": "false", 
+//        "mandatoryContract": "true", 
+//        "onlineContractsRest": [],
+//        "rolesRest": []}
+	
 	// Default parameters
-	vm.applicationField = new applicationService({"active": true, "testMode": "false", "mandatoryContract": "true"});
+	vm.applicationField = new applicationService({"active": true,
+	     "mandatoryContract": "false",
+		 "testMode": "false",
+		 "onlineContractsRest": [
+//			    {"onlineContractId": -1,
+//			     "contractVersion": "1.0",
+//			     "description": "Contrato 1.0",
+//			     "languageContractsRest": [
+//			        {
+//			          "languageContractId": -1,
+//			          "htmlContract": "Contrato ENG",
+//			          "language": "ENG"
+//			        }
+//			      ],
+//			    }
+			  ],
+			  "rolesRest": [
+			    {
+			      "roleId": -1,
+			      "roleName": "ADMIN"
+			    },
+			    {
+			      "roleId": -1,
+			      "roleName": "MANAGER"
+			    }
+			  ]
+			});
+	
 	if($routeParams.applicationId != 'new') {
 		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
 		applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;

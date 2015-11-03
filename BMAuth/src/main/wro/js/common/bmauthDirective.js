@@ -3,7 +3,7 @@ angular.module("bmauth.main", [])
 .directive("bmAuth", function() {
 	var directive = {};
 	//directive.restrict = 'AE';
-
+	
 	directive.scope = {
 		appName: '@',
 		signedInUri: '@',
@@ -22,6 +22,7 @@ angular.module("bmauth.main", [])
 	directive.init = function($scope) { 
 		$scope.contentUrl = directive.context + 'fragments/home/login.html';
 		$scope.signupFormUrl = directive.context + 'fragments/home/signupForm.html';
+		$scope.forgotPassoword = directive.context + 'fragments/home/forgotPassword.html';
 	}
 	
 	/**
@@ -56,7 +57,8 @@ angular.module("bmauth.main", [])
 		});
 
 	    vm.forgotMyPassword = new forgotMyPasswordService({
-	    	"email" : ""
+	    	"email" : "", 
+	    	"appName": $scope.appName
 	    });	    
 	    
 		/**

@@ -21,6 +21,7 @@ import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
+import com.bergermobile.persistence.repository.OnlineContractRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.LanguageContractRest;
@@ -50,7 +51,7 @@ public class RestConversionService {
 	public static ApplicationRest applicationToApplicationRest(Application application) {
 
 		ApplicationRest applicationRest = new ApplicationRest();
-
+		
 		applicationRest.setRolesRest(setRolesToRolesRest(application));
 
 		applicationRest.setOnlineContractsRest(setOnlineContractToOnlineContractRest(application));
@@ -67,7 +68,7 @@ public class RestConversionService {
 		Application application = new Application();
 
 		BeanUtils.copyProperties(applicationRest, application);
-
+		
 		application.setRoles(setRolesRestToRoles(applicationRest.getRolesRest(), application));
 
 		application.setOnlineContracts(setOnlineContractRestToOnlineContract(applicationRest.getOnlineContractsRest(), application));
@@ -192,15 +193,16 @@ public class RestConversionService {
 			List<OnlineContractRest> onlineContractRestList, Application application) {
 
 		List<OnlineContract> onlineContractList = new ArrayList<OnlineContract>();
-		List<LanguageContract> languageContractList = new ArrayList<LanguageContract>();
 
 		if (onlineContractRestList == null) {
 			return onlineContractList;
 		}
 
 		for (OnlineContractRest onlineContractRest : onlineContractRestList) {
+			List<LanguageContract> languageContractList = new ArrayList<LanguageContract>();
 			OnlineContract onlineContract = new OnlineContract();
 			// Copy attributes from onlineContract to onlineContractRest
+						
 			BeanUtils.copyProperties(onlineContractRest, onlineContract);
 
 			onlineContract.setApplication(application);

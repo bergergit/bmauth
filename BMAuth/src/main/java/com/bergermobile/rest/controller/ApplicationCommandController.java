@@ -22,7 +22,7 @@ public class ApplicationCommandController {
 	@RequestMapping(value = "/applications", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void saveApplication(@RequestBody ApplicationRest applicationRest) {
-
+		
 		applicationService.save(applicationRest);
 
 	}

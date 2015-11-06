@@ -3,12 +3,17 @@ package com.bergermobile.rest.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.persistence.domain.Application;
+import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.repository.ApplicationRepository;
+import com.bergermobile.persistence.repository.OnlineContractRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
+import com.bergermobile.rest.domain.OnlineContractRest;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -16,6 +21,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Autowired
 	private ApplicationRepository applicationRepository;
 
+	@Autowired
+	private OnlineContractRepository onlineContractRepository;
+	
 	@Override
 	public List<ApplicationRest> findAllApplications() {
 
@@ -68,8 +76,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
+	@Transactional
 	public void save(ApplicationRest applicationRest) {
-
+		
+		
+		if (applicationRest.getApplicationId() == null) {
+			Application application = new Application();
+			BeanUtils.copyProperties(applicationRest, application);
+			applicationRest.setApplicationId(applicationRepository.save(application).getApplicationId());
+		}
+		
 		Application application = RestConversionService.applicationRestToApplication(applicationRest);
 		
 		applicationRepository.save(application);

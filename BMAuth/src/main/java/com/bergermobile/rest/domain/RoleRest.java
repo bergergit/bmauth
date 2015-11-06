@@ -10,7 +10,7 @@ import javax.print.attribute.standard.Chromaticity;
  */
 public class RoleRest implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer roleId;
 
 	private String roleName;
@@ -31,6 +31,11 @@ public class RoleRest implements Serializable {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName.toUpperCase().replaceAll("\\s", "");
+	}
+
+	@Override
+	public String toString() {
+		return "RoleRest [roleId=" + roleId + ", roleName=" + roleName + "]";
 	}
 
 }

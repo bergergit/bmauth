@@ -1,8 +1,10 @@
 package com.bergermobile.rest.services;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +32,7 @@ import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.persistence.repository.UserRoleRepository;
+import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
@@ -254,19 +257,27 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserRest findByName(String name) {
-
-		User user = userRepository.findByName(name);
-
+	public UserRest findByEmailAndApplicationId(String email, Integer applicationId) {
+		User user = userRepository.findByEmailAndApplicationId(email, applicationId);
 		UserRest userRest = new UserRest();
 
 		if (user != null) {
-
 			BeanUtils.copyProperties(user, userRest);
-
 			return userRest;
 		}
+		return null;
+	}
 
+	@Override
+	public UserRest findByName(String name) {
+
+		User user = userRepository.findByName(name);
+		UserRest userRest = new UserRest();
+
+		if (user != null) {
+			BeanUtils.copyProperties(user, userRest);
+			return userRest;
+		}
 		return null;
 	}
 
@@ -315,32 +326,44 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String generateBodyMailForgotMyPassword(UserRest userRest, String token, String Link) {
+	public String generateBodyMailForgotMyPassword(UserRest userRest, ApplicationRest applicationRest, String link) {
 
-		// do berger
-		// messageSource.getMessage("dt.format.integradora", null,
-		// LocaleContextHolder.getLocale())));
-		
+		// Get Path
+		File currentDirectory = new File(new File(".").getAbsolutePath());
+		String localPath = null;
+
+		try {
+			localPath = currentDirectory.getCanonicalPath().toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Read the HTML of the body mail
 		StringBuilder contentBuilder = new StringBuilder();
 		try {
-		    BufferedReader in = new BufferedReader(new FileReader("forgotPasswordEmail.html"));
-		    String str;
-		    while ((str = in.readLine()) != null) {
-		        contentBuilder.append(str);
-		    }
-		    in.close();
+			BufferedReader in = new BufferedReader(
+					new FileReader(localPath + "/src/main/resources/static/fragments/home/forgotPasswordEmail_"
+							+ LocaleContextHolder.getLocale() + ".html"));
+			String str;
+			while ((str = in.readLine()) != null) {
+				contentBuilder.append(str);
+			}
+			in.close();
 		} catch (IOException e) {
 		}
+
 		String content = contentBuilder.toString();
-		
-		
-		
-		System.out.println("LocaleContextHolder.getLocale(): " + LocaleContextHolder.getLocale());
 
-		System.out.println("msg : "	+ this.messageBundle.getMessage("error.application.notFound", null, LocaleContextHolder.getLocale()));
-		System.out.println("msg : " + this.messageBundle.getMessage("drawing.point", new Object[] { userRest.getEmail(), userRest.getName() }, LocaleContextHolder.getLocale()));
+		// If we want to take a message from
+		// drawing.point=Circle: Point is: ({0}, {1}) // messages.properties
+		// System.out.println("msg : " +
+		// this.messageBundle.getMessage("drawing.point", new Object[] {
+		// userRest.getEmail(), userRest.getName() },
+		// LocaleContextHolder.getLocale()));
 
-		return null;
+		// replace de values
+		return MessageFormat.format(content, userRest.getName(), applicationRest.getApplicationName(), link).toString();
+
 	}
 
 }

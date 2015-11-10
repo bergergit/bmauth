@@ -78,7 +78,7 @@ bmauth_translations.en = {
 		"role.form.column.id": "Id",
 		"role.form.column.name": "Nome",
 		"role.form.header.delete.success" : "Role removida",
-		"role.form.header.save.success" : "Role salva",
+		"role.form.header.save.success" : "Role adicionada",
 
 		"contract.form.header": "Contratos",
 		"contract.form.column.Id": "Id",

@@ -14,44 +14,12 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	
 	// Default parameters
 	vm.applicationField = new applicationService();
-	
-// Fazendo o merge, as datatables nao atualizam quando se insere uma nova role ou contrato, quando o 
-// aplicativo está sendo criado. Quando vc está editando um aplicativo, ele funciona normalmente.
-// No caso de nova aplicacao ou edição, o sistema salva e atualiza o banco de dados corretamente.
-//
-//	if($routeParams.applicationId != 'new') {
-//		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
-//		applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
-//		applicationsPromise.then(function (result) {
-//			vm.applicationField = result;
-//		});
-//	} else{
-//		applicationsPromise = setPromise();
-//		applicationsPromise.then(function (result) {
-//	    //vm.applicationField = result;
-//		angular.merge(vm.applicationField, result);
-//		
-//	});
-//	}
 
-	// 
-	//  Sem fazer o merge, a tela funciona como deveria, mas da o erro quando tenta salvar a aplicação
-	//
-	//	TypeError: vm.applicationField.$save is not a function
-	//    at vm.submitApplicationForm (http://localhost:8081/js/app.js:2014:23)
-	//    at fn (eval at <anonymous> (http://localhost:8081/js/app.js:378:83), <anonymous>:4:271)
-	//    at f (http://localhost:8081/js/app.js:418:74)
-	//    at n.$eval (http://localhost:8081/js/app.js:300:493)
-	//    at n.$apply (http://localhost:8081/js/app.js:301:217)
-	//    at HTMLFormElement.<anonymous> (http://localhost:8081/js/app.js:418:126)
-	//    at HTMLFormElement.n.event.dispatch (http://localhost:8081/js/app.js:3:6466)
-	//    at HTMLFormElement.r.handle (http://localhost:8081/js/app.js:3:3241)
-    	
 	if($routeParams.applicationId != 'new') {
-		  applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
-		} else {
-		  applicationsPromise = setPromise();
-		}	
+		applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
+	} else {
+		applicationsPromise = setPromise();
+	}	
 	applicationsPromise.then(function (result) {
 		vm.applicationField = result;
 	});
@@ -60,7 +28,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	// Defauld values
 	function setPromise() {
 		  return $q(function(resolve) {
-					        resolve({
+					        resolve(angular.extend(new applicationService(), {
 					        	"active": true, 
 							    "testMode": "false", 
 							    "mandatoryContract": "true",
@@ -72,7 +40,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 					            "rolesRest": [
 					                          {"roleId": -1,"roleName": "ADMIN"},
 					                          {"roleId": -1,"roleName": "USER"},
-					                          ]});
+					                          ]}));
 			  });
 	}
 	

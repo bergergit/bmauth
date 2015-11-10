@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
@@ -21,8 +23,9 @@ public class AuthenticationController {
 	static Log LOG = LogFactory.getLog(CustomUserDetailsService.class);
 
 	@RequestMapping("/user")
-	public Map<String, Object> user(Principal user) {
+	public Map<String, Object> user(Principal user, HttpServletRequest request) {
 		LOG.debug("Trying to retrieve user " + user);
+		LOG.debug("Remember me? " + request.getParameter("remember-me"));
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		if (user != null) {
 			map.put("name", user.getName());

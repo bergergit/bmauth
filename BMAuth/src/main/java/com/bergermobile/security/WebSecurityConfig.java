@@ -29,6 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
     BCryptPasswordEncoder bcryptEncoder;
+	
+	//@Autowired
+	//PersistentAccessToken redisTokenRepository;
 
 
 	@Override
@@ -55,9 +58,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.permitAll()
 			.and()
 				.httpBasic()
+//			.and()
+//				.rememberMe()
 			.and()
             	.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
             	.csrf().csrfTokenRepository(csrfTokenRepository());
+			
 		// @formatter:on
 	}
 

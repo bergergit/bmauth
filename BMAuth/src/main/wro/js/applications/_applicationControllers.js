@@ -28,7 +28,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	// Defauld values
 	function setPromise() {
 		  return $q(function(resolve) {
-					        resolve(angular.extend(new applicationService(), {
+					        resolve(new applicationService({
 					        	"active": true, 
 							    "testMode": "false", 
 							    "mandatoryContract": "true",

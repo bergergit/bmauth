@@ -5,21 +5,75 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
  * 
  * Call a factory application / ApplicationService.js
  */
-.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$uibModal', '$window',  
-                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $uibModal, $window) {
+.controller('ApplicationsEditCtrl', [ '$scope', 'applicationService', 'DTOptionsBuilder','DTColumnBuilder', '$routeParams', '$rootScope', '$location', '$filter', 'dtUtils','$uibModal', '$window', '$q',  
+                                      function($scope, applicationService, DTOptionsBuilder, DTColumnBuilder,$routeParams, $rootScope, $location, $filter, dtUtils, $uibModal, $window, $q) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
 	var applicationsPromise = null;
 	
 	// Default parameters
-	vm.applicationField = new applicationService({"active": true, "testMode": "false", "mandatoryContract": "true"});
+	vm.applicationField = new applicationService();
+	
+// Fazendo o merge, as datatables nao atualizam quando se insere uma nova role ou contrato, quando o 
+// aplicativo está sendo criado. Quando vc está editando um aplicativo, ele funciona normalmente.
+// No caso de nova aplicacao ou edição, o sistema salva e atualiza o banco de dados corretamente.
+//
+//	if($routeParams.applicationId != 'new') {
+//		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
+//		applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
+//		applicationsPromise.then(function (result) {
+//			vm.applicationField = result;
+//		});
+//	} else{
+//		applicationsPromise = setPromise();
+//		applicationsPromise.then(function (result) {
+//	    //vm.applicationField = result;
+//		angular.merge(vm.applicationField, result);
+//		
+//	});
+//	}
+
+	// 
+	//  Sem fazer o merge, a tela funciona como deveria, mas da o erro quando tenta salvar a aplicação
+	//
+	//	TypeError: vm.applicationField.$save is not a function
+	//    at vm.submitApplicationForm (http://localhost:8081/js/app.js:2014:23)
+	//    at fn (eval at <anonymous> (http://localhost:8081/js/app.js:378:83), <anonymous>:4:271)
+	//    at f (http://localhost:8081/js/app.js:418:74)
+	//    at n.$eval (http://localhost:8081/js/app.js:300:493)
+	//    at n.$apply (http://localhost:8081/js/app.js:301:217)
+	//    at HTMLFormElement.<anonymous> (http://localhost:8081/js/app.js:418:126)
+	//    at HTMLFormElement.n.event.dispatch (http://localhost:8081/js/app.js:3:6466)
+	//    at HTMLFormElement.r.handle (http://localhost:8081/js/app.js:3:3241)
+    	
 	if($routeParams.applicationId != 'new') {
-		//vm.applicationField = applicationService.get({applicationId: $routeParams.applicationId});
-		applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
-		applicationsPromise.then(function (result) {
-			vm.applicationField = result;
-		});
+		  applicationsPromise = applicationService.get({applicationId: $routeParams.applicationId}).$promise;
+		} else {
+		  applicationsPromise = setPromise();
+		}	
+	applicationsPromise.then(function (result) {
+		vm.applicationField = result;
+	});
+
+	
+	// Defauld values
+	function setPromise() {
+		  return $q(function(resolve) {
+					        resolve({
+					        	"active": true, 
+							    "testMode": "false", 
+							    "mandatoryContract": "true",
+					            "onlineContractsRest": [{"onlineContractId": "-1",
+					            	                     "contractVersion": "1.0",
+					            	                     "description": "Contrato 1.0",
+					            	                     "languageContractsRest": [{ "htmlContract": "",
+					            	                                                 "language": "PTBR"}]}],
+					            "rolesRest": [
+					                          {"roleId": -1,"roleName": "ADMIN"},
+					                          {"roleId": -1,"roleName": "USER"},
+					                          ]});
+			  });
 	}
 	
 	// cancel - goes back to application list
@@ -54,12 +108,10 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	vm.dtInstanceRole = {};
 	
 	var dtOptionsBuilderRole = DTOptionsBuilder.newOptions();
-	if (applicationsPromise) {
-		dtOptionsBuilderRole = DTOptionsBuilder.fromFnPromise(function() {
-			return applicationsPromise;
-	    })
-	}
-    
+	dtOptionsBuilderRole = DTOptionsBuilder.fromFnPromise(function() {
+		return applicationsPromise;
+	})
+	
 	vm.dtOptionsRole = dtOptionsBuilderRole
 		.withDataProp('rolesRest')
 		.withOption('rowCallback', dtUtils.rowCallback)
@@ -75,11 +127,9 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	vm.dtInstanceContract = {};
 	
 	var dtOptionsBuilderContract = DTOptionsBuilder.newOptions();
-	if (applicationsPromise) {
-		dtOptionsBuilderContract = DTOptionsBuilder.fromFnPromise(function() {
-			return applicationsPromise;
-	    })
-	}
+	dtOptionsBuilderContract = DTOptionsBuilder.fromFnPromise(function() {
+		return applicationsPromise;
+    })
 	
 	vm.dtOptionsContract = dtOptionsBuilderContract
 	.withDataProp('onlineContractsRest')
@@ -331,6 +381,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 	        vm.applicationService.$delete({applicationId: info.applicationId}, function() {
 	        	vm.appDeleted = true;
 	        	vm.appSaved = false;
+	        	promise = applicationService.query().$promise;
 	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
 	        });
 		});

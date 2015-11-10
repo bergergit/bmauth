@@ -2,9 +2,7 @@ package com.bergermobile.rest.services;
 
 import java.util.List;
 
-import org.springframework.security.web.header.writers.frameoptions.StaticAllowFromStrategy;
-
-import com.bergermobile.rest.controller.RestToken;
+import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
@@ -21,7 +19,9 @@ public interface UserService {
 	public UserRest findByUserId(int userId);
 	
 	public UserRest findByEmail(String email);
-	
+
+	public UserRest findByEmailAndApplicationId(String email, Integer applicationId);
+
 	public UserRest findByName(String name);
 	
 	public void save(UserRest userRest, boolean saveRoles);
@@ -35,6 +35,6 @@ public interface UserService {
 	
 	public boolean validateUserToken(Integer userId, String token);
 	
-	public String generateBodyMailForgotMyPassword(UserRest userRest, String token, String Link);
-
+	public String generateBodyMailForgotMyPassword(UserRest userRest, ApplicationRest applicationRest, String link);
+	
 }

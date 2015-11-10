@@ -1,5 +1,6 @@
 package com.bergermobile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,9 +19,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
+import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
+import com.bergermobile.persistence.repository.ApplicationRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.rest.services.SerializableResourceBundleMessageSource;
@@ -51,6 +54,9 @@ public class BmAuthApplication {
 		static Log LOG = LogFactory.getLog(Configurator.class);
 
 		@Autowired
+		ApplicationRepository applicationRepository;
+		
+		@Autowired
 		UserRepository userRepository;
 
 		@Autowired
@@ -65,18 +71,29 @@ public class BmAuthApplication {
 		@PostConstruct
 		public void init() {
 			if (!userRepository.findAll().iterator().hasNext()) {
+				
 				LOG.debug("Inserting default user \"admin\" with password: "
 						+ environment.getProperty("security.user.password"));
 				userRepository.save(defaultAdminUser());
+								
 			}
 		}
-
+		
 		/**
 		 * Creates a default admin user, with a default admin role
 		 * 
 		 * @return
 		 */
 		private User defaultAdminUser() {
+			
+			Application app = new Application();
+			app.setApplicationName("BMAuth");
+			app.setActive(true);
+			app.setMandatoryContract(false);
+			app.setTestMode(false);
+			app.setUrl(environment.getProperty("bmauth.url.init"));
+			app = applicationRepository.save(app);
+			
 			User user = new User();
 			user.setActive(true);
 			user.setUsername("admin");
@@ -87,6 +104,7 @@ public class BmAuthApplication {
 
 			Role role = new Role();
 			role.setRoleName("BMAUTH-ADMIN");
+			role.setApplication(app);
 			role = roleRepository.save(role);
 
 			UserRole userRole = new UserRole();

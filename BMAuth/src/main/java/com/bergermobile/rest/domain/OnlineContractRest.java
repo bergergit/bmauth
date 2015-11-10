@@ -70,4 +70,11 @@ public class OnlineContractRest implements Serializable {
 		this.applicationRest = applicationRest;
 	}
 
+	@Override
+	public String toString() {
+		return "OnlineContractRest [onlineContractId=" + onlineContractId + ", contractVersion=" + contractVersion
+				+ ", description=" + description + ", contractUsersRest=" + contractUsersRest
+				+ ", languageContractsRest=" + languageContractsRest + ", applicationRest=" + applicationRest + "]";
+	}
+	
 }

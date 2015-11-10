@@ -37,6 +37,10 @@ angular.module('bmauth', [
 		  templateUrl: 'fragments/users/edit.html',
 		  controller: 'UsersEditCtrl',
 		  controllerAs: 'vm'
+	}).when('/reset/:token/:userid', { 
+		  templateUrl: 'fragments/home/changePassword.html',
+		  controller: 'ChangePasswordUserCtrl',
+		  controllerAs: 'vm' 
 	}).otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

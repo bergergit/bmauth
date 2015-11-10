@@ -100,4 +100,13 @@ public class ApplicationRest implements Serializable {
 		this.rolesRest = rolesRest;
 	}
 
+	@Override
+	public String toString() {
+		return "ApplicationRest [applicationId=" + applicationId + ", active=" + active + ", mandatoryContract="
+				+ mandatoryContract + ", applicationName=" + applicationName + ", testMode=" + testMode + ", url=" + url
+				+ ", onlineContractsRest=" + onlineContractsRest + ", rolesRest=" + rolesRest + "]";
+	}
+	
+	
+
 }

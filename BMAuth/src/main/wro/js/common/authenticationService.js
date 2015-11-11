@@ -24,7 +24,7 @@ angular.module('bmauth.authentication', [])
 			
 			//console.debug('credentials', credentials.username, credentials.password);
 
-			$http.get(auth.loginPath, {
+			$http.get(auth.loginPath + '?rememberMe=' + credentials.rememberMe, {
 				headers : headers
 			}).success(function(data) {
 				console.debug('bmauth.authentication - data', data);

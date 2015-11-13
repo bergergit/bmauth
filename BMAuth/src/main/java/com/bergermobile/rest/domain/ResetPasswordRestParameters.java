@@ -1,7 +1,6 @@
 package com.bergermobile.rest.domain;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.steps.optional;
 
 public class ResetPasswordRestParameters {
 

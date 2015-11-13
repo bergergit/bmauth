@@ -1,14 +1,13 @@
 package com.bergermobile.rest.controller;
 
+import javassist.NotFoundException;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.Null;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.neo4j.cypher.internal.compiler.v2_1.ast.rewriters.isolateAggregation;
-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.steps.optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -31,8 +30,6 @@ import com.bergermobile.rest.services.EmailService;
 import com.bergermobile.rest.services.FormValidationException;
 import com.bergermobile.rest.services.SerializableResourceBundleMessageSource;
 import com.bergermobile.rest.services.UserService;
-
-import javassist.NotFoundException;
 
 @RestController
 @RequestMapping(value = "/bmauth")

@@ -46,7 +46,7 @@ public class BmAuthApplication {
 	public BCryptPasswordEncoder bcryptEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
 	@Configuration
 	protected static class Configurator {
 

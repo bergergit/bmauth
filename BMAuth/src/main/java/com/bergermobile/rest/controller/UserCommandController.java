@@ -108,7 +108,7 @@ public class UserCommandController {
 
 	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void generateToken(@RequestBody ForgotPasswordRestparameters forgotPasswordRestparameters,
+	public void generateToken(@Valid @RequestBody ForgotPasswordRestparameters forgotPasswordRestparameters,
 			HttpServletRequest httpServletRequest) throws MessagingException, NotFoundException {
 
 		// Check if this email has access to the application
@@ -149,13 +149,9 @@ public class UserCommandController {
 			throw new NotFoundException("Expired request");
 		}
 
-		if (resetPasswordRestParameters.isValidPassword()) {
-			UserRest userRest = userService.findByUserId(resetPasswordRestParameters.getUserId());
-			userRest.setPassword(resetPasswordRestParameters.getPassword());
-			userService.save(userRest, false);
-		} else {
-			throw new Error();
-		}
+		UserRest userRest = userService.findByUserId(resetPasswordRestParameters.getUserId());
+		userRest.setPassword(resetPasswordRestParameters.getPassword());
+		userService.save(userRest, true);
 
 	}
 

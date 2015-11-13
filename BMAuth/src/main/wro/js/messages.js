@@ -104,6 +104,13 @@ bmauth_translations.en = {
 		"contract.form.label.htmlContract": "Contrato HTML",
 		"contract.form.label.language": "Idioma"
 	},
+
+	"resetPassword": { 
+		"form.header": "Reset sua senha",		
+		"label.password": "Senha",
+		"label.repeat_password": "Digite a senha novamente",
+		"message.error.400": "Solicitação expirada."
+	},
 	
 	// Users screens
 	"user": {
@@ -121,12 +128,6 @@ bmauth_translations.en = {
 		"form.label.email": "Digite seu email",
 		"form.emailInvalido": "E-mail não encontrado para essa aplicação"
 	},
-	
-	"resetPassword": { 
-	"form.header": "Reset sua senha",		
-	"label.password": "Senha",
-	"label.repeat_password": "Digite a senha novamente",
-	}
 	
 };
 

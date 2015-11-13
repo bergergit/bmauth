@@ -49,8 +49,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 'resetMyPasswordService', '$routeParams',
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService, resetMyPasswordService, $routeParams) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 'resetMyPasswordService', '$routeParams','$translate',
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService, resetMyPasswordService, $routeParams, $translate) {
 
 		var vm = this;
 		vm.userCreated = false;
@@ -227,27 +227,26 @@ angular.module("bmauth.main", [])
 
 		vm.submitResetMyPasswordForm = function() {
 			console.debug('Will submit resetMyPassword', vm.resetMyPassword);
-			 vm.resetMyPassword.$save(function(response) {
-					console.debug("reset my password Success on save");
-					vm.showError = false;
-					$location.path(directive.context + 'fragments/home/login.html');
-			 }, function(response) {
-				 console.debug("Error on save token");
-				 vm.showError = true;
-				 vm.error = "Error: " + response.status + " - " + response.statusText;  
-
-				 if(response.status == 404){
-					 vm.showError = true;
-					 vm.error = "Token invalido ";  
-				 } else if(response.status == 500){
-					 vm.showError = true;
-					 vm.error = "Senha invalida: ";
-				 } else {
+			if ($scope.form.$valid) {
+				 vm.resetMyPassword.$save(function(response) {
+						console.debug("reset my password Success on save");
+						vm.showError = false;
+						$location.path(directive.context + 'fragments/home/login.html');
+				 }, function(response) {
+					 console.debug("Error on save token");
 					 vm.showError = true;
 					 vm.error = "Error: " + response.status + " - " + response.statusText;  
-				 }
-			 
-			 });
+	
+					 if(response.status == 404){
+						 vm.showError = true;
+						 vm.error = $translate.instant('resetPassword.message.error.400');  
+					 } else {
+						 vm.showError = true;
+						 vm.error = "Error: " + response.status + " - " + response.statusText;  
+					 }
+				 
+				 });
+			}
 		}
 		
 	}];

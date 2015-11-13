@@ -38,7 +38,6 @@ public class UserRest implements Serializable {
 	@NotBlank
 	private String name;
 
-	@NotBlank
 	private String password;
 
 	private Short userType;

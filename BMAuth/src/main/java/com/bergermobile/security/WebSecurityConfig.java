@@ -30,10 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     BCryptPasswordEncoder bcryptEncoder;
 	
-	//@Autowired
-	//PersistentAccessToken redisTokenRepository;
-
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//http.csrf().disable();

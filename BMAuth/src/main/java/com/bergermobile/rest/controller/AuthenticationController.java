@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +23,20 @@ import com.bergermobile.security.CustomUserDetailsService;
 public class AuthenticationController {
 	
 	static Log LOG = LogFactory.getLog(CustomUserDetailsService.class);
+	
+	@Autowired
+    private Environment environment;
 
 	@RequestMapping("/user")
 	public Map<String, Object> user(Principal user, HttpServletRequest request) {
 		LOG.debug("Trying to retrieve user " + user);
-		LOG.debug("Remember me? " + request.getParameter("remember-me"));
+		
+		// if remember me is checked, session will be longer
+		if (request.getParameter("rememberMe") != null && request.getParameter("rememberMe").equals("true")) {
+			LOG.debug("Setting remember me session to higher value");
+			request.getSession().setMaxInactiveInterval(Integer.parseInt(environment.getProperty("bmauth.rememberme.expire").trim()) * 60);
+		} 
+		
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		if (user != null) {
 			map.put("name", user.getName());

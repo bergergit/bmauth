@@ -6,5 +6,9 @@ angular.module('bmauth.users')
 
 .factory('forgotMyPasswordService', [ '$resource','$rootScope', function($resource, $rootScope) {
 	return $resource($rootScope.authContext + 'bmauth/token/generate_token');
+}])
+
+.factory('resetMyPasswordService', [ '$resource','$rootScope', function($resource, $rootScope) {
+	return $resource($rootScope.authContext + 'bmauth/reset/reset_password');
 }]);
 

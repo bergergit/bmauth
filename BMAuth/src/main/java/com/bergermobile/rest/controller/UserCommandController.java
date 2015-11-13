@@ -3,9 +3,12 @@ package com.bergermobile.rest.controller;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.neo4j.cypher.internal.compiler.v2_1.ast.rewriters.isolateAggregation;
+import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.steps.optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,7 @@ import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.ForgotPasswordRestparameters;
 import com.bergermobile.rest.domain.GoogleRest;
+import com.bergermobile.rest.domain.ResetPasswordRestParameters;
 import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.ApplicationService;
 import com.bergermobile.rest.services.EmailService;
@@ -47,7 +51,7 @@ public class UserCommandController {
 
 	@Autowired
 	private ApplicationService applicationService;
-	
+
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void saveUser(@Valid @RequestBody UserRest userRest, BindingResult result, HttpServletRequest request)
@@ -104,11 +108,14 @@ public class UserCommandController {
 
 	@RequestMapping(value = "/token/generate_token", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void generateToken(@RequestBody ForgotPasswordRestparameters forgotPasswordRestparameters, HttpServletRequest httpServletRequest) throws MessagingException, NotFoundException {
-		
+	public void generateToken(@RequestBody ForgotPasswordRestparameters forgotPasswordRestparameters,
+			HttpServletRequest httpServletRequest) throws MessagingException, NotFoundException {
+
 		// Check if this email has access to the application
-		ApplicationRest applicationRest = applicationService.findByApplicationName(forgotPasswordRestparameters.getAppName());
-		UserRest userRest = userService.findByEmailAndApplicationId(forgotPasswordRestparameters.getEmail(), applicationRest.getApplicationId());
+		String appName = forgotPasswordRestparameters.getAppName();
+		ApplicationRest applicationRest = applicationService.findByApplicationName(appName);
+		UserRest userRest = userService.findByEmailAndApplicationId(forgotPasswordRestparameters.getEmail(),
+				applicationRest.getApplicationId());
 
 		if (userRest == null) {
 			throw new NotFoundException("email not found for this application");
@@ -123,11 +130,33 @@ public class UserCommandController {
 
 		// send e-mail
 		try {
-			emailService.send(userRest.getEmail(), subject, emailBody);
+			emailService.send(appName, userRest.getEmail(), subject, emailBody);
 		} catch (Exception e) {
 			LOG.error("UserCommandController. generateToken sending email " + e.getMessage());
 		}
-		
+
+	}
+
+	@RequestMapping(value = "/reset/reset_password", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void resetPassword(@RequestBody ResetPasswordRestParameters resetPasswordRestParameters,
+			HttpServletRequest httpServletRequest) throws NotFoundException {
+
+		boolean isValidToken = userService.validateUserToken(resetPasswordRestParameters.getUserId(),
+				resetPasswordRestParameters.getToken());
+
+		if (isValidToken == false) {
+			throw new NotFoundException("Expired request");
+		}
+
+		if (resetPasswordRestParameters.isValidPassword()) {
+			UserRest userRest = userService.findByUserId(resetPasswordRestParameters.getUserId());
+			userRest.setPassword(resetPasswordRestParameters.getPassword());
+			userService.save(userRest, false);
+		} else {
+			throw new Error();
+		}
+
 	}
 
 }

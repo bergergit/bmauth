@@ -38,8 +38,7 @@ angular.module('bmauth', [
 		  controller: 'UsersEditCtrl',
 		  controllerAs: 'vm'
 	}).when('/reset/:token/:userid', { 
-		  templateUrl: 'fragments/home/changePassword.html',
-		  controller: 'ChangePasswordUserCtrl',
+		  templateUrl: 'fragments/home/resetPassword.html',
 		  controllerAs: 'vm' 
 	}).otherwise({redirectTo: '/'});
 	

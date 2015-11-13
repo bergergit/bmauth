@@ -36,7 +36,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 					            	                     "contractVersion": "1.0",
 					            	                     "description": "Contrato 1.0",
 					            	                     "languageContractsRest": [{ "htmlContract": "",
-					            	                                                 "language": "PTBR"}]}],
+					            	                                                 "language": "pt_BR"}]}],
 					            "rolesRest": [
 					                          {"roleId": -1,"roleName": "ADMIN"},
 					                          {"roleId": -1,"roleName": "USER"},

@@ -28,7 +28,7 @@ public class SiteController {
 	 */
 	// @RequestMapping(value = "/{[path:[^\\.]*}")
 	// @RequestMapping(value = "/{[^\\.]}*/{[^\\.]}*/{[^\\.]}*")
-	@RequestMapping(value = { "", "signup", "login", "logout", "users", "users/**", "applications", "applications/**" })
+	@RequestMapping(value = { "", "signup", "login", "logout", "users", "users/**", "applications", "applications/**", "/reset/**" })
 	public String redirect() {
 		// Forward to home page so that route is preserved.
 		return "forward:/";

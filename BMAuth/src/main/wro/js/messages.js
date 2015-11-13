@@ -120,6 +120,13 @@ bmauth_translations.en = {
 		"form.header": "Reset sua senha",
 		"form.label.email": "Digite seu email",
 		"form.emailInvalido": "E-mail não encontrado para essa aplicação"
+	},
+	
+	"resetPassword": { 
+	"form.header": "Reset sua senha",		
+	"label.password": "Senha",
+	"label.repeat_password": "Digite a senha novamente",
 	}
+	
 };
 

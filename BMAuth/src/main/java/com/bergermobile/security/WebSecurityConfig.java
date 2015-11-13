@@ -42,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/", "/fonts/**", "/webjars/**", "/messageBundle/**",
-					"/fragments/**", "/signup", "/bmauth/login", "/bmauth/token/**")
+					"/fragments/**", "/signup", "/bmauth/login", "/bmauth/token/**", "/reset/**")
 				.permitAll()
-			.antMatchers(HttpMethod.POST, "/bmauth/users","/bmauth/users/facebook","/bmauth/users/google", "/bmauth/token/**")
+			.antMatchers(HttpMethod.POST, "/bmauth/users","/bmauth/users/facebook","/bmauth/users/google", "/bmauth/token/**", "/bmauth/reset/**")
 				.permitAll()
 			.antMatchers(HttpMethod.POST, "/bmauth/**")
 				.hasRole("BMAUTH-ADMIN")

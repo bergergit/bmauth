@@ -1,6 +1,6 @@
 angular.module("bmauth.main", [])
 
-.directive("bmAuth", function() {
+.directive("bmAuth", function($location) {
 	var directive = {};
 	//directive.restrict = 'AE';
 	
@@ -15,14 +15,21 @@ angular.module("bmauth.main", [])
 
 	directive.template = '<div ng-include="contentUrl"></div>'
 
-	directive.link = function(scope, elements, attr) {
-		directive.init(scope);
+	directive.link = function(scope, location, elements, attr) {
+		directive.init(scope, $location);
 	}
 	
-	directive.init = function($scope) { 
-		$scope.contentUrl = directive.context + 'fragments/home/login.html';
+	directive.init = function($scope, $location) { 
+		if ($location.path().substring(0, 7) == "/reset/") {
+			$scope.contentUrl = directive.context + 'fragments/home/resetPasswordForm.html';
+		} else {
+			$scope.contentUrl = directive.context + 'fragments/home/login.html';
+		}
+
+		//$scope.contentUrl = directive.context + 'fragments/home/login.html';
 		$scope.signupFormUrl = directive.context + 'fragments/home/signupForm.html';
-		$scope.forgotPassoword = directive.context + 'fragments/home/forgotPassword.html';
+		$scope.forgotPassword = directive.context + 'fragments/home/forgotPassword.html';
+		$scope.resetMyPassword = directive.context + 'fragments/home/resetPasswordForm.html';
 	}
 	
 	/**
@@ -42,8 +49,8 @@ angular.module("bmauth.main", [])
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 'resetMyPasswordService', '$routeParams',
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService, resetMyPasswordService, $routeParams) {
 
 		var vm = this;
 		vm.userCreated = false;
@@ -60,6 +67,14 @@ angular.module("bmauth.main", [])
 	    	"email" : "", 
 	    	"appName": $scope.appName
 	    });	    
+
+	    vm.resetMyPassword = new resetMyPasswordService({
+	    	"password" : "", 
+	    	"password2": "",
+	    	"token": $routeParams.token,
+	    	"userId": $routeParams.userid
+	    });	    
+	    
 	    
 		/**
 		 * Sign up form
@@ -68,7 +83,7 @@ angular.module("bmauth.main", [])
 			$scope.contentUrl = directive.context + "fragments/home/signup.html";
 		}
 
-		vm.forgotMyPassowrd = function() {
+		vm.forgotMyPasswordCall = function() {
 			$scope.contentUrl = directive.context + "fragments/home/forgotPassword.html";
 		}
 
@@ -80,7 +95,11 @@ angular.module("bmauth.main", [])
 	     * Cancel. Takes to home again
 	     */
 		vm.cancel = function() {
-			directive.init($scope);
+			if ($location.path().substring(0, 7) == "/reset/") {
+				$location.path(directive.context + 'fragments/home/login.html');
+			} else {
+				directive.init($scope, $location);
+			}
 		}
 	  
 	    /** 
@@ -191,7 +210,7 @@ angular.module("bmauth.main", [])
 					vm.emailInvalido = false;
 					vm.showError = false;
 					vm.forgotMyPasswordCreated = true;
-					directive.init($scope);
+					directive.init($scope, $location);
 			 }, function(response) {
 				 console.debug("Error on save token");
 				 
@@ -203,6 +222,31 @@ angular.module("bmauth.main", [])
 					 vm.showError = true;
 					 vm.error = "Error: " + response.status + " - " + response.statusText;  
 				 }
+			 });
+		}
+
+		vm.submitResetMyPasswordForm = function() {
+			console.debug('Will submit resetMyPassword', vm.resetMyPassword);
+			 vm.resetMyPassword.$save(function(response) {
+					console.debug("reset my password Success on save");
+					vm.showError = false;
+					$location.path(directive.context + 'fragments/home/login.html');
+			 }, function(response) {
+				 console.debug("Error on save token");
+				 vm.showError = true;
+				 vm.error = "Error: " + response.status + " - " + response.statusText;  
+
+				 if(response.status == 404){
+					 vm.showError = true;
+					 vm.error = "Token invalido ";  
+				 } else if(response.status == 500){
+					 vm.showError = true;
+					 vm.error = "Senha invalida: ";
+				 } else {
+					 vm.showError = true;
+					 vm.error = "Error: " + response.status + " - " + response.statusText;  
+				 }
+			 
 			 });
 		}
 		

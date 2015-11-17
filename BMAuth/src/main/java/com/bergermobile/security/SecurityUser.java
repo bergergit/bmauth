@@ -12,11 +12,13 @@ public class SecurityUser implements UserDetails
 {
 
 	private static final long serialVersionUID = 1L;
+	private Integer userId;
 	private String username, password;
 	private boolean active;
 	private List<String> roles;
 	
-	public SecurityUser(String username, String password, boolean active, List<String> roles) {
+	public SecurityUser(Integer userId, String username, String password, boolean active, List<String> roles) {
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.active = active;
@@ -34,6 +36,14 @@ public class SecurityUser implements UserDetails
 			}
 		}
 		return authorities;
+	}
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Override

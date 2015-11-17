@@ -11,10 +11,10 @@ public class BaseTable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "created_by")
+	@Column(name = "created_by", updatable=false)
 	private Integer createdBy;
 
-	@Column(name = "creation_date")
+	@Column(name = "creation_date", updatable=false)
 	private Timestamp creationDate;
 
 	@Column(name = "last_update_date")
@@ -53,6 +53,13 @@ public class BaseTable implements Serializable {
 
 	public void setLastUpdatedBy(Integer lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
+	}
+
+	@Override
+	public String toString() {
+		return "BaseTable [createdBy=" + createdBy + ", creationDate="
+				+ creationDate + ", lastUpdateDate=" + lastUpdateDate
+				+ ", lastUpdatedBy=" + lastUpdatedBy + "]";
 	}
 
 }

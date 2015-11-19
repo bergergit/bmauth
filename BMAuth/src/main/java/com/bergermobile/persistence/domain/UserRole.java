@@ -2,16 +2,16 @@ package com.bergermobile.persistence.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import javax.persistence.CascadeType;
 
 /**
  * The persistent class for the user_role database table.
@@ -33,7 +33,7 @@ public class UserRole extends BaseTable implements Serializable {
 	private Role role;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
@@ -68,8 +68,8 @@ public class UserRole extends BaseTable implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((userRoleId == null) ? 0 : userRoleId.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -82,22 +82,22 @@ public class UserRole extends BaseTable implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		UserRole other = (UserRole) obj;
-		if (userRoleId == null) {
-			if (other.userRoleId != null)
+		if (role == null) {
+			if (other.role != null)
 				return false;
-		} else if (!userRoleId.equals(other.userRoleId))
+		} else if (!role.equals(other.role))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "UserRole [userRoleId=" + userRoleId + ", role=" + role
-				+ ", user=" + user + "]";
+		return "UserRole [userRoleId=" + userRoleId + ", role=" + role + ", user=" + user + "]";
 	}
-
-	
-	
-	
 
 }

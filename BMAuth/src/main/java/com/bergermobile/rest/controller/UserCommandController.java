@@ -60,6 +60,7 @@ public class UserCommandController {
 
 		// we are very smart, and will only allow saving of the roles if user is
 		// bmauth-admin. Or else, a hacker may, you know... screw us up
+		System.out.println("ROLE_BMAUTH-ADMIN: " + request.isUserInRole("ROLE_BMAUTH-ADMIN"));
 		if (request.isUserInRole("ROLE_BMAUTH-ADMIN")) {
 			userService.save(userRest, true);
 		} else {

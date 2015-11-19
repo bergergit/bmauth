@@ -56,8 +56,9 @@ public class User extends BaseTable implements Serializable {
 	@OneToMany(mappedBy = "user")
 	private List<ContractUser> contractUsers;
 
-	// bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade={CascadeType.MERGE}, orphanRemoval=true)
+	// bi-directional many-to-one association to UserRole //
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST }, orphanRemoval = true)
 	private List<UserRole> userRoles;
 
 	public User() {
@@ -190,36 +191,39 @@ public class User extends BaseTable implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((loginType == null) ? 0 : loginType.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (userId == null) {
-			if (other.userId != null)
+		if (loginType == null) {
+			if (other.loginType != null)
 				return false;
-		} else if (!userId.equals(other.userId))
+		} else if (!loginType.equals(other.loginType))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", active=" + active + ", email="
-				+ email + ", loginType=" + loginType + ", name=" + name
-				+ ", username=" + username + "]";
+		return "User [userId=" + userId + ", active=" + active + ", email=" + email + ", loginType=" + loginType
+				+ ", name=" + name + ", username=" + username + "]";
 	}
-
-
 
 	public static enum LoginType {
 

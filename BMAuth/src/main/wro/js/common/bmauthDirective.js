@@ -183,9 +183,9 @@ angular.module("bmauth.main", [])
 	    };
 	    
 		// saves the user with a post, and redirects to signed in experience
-		vm.submitSignup = function(form) {
+		vm.submitSignup = function(screen) {
 			 console.debug('Will submit', vm.signup);
-			 if (form.form.$valid) {
+			 if (screen.form.$valid) {
 				 vm.signup.$save(function(response) {
 					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
 					 if ($scope.signedInUri) {
@@ -225,9 +225,9 @@ angular.module("bmauth.main", [])
 			 });
 		}
 
-		vm.submitResetMyPasswordForm = function() {
+		vm.submitResetMyPasswordForm = function(screen) {
 			console.debug('Will submit resetMyPassword', vm.resetMyPassword);
-			if ($scope.form.$valid) {
+			if (screen.form.$valid) {
 				 vm.resetMyPassword.$save(function(response) {
 						console.debug("reset my password Success on save");
 						vm.showError = false;
@@ -246,6 +246,8 @@ angular.module("bmauth.main", [])
 					 }
 				 
 				 });
+			} else {
+				console.debug("Forms is not valid")
 			}
 		}
 		

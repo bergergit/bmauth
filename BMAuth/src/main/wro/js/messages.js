@@ -109,7 +109,7 @@ bmauth_translations.en = {
 		"form.header": "Reset sua senha",		
 		"label.password": "Senha",
 		"label.repeat_password": "Digite a senha novamente",
-		"message.error.400": "Solicitação expirada."
+		"message.error.400": "Solicitação de reset de senha expirada"
 	},
 	
 	// Users screens

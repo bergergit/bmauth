@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import javax.persistence.CascadeType;
+
 /**
  * The persistent class for the user_role database table.
  * 
@@ -31,7 +33,7 @@ public class UserRole extends BaseTable implements Serializable {
 	private Role role;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private User user;
 

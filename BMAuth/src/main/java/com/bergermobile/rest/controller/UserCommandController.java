@@ -148,7 +148,7 @@ public class UserCommandController {
 
 		UserRest userRest = userService.findByUserId(resetPasswordRestParameters.getUserId());
 		userRest.setPassword(resetPasswordRestParameters.getPassword());
-		userService.save(userRest, true);
+		userService.save(userRest, false);
 
 	}
 

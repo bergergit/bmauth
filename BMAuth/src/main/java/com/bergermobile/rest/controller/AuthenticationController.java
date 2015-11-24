@@ -12,11 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bergermobile.rest.domain.ApplicationRest;
+import com.bergermobile.rest.domain.UserRest;
+import com.bergermobile.rest.services.ApplicationService;
+import com.bergermobile.rest.services.UserService;
 import com.bergermobile.security.CustomUserDetailsService;
+import com.bergermobile.security.SecurityUser;
+
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET)
@@ -27,8 +35,14 @@ public class AuthenticationController {
 	@Autowired
     private Environment environment;
 
+	@Autowired
+    private UserService userService;
+	
+	@Autowired
+	private ApplicationService applicationService;
+	
 	@RequestMapping("/user")
-	public Map<String, Object> user(Principal user, HttpServletRequest request) {
+	public Map<String, Object> user(Principal user, HttpServletRequest request) throws NotFoundException {
 		LOG.debug("Trying to retrieve user " + user);
 		
 		// if remember me is checked, session will be longer
@@ -36,11 +50,25 @@ public class AuthenticationController {
 			LOG.debug("Setting remember me session to higher value");
 			request.getSession().setMaxInactiveInterval(Integer.parseInt(environment.getProperty("bmauth.rememberme.expire").trim()) * 60);
 		} 
+
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+//		String appName = request.getParameter("appName");
+//		ApplicationRest applicationRest = applicationService.findByApplicationName(appName);
+//		UserRest userRest = userService.findByUserIdAndApplicationId(securityUser.getUserId(),
+//				applicationRest.getApplicationId());
+//
+//		if (userRest == null) {
+//			throw new NotFoundException("email not found for this application");
+//		}
+
+		
 		
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		if (user != null) {
 			map.put("name", user.getName());
 			map.put("roles", AuthorityUtils.authorityListToSet(((Authentication) user).getAuthorities()));
+			//map.put("mandatoryContract", userService.getMustSignTheContract(user.get))
 		}
 		return map;
 	}

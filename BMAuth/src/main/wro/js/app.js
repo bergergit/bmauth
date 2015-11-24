@@ -40,6 +40,9 @@ angular.module('bmauth', [
 	}).when('/reset/:token/:userid', { 
 		  templateUrl: 'fragments/home/resetPassword.html',
 		  controllerAs: 'vm' 
+	}).when('/users/signingcontract', { 
+		  templateUrl: 'fragments/home/signingContract.html',
+		  controllerAs: 'vm' 
 	}).otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

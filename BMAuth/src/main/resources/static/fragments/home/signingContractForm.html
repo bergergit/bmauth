@@ -1,0 +1,20 @@
+<form class="form-horizontal form-signing" role="form" ng-submit="vm.submitSigningContract(this)" name="form">
+	<fieldset>
+		<legend>{{ 'signingContract.form.header' | translate}}</legend>
+
+		<div class="form-group">
+  			<textarea class="form-control" type="text" rows="30" disabled ng-model="vm.signingContract.htmlContract"></textarea>
+		</div>
+
+			<input type="checkbox" ng-model="vm.signingContract.aceptedSigningContract"/> {{ 'signingContract.form.label.agreement' | translate}}<br/>
+
+		<hr/>
+		<div class="col-md-8">
+			<button type="submit" class="btn btn-lg btn-primary btn-block">{{ 'btn.ok' | translate}}</button>
+		</div>
+		<div class="col-md-4">
+			<button class="btn btn-lg btn-primary btn-block" ng-click="vm.cancel()">{{ 'btn.cancel' | translate}}</button>
+		</div>
+		<pre> {{vm.signingContract  | json}}</pre>
+		</fieldset>
+</form>

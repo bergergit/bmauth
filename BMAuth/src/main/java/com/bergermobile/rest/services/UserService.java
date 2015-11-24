@@ -21,6 +21,8 @@ public interface UserService {
 	public UserRest findByEmail(String email);
 
 	public UserRest findByEmailAndApplicationId(String email, Integer applicationId);
+	
+	public UserRest findByUserIdAndApplicationId(Integer userId, Integer applicationId);
 
 	public UserRest findByName(String name);
 	

@@ -8,6 +8,7 @@ bmauth_translations.en = {
 	"btn.save": "Salvar",
 	"btn.send": "Enviar",
 	"btn.new": "Novo",
+	"btn.yes": "Sim",
 	"text.yes": "Sim",
 	"text.no": "Não",
 	
@@ -122,12 +123,17 @@ bmauth_translations.en = {
 		"form.label.type": "Tipo",
 		"form.label.active": "Ativo"
 	},
+
+	"signingContract": { 
+		"form.header": "Assinatura de Contrato",
+		"form.label.agreement": "Estou de acordo com os termos do contrato acima"
+	},
 	
 	"forgotPassword": { 
 		"form.header": "Reset sua senha",
 		"form.label.email": "Digite seu email",
 		"form.emailInvalido": "E-mail não encontrado para essa aplicação"
-	},
+	}
 	
 };
 

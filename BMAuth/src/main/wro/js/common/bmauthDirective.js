@@ -20,16 +20,18 @@ angular.module("bmauth.main", [])
 	}
 	
 	directive.init = function($scope, $location) { 
-		if ($location.path().substring(0, 7) == "/reset/") {
+		if ($location.path().match("/reset/*")) {
 			$scope.contentUrl = directive.context + 'fragments/home/resetPasswordForm.html';
 		} else {
-			$scope.contentUrl = directive.context + 'fragments/home/login.html';
+			// $scope.contentUrl = directive.context + 'fragments/home/signingContractForm.html';
+						$scope.contentUrl = directive.context + 'fragments/home/login.html';
 		}
 
 		//$scope.contentUrl = directive.context + 'fragments/home/login.html';
 		$scope.signupFormUrl = directive.context + 'fragments/home/signupForm.html';
 		$scope.forgotPassword = directive.context + 'fragments/home/forgotPassword.html';
 		$scope.resetMyPassword = directive.context + 'fragments/home/resetPasswordForm.html';
+		$scope.signingContract = directive.context + 'fragments/home/signingContractForm.html';
 	}
 	
 	/**
@@ -95,6 +97,7 @@ angular.module("bmauth.main", [])
 	     * Cancel. Takes to home again
 	     */
 		vm.cancel = function() {
+			console.debug("botao cancelar");
 			if ($location.path().substring(0, 7) == "/reset/") {
 				$location.path(directive.context + 'fragments/home/login.html');
 			} else {
@@ -194,6 +197,8 @@ angular.module("bmauth.main", [])
 					 } else {
 						 vm.userCreated = true;
 					 }
+
+					 console.debug('return after user created', $scope.signedInUri);
 					 
 				 }, function(error) {
 					 console.debug("Error on save");

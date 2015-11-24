@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import javassist.NotFoundException;
+
 import javax.transaction.Transactional;
 
 import org.apache.commons.logging.Log;
@@ -18,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
@@ -34,11 +37,10 @@ import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.persistence.repository.UserRoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.DataTableBase;
+import com.bergermobile.rest.domain.DataTableCriterias;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
-
-import javassist.NotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,13 +67,21 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	SerializableResourceBundleMessageSource messageBundle;
+	
+	@Autowired
+	PageService pageService;
 
 	@Override
-	public DataTableBase<UserRest> findAllUsers() {
+	/**
+	 * Retrieves the user list, based on the criterias (Search) and Order of the Datatable
+	 */
+	public DataTableBase<UserRest> findAllUsers(DataTableCriterias criterias) {
+		
+		String normalizedSearch = EncodingUtils.normalizeSearch(criterias.getSearch().get(DataTableCriterias.SearchCriterias.value));
+		Page<User> page = userRepository.findAllWithCriterias(normalizedSearch, pageService.buildPageRequest(criterias));
 
 		List<UserRest> userRestList = new ArrayList<UserRest>();
-
-		for (User user : userRepository.findAll()) {
+		for (User user : page.getContent()) {
 			UserRest userRest = new UserRest();
 			BeanUtils.copyProperties(user, userRest);
 			userRestList.add(userRest);
@@ -79,10 +89,9 @@ public class UserServiceImpl implements UserService {
 		
 		// adding to DataTableBase
 		DataTableBase<UserRest> dataTableBase = new DataTableBase<UserRest>();
-		// change below dynamically
-		dataTableBase.setDraw(1);
-		dataTableBase.setRecordsFiltered(10);
-		dataTableBase.setRecordsTotal(10);
+		dataTableBase.setDraw(criterias.getDraw());
+		dataTableBase.setRecordsFiltered(page.getTotalElements());
+		dataTableBase.setRecordsTotal(userRepository.count());
 		dataTableBase.setData(userRestList);
 
 		return dataTableBase;

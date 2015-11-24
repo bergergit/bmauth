@@ -1,13 +1,16 @@
 package com.bergermobile.rest.services;
 
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.application1;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.internalUser1;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.roleAdmin;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.roleUser;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.userWithRoles;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.*;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -29,6 +32,8 @@ import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
 import com.bergermobile.persistence.repository.ApplicationRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.persistence.repository.UserRepository;
+import com.bergermobile.rest.domain.DataTableBase;
+import com.bergermobile.rest.domain.DataTableCriterias;
 import com.bergermobile.rest.domain.UserRest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,9 +64,9 @@ public class UserServiceTest {
 		userRepository.save(PersistenceFixture.googlePlusUserActive());
 		userRepository.save(PersistenceFixture.googlePlusUserInactive());
 
-		List<UserRest> listUser = userService.findAllUsers();
+		DataTableBase<UserRest> listUser = userService.findAllUsers(new DataTableCriterias());
 
-		assertEquals(5, listUser.size());	// the application creates a new admin user for default, if this table is empty
+		assertEquals(5, listUser.getData().size());	// the application creates a new admin user for default, if this table is empty
 
 	}
 	

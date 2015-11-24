@@ -21,7 +21,6 @@ import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
-import com.bergermobile.persistence.repository.OnlineContractRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.LanguageContractRest;

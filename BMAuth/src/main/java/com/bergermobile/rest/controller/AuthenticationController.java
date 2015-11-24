@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javassist.NotFoundException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -17,14 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bergermobile.rest.domain.ApplicationRest;
-import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.ApplicationService;
 import com.bergermobile.rest.services.UserService;
 import com.bergermobile.security.CustomUserDetailsService;
 import com.bergermobile.security.SecurityUser;
-
-import javassist.NotFoundException;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET)

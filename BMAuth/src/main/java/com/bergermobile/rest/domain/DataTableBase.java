@@ -1,7 +1,6 @@
 package com.bergermobile.rest.domain;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Pojo containing the necessary data for Datatable to render properly

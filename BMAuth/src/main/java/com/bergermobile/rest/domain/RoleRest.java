@@ -2,8 +2,6 @@ package com.bergermobile.rest.domain;
 
 import java.io.Serializable;
 
-import javax.print.attribute.standard.Chromaticity;
-
 /**
  * The persistent class for the role database table.
  * 

@@ -91,7 +91,10 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 		},
 		trash: function(data, type, full) {
 			return '<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>';
-		}
+		},
+		loginType: function(data, type, full) {
+			return $translate.instant('user.loginType.' + data);
+		},
 	}
 	
 	// Datatable exposed Options
@@ -110,7 +113,10 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	vm.dtOptions = DTOptionsBuilder.newOptions()
 		.withOption('ajax', {
 			url: $rootScope.authContext + 'bmauth/users/',
-			type: 'GET'
+			type: 'GET',
+			data: function(data) {
+			   dtUtils.planify(data);  
+			}
 		})
 		.withDataProp('data')
 		.withOption('processing', true)
@@ -121,10 +127,10 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	
 	// Datatable exposed Columns
 	vm.dtColumns = [
-        DTColumnBuilder.newColumn('userId').withTitle($translate('user.form.label.id')).withOption('width', '100px'),
+        //DTColumnBuilder.newColumn('userId').withTitle($translate('user.form.label.id')).withOption('width', '100px'),
         DTColumnBuilder.newColumn('name').withTitle($translate('user.form.label.name')),
         DTColumnBuilder.newColumn('email').withTitle($translate('user.form.label.email')),
-        DTColumnBuilder.newColumn('loginTypeName').withTitle($translate('user.form.label.type')),
+        DTColumnBuilder.newColumn('loginType').withTitle($translate('user.form.label.type')).renderWith(renderer.loginType),
         DTColumnBuilder.newColumn('active').withTitle($translate('user.form.label.active')).withClass('text-center').withOption('width', '100px').renderWith(renderer.active),
         DTColumnBuilder.newColumn('userId').withTitle('').withClass('text-center').withOption('width', '100px').renderWith(renderer.trash)
     ];

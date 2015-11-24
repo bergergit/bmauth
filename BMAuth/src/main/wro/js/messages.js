@@ -121,7 +121,11 @@ bmauth_translations.en = {
 		"form.label.name": "Nome",
 		"form.label.email": "Email",
 		"form.label.type": "Tipo",
-		"form.label.active": "Ativo"
+		"form.label.active": "Ativo",
+		"loginType.1": "Facebook",
+		"loginType.2": "Google+",
+		"loginType.3": "Interno"
+			
 	},
 
 	"signingContract": { 

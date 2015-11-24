@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.persistence.domain.Application;
-import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.repository.ApplicationRepository;
 import com.bergermobile.persistence.repository.OnlineContractRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
-import com.bergermobile.rest.domain.OnlineContractRest;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {

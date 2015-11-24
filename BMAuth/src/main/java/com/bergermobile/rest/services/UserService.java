@@ -1,21 +1,20 @@
 package com.bergermobile.rest.services;
 
-import java.util.List;
+import javassist.NotFoundException;
 
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.DataTableBase;
+import com.bergermobile.rest.domain.DataTableCriterias;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
-
-import javassist.NotFoundException;
 
 public interface UserService {
 
 	/**
 	 * It returns all users
 	 */
-	public DataTableBase<UserRest> findAllUsers();
+	public DataTableBase<UserRest> findAllUsers(DataTableCriterias criterias);
 
 	public UserRest findByUserId(int userId);
 	

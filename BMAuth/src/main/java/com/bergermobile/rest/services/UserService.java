@@ -3,6 +3,7 @@ package com.bergermobile.rest.services;
 import java.util.List;
 
 import com.bergermobile.rest.domain.ApplicationRest;
+import com.bergermobile.rest.domain.DataTableBase;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
@@ -14,13 +15,15 @@ public interface UserService {
 	/**
 	 * It returns all users
 	 */
-	public List<UserRest> findAllUsers();
+	public DataTableBase<UserRest> findAllUsers();
 
 	public UserRest findByUserId(int userId);
 	
 	public UserRest findByEmail(String email);
 
 	public UserRest findByEmailAndApplicationId(String email, Integer applicationId);
+	
+	public UserRest findByUserIdAndApplicationId(Integer userId, Integer applicationId);
 
 	public UserRest findByName(String name);
 	

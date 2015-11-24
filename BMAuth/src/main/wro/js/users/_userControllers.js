@@ -78,8 +78,8 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 /**
  * Users List controller
  */
-.controller('UsersListCtrl', ['$scope', 'DTOptionsBuilder','DTColumnBuilder','userService', '$translate', '$location','$uibModal','dtUtils',
-                                     function($scope, DTOptionsBuilder, DTColumnBuilder, userService, $translate, $location, $uibModal, dtUtils) {
+.controller('UsersListCtrl', ['$scope','$rootScope', 'DTOptionsBuilder','DTColumnBuilder','userService', '$translate', '$location','$uibModal','dtUtils',
+                                     function($scope, $rootScope, DTOptionsBuilder, DTColumnBuilder, userService, $translate, $location, $uibModal, dtUtils) {
 	
 	var vm = this;
 	dtUtils.init(vm, $scope);
@@ -95,6 +95,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	}
 	
 	// Datatable exposed Options
+	/*
 	var promise = userService.query().$promise;
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
 		promise.then(function() {
@@ -104,6 +105,19 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
     })
     .withOption('rowCallback', dtUtils.rowCallback)
     .withBootstrap();
+    */
+	
+	vm.dtOptions = DTOptionsBuilder.newOptions()
+		.withOption('ajax', {
+			url: $rootScope.authContext + 'bmauth/users/',
+			type: 'GET'
+		})
+		.withDataProp('data')
+		.withOption('processing', true)
+        .withOption('serverSide', true)
+        .withOption('rowCallback', dtUtils.rowCallback)
+        .withBootstrap();
+		
 	
 	// Datatable exposed Columns
 	vm.dtColumns = [
@@ -137,7 +151,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 			vm.userService = new userService();
 	        vm.userService.$delete({userId: info.userId}, function() {
 	        	vm.userDeleted = true;
-	        	promise = userService.query().$promise;
+	        	//promise = userService.query().$promise;
 	        	vm.dtInstance.reloadData(null, true);	// reload the datatable
 	        });
 		});

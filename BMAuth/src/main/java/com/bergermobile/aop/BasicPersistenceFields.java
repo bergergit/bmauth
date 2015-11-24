@@ -31,7 +31,7 @@ public class BasicPersistenceFields {
 	 */
 	@Before("com.bergermobile.aop.SystemArchitecture.saveRepositoryOperation() && args(baseTable,..)")
     public void saveBaseFields(BaseTable baseTable) {
-        System.out.println("*** Intercepting save() on repository layer ***");
+        LOG.debug("Intercepting save() on repository layer for: " + baseTable);
         try {
         	Integer entityId = (Integer)emf.getPersistenceUnitUtil().getIdentifier(baseTable);
         	SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,8 +49,7 @@ public class BasicPersistenceFields {
         	baseTable.setLastUpdateDate(currentTime);
         } catch (Exception e) {
         	LOG.debug("Couldn't autosave basic fields", e);
-        }
-        
+        } 
     }
 
    

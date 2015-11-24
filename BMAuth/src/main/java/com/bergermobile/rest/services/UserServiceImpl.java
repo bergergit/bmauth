@@ -33,6 +33,7 @@ import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.persistence.repository.UserRoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
+import com.bergermobile.rest.domain.DataTableBase;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
@@ -66,22 +67,25 @@ public class UserServiceImpl implements UserService {
 	SerializableResourceBundleMessageSource messageBundle;
 
 	@Override
-	public List<UserRest> findAllUsers() {
+	public DataTableBase<UserRest> findAllUsers() {
 
 		List<UserRest> userRestList = new ArrayList<UserRest>();
 
 		for (User user : userRepository.findAll()) {
-
 			UserRest userRest = new UserRest();
-
 			BeanUtils.copyProperties(user, userRest);
-
 			userRestList.add(userRest);
-
 		}
+		
+		// adding to DataTableBase
+		DataTableBase<UserRest> dataTableBase = new DataTableBase<UserRest>();
+		// change below dynamically
+		dataTableBase.setDraw(1);
+		dataTableBase.setRecordsFiltered(10);
+		dataTableBase.setRecordsTotal(10);
+		dataTableBase.setData(userRestList);
 
-		return userRestList;
-
+		return dataTableBase;
 	}
 
 	@Override
@@ -259,6 +263,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserRest findByEmailAndApplicationId(String email, Integer applicationId) {
 		User user = userRepository.findByEmailAndApplicationId(email, applicationId);
+		UserRest userRest = new UserRest();
+
+		if (user != null) {
+			BeanUtils.copyProperties(user, userRest);
+			return userRest;
+		}
+		return null;
+	}
+
+	@Override
+	public UserRest findByUserIdAndApplicationId(Integer userId, Integer applicationId) {
+		User user = userRepository.findByUserIdAndApplicationId(userId, applicationId);
 		UserRest userRest = new UserRest();
 
 		if (user != null) {

@@ -110,6 +110,7 @@ angular.module("bmauth.main", [])
 	     */
 	    vm.login = function() {
 	    	vm.error = false;
+	    	vm.credentials.appName = $scope.appName;
 	        auth.authenticate(vm.credentials, function(authenticated) {
 	            if (authenticated) {
 	                console.log("Login succeeded");

@@ -14,11 +14,20 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
 	public User findByUserTypeAndUsername(Short userType, String username);
 
-	public User findByLoginTypeAndUsername(Short type, String usernameg);
+	public User findByLoginTypeAndUsername(Short type, String username);
 
 	public User findByUserId(Integer userId);
 
 	public User findByEmail(String email);
+	
+	/**
+	 * This will only retrieve usernames that belong to that type and 
+	 * @param email
+	 * @param applicationId
+	 * @return
+	 */
+	@Query("select user from User user left join user.userRoles as userRoles where user.username = :username and user.loginType = :loginType and userRoles.role.application.applicationName = :appName")	
+	public User findByLoginTypeAndUsernameAndApplicationName(@Param("loginType") Short loginType, @Param("username") String username, @Param("appName") String appName);
 
     @Query("select user from User as user inner join user.userRoles as userRoles inner join userRoles.role as role inner join role.application as application where user.email = :email and application.applicationId = :applicationId")	
 	public User findByEmailAndApplicationId(@Param("email") String email, @Param("applicationId") Integer applicationId);

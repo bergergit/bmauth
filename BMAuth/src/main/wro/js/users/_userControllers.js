@@ -122,6 +122,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 		.withOption('processing', true)
         .withOption('serverSide', true)
         .withOption('rowCallback', dtUtils.rowCallback)
+        .withOption('stateLoaded', vm.ready=true)
         .withBootstrap();
 		
 	

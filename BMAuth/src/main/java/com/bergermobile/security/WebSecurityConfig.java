@@ -48,14 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.hasRole("BMAUTH-ADMIN") 
 			.anyRequest()
 				.authenticated()
-//			.and()
-//				.formLogin()
-//				.loginPage("/")
-//				.permitAll()
 			.and()
 				.httpBasic()
-//			.and()
-//				.rememberMe()
+				//.authenticationDetailsSource(customAuthenticationDetailsSource)
 			.and()
             	.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
             	.csrf().csrfTokenRepository(csrfTokenRepository());
@@ -66,9 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.inMemoryAuthentication().withUser("user").password("password").roles("ADMIN");
-		
 		auth.userDetailsService(customUserDetailsService).passwordEncoder(bcryptEncoder);
+		//auth.authenticationProvider(customAuthenticationProvider);
 	}
 	
 	

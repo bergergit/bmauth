@@ -50,7 +50,7 @@ public class AuthenticationController {
 		} 
 
 		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
+		 
 //		String appName = request.getParameter("appName");
 //		ApplicationRest applicationRest = applicationService.findByApplicationName(appName);
 //		UserRest userRest = userService.findByUserIdAndApplicationId(securityUser.getUserId(),

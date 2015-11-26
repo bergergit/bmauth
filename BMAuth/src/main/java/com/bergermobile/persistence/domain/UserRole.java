@@ -31,7 +31,7 @@ public class UserRole extends BaseTable implements Serializable {
 	private Role role;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.REMOVE })
 	@JoinColumn(name = "user_id")
 	private User user;
 

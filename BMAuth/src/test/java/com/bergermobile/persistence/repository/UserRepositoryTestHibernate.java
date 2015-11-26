@@ -85,21 +85,21 @@ public class UserRepositoryTestHibernate {
 	//
 	// }
 
-	@Test
-	public void testThatGetOnlineContract() {
-
-		List<Integer> oc = onlineContractRepository.findByUserIdAndApplicationId(2);
-
-		for (Integer onlineContract : oc) {
-		
-			System.out.println("Assinatura do contrato: " + onlineContract);
-			
-		}
-		
-		
-
-		assertNotNull(oc);
-
-	}
+//	@Test
+//	public void testThatGetOnlineContract() {
+//
+//		List<Integer> oc = onlineContractRepository.findByUserIdAndApplicationId(2);
+//
+//		for (Integer onlineContract : oc) {
+//		
+//			System.out.println("Assinatura do contrato: " + onlineContract);
+//			
+//		}
+//		
+//		
+//
+//		assertNotNull(oc);
+//
+//	}
 
 }

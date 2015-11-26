@@ -23,4 +23,10 @@ public interface OnlineContractRepository extends CrudRepository<OnlineContract,
 //			@Param("applicationId") Integer applicationId
 //			);
 
+	@Query("select max(oc.online_contract_id) from OnlineContract as oc where oc.application.mandatoryContract = 1 and oc.application.applicationId = :applicationId order by oc.onlineContractId")
+	public List<Integer> findByUserIdAndApplicationId(
+	//		@Param("userId") Integer userId,
+			@Param("applicationId") Integer applicationId
+			);
+	
 }

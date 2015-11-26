@@ -129,8 +129,7 @@ public class OnlineContract extends BaseTable implements Serializable {
 	@Override
 	public String toString() {
 		return "OnlineContract [onlineContractId=" + onlineContractId + ", contractVersion=" + contractVersion
-				+ ", description=" + description + ", contractUsers=" + contractUsers + ", languageContract="
-				+ languageContract + ", application=" + application + "]";
+				+ ", description=" + description + ", application=" + application + "]";
 	}
 
 }

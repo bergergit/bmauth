@@ -26,7 +26,7 @@ public class UserRepositoryTestHibernate {
 
 	@Autowired
 	private OnlineContractRepository onlineContractRepository;
-
+/*
 	@Test
 	public void testThatGetOnlineContract() {
 
@@ -47,5 +47,5 @@ public class UserRepositoryTestHibernate {
 		assertEquals(tem, null);
 
 	}
-
+*/
 }

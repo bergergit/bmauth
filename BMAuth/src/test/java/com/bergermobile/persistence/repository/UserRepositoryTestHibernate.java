@@ -2,9 +2,8 @@
 
 package com.bergermobile.persistence.repository;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.BmAuthApplication;
-import com.bergermobile.persistence.domain.OnlineContract;
+import com.bergermobile.persistence.domain.ContractUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
@@ -25,81 +24,28 @@ import com.bergermobile.persistence.domain.OnlineContract;
 @TransactionConfiguration(defaultRollback = false)
 public class UserRepositoryTestHibernate {
 
-//	@Autowired
-//	private UserRepository userRepository;
-
 	@Autowired
 	private OnlineContractRepository onlineContractRepository;
 
-	// @Test
-	// public void testThatSavedPasswordDontDeleteUserRoles() {
-	//
-	// User savedUser = userRepository.findByEmail("fabiofilz@gmail.com");
-	//
-	// System.out.println("-------------------------------------");
-	//
-	// List<UserRole> userRoles = savedUser.getUserRoles();
-	//
-	// for (UserRole user : userRoles) {
-	// System.out.println(user);
-	// }
-	//
-	// System.out.println("-------------------------------------");
-	//
-	// assertNotNull(savedUser);
-	//
-	// savedUser.setPassword("tiririca");
-	//
-	// User foundUser = userRepository.save(savedUser);
-	//
-	// List<UserRole> userRoles2 = foundUser.getUserRoles();
-	//
-	// System.out.println("-------------------------------------");
-	// for (UserRole user : userRoles2) {
-	// System.out.println(user);
-	// }
-	// System.out.println("-------------------------------------");
-	//
-	// // check if returns one record
-	// assertEquals(savedUser.getName(), foundUser.getName());
-	//
-	// }
-	//
-	// @Test
-	// public void testThatSavedPasswordDontDeleteUserRoles2() {
-	//
-	// User savedUser = userRepository.findByEmail("fabiofilz@gmail.com");
-	//
-	// assertNotNull(savedUser);
-	//
-	// User userCopy = new User();
-	//
-	// BeanUtils.copyProperties(savedUser, userCopy);
-	//
-	// userCopy.setPassword("tiririca2");
-	//
-	// User foundUser = userRepository.save(userCopy);
-	//
-	// // check if returns one record
-	// assertEquals(userCopy.getName(), foundUser.getName());
-	//
-	// }
+	@Test
+	public void testThatGetOnlineContract() {
 
-//	@Test
-//	public void testThatGetOnlineContract() {
-//
-//		List<Integer> oc = onlineContractRepository.findByUserIdAndApplicationId(2);
-//
-//		for (Integer onlineContract : oc) {
-//		
-//			System.out.println("Assinatura do contrato: " + onlineContract);
-//			
-//		}
-//		
-//		
-//
-//		assertNotNull(oc);
-//
-//	}
+		System.out.println("Inicio: 1, 2");
+		ContractUser tem = onlineContractRepository.findByUserIdAndApplicationId(1, 2);
+		assertEquals(tem, null);
+		
+		System.out.println("Inicio: 2, 2");
+		tem = onlineContractRepository.findByUserIdAndApplicationId(2, 2);
+		assertNotNull(tem);
+
+		System.out.println("Inicio: 3, 2");
+		tem = onlineContractRepository.findByUserIdAndApplicationId(3, 2);
+		assertNotNull(tem);
+		
+		System.out.println("Inicio: 4, 2");
+		tem = onlineContractRepository.findByUserIdAndApplicationId(4, 2);
+		assertEquals(tem, null);
+
+	}
 
 }

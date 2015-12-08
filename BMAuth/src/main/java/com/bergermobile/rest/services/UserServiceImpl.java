@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javassist.NotFoundException;
-
 import javax.transaction.Transactional;
 
 import org.apache.commons.logging.Log;
@@ -42,6 +40,8 @@ import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
 
+import javassist.NotFoundException;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -67,18 +67,21 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	SerializableResourceBundleMessageSource messageBundle;
-	
+
 	@Autowired
 	PageService pageService;
 
 	@Override
 	/**
-	 * Retrieves the user list, based on the criterias (Search) and Order of the Datatable
+	 * Retrieves the user list, based on the criterias (Search) and Order of the
+	 * Datatable
 	 */
 	public DataTableBase<UserRest> findAllUsers(DataTableCriterias criterias) {
-		
-		String normalizedSearch = EncodingUtils.normalizeSearch(criterias.getSearch().get(DataTableCriterias.SearchCriterias.value));
-		Page<User> page = userRepository.findAllWithCriterias(normalizedSearch, pageService.buildPageRequest(criterias));
+
+		String normalizedSearch = EncodingUtils
+				.normalizeSearch(criterias.getSearch().get(DataTableCriterias.SearchCriterias.value));
+		Page<User> page = userRepository.findAllWithCriterias(normalizedSearch,
+				pageService.buildPageRequest(criterias));
 
 		List<UserRest> userRestList = new ArrayList<UserRest>();
 		for (User user : page.getContent()) {
@@ -86,7 +89,7 @@ public class UserServiceImpl implements UserService {
 			BeanUtils.copyProperties(user, userRest);
 			userRestList.add(userRest);
 		}
-		
+
 		// adding to DataTableBase
 		DataTableBase<UserRest> dataTableBase = new DataTableBase<UserRest>();
 		dataTableBase.setDraw(criterias.getDraw());
@@ -105,7 +108,8 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 
 		BeanUtils.copyProperties(userRest, user, "simpleUserRoles");
-		if (user.getUsername() == null || user.getUsername().isEmpty()) {
+		//if (user.getUsername() == null || user.getUsername().isEmpty()) {
+		if (user.getLoginType() == User.LoginType.INTERNAL.getValue()) {
 			user.setUsername(user.getEmail());
 		}
 		user.setUserType(User.UserType.CPF.getValue());

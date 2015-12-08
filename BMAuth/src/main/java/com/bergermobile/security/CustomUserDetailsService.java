@@ -28,10 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private UserRoleRepository userRoleRepository;
-	
+		
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		LOG.debug("Trying BMAuth login with username " +  username);
@@ -47,10 +44,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		// adding the ROLES of this user, that belongs to this appName
 		List<String> userRolesStr = new ArrayList<String>();
 		//user.getUserRoles().forEach(role -> userRoles.add(role.getRole().getRoleName()));
-		List<UserRole> userRoles = userRoleRepository.findByRoleApplicationApplicationName(appName);
-		if (userRoles != null) {
-			userRoleRepository.findByRoleApplicationApplicationName(appName).forEach(role -> userRolesStr.add(role.getRole().getRoleName()));
-		}
+		user.getUserRoles().forEach(userRole -> {
+			if (userRole.getRole().getApplication().getApplicationName().equals(appName)) {
+				userRolesStr.add(userRole.getRole().getRoleName());
+			}
+		});
+		
 		
 		return new SecurityUser(user.getUserId(), user.getUsername(), user.getPassword(), user.getActive(), userRolesStr);
 	}

@@ -9,6 +9,4 @@ import com.bergermobile.persistence.domain.UserRole;
 public interface UserRoleRepository extends CrudRepository<UserRole, Integer> {
 	public List<UserRole> findByUserUserIdAndRoleApplicationIsNotNull(Integer userId);
 	
-	public List<UserRole> findByRoleApplicationApplicationName(String appName);
-	
 }

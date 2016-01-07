@@ -72,6 +72,7 @@ bmauth_translations.en = {
 		"form.header": "Edição Aplicativo",
 		"form.label.id": "ID",
 		"form.label.name": "Nome da aplicação",
+		"form.label.realm": "Realm",
 		"form.label.url": "URL",
 		"form.label.test_mode": "Modo de teste",
 		"form.label.mandatory_contract": "Contrato obrigatório",

@@ -33,6 +33,8 @@ public class Application extends BaseTable implements Serializable {
 
 	@Column(name = "application_name", unique=true)
 	private String applicationName;
+	
+	private String realm;
 
 	@Column(name = "test_mode")
 	private boolean testMode;
@@ -142,4 +144,11 @@ public class Application extends BaseTable implements Serializable {
 		return role;
 	}
 
+	public String getRealm() {
+		return realm;
+	}
+
+	public void setRealm(String realm) {
+		this.realm = realm;
+	}
 }

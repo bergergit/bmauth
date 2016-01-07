@@ -6,6 +6,7 @@ angular.module("bmauth.main", [])
 	
 	directive.scope = {
 		appName: '@',
+		realm: '@',
 		signedInUri: '@',
 		showFacebook: '=',
 		showGoogle: '=',
@@ -110,7 +111,7 @@ angular.module("bmauth.main", [])
 	     */
 	    vm.login = function() {
 	    	vm.error = false;
-	    	vm.credentials.appName = $scope.appName;
+	    	vm.credentials.realm = $scope.realm;
 	        auth.authenticate(vm.credentials, function(authenticated) {
 	            if (authenticated) {
 	                console.log("Login succeeded");

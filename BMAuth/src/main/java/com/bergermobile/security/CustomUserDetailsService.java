@@ -14,9 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.bergermobile.persistence.domain.User;
-import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.persistence.repository.UserRepository;
-import com.bergermobile.persistence.repository.UserRoleRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -33,8 +31,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		LOG.debug("Trying BMAuth login with username " +  username);
 		
-		String appName = request.getParameter("appName");
-		User user = userRepository.findByLoginTypeAndUsernameAndApplicationName((Short)User.LoginType.INTERNAL.getValue(), username, appName);
+		String realm = request.getParameter("realm");
+		User user = userRepository.findByLoginTypeAndUsernameAndRealm((Short)User.LoginType.INTERNAL.getValue(), username, realm);
 		if(user == null){
 			LOG.debug("UserName " + username + " not found");
 			throw new UsernameNotFoundException("UserName " + username + " not found");
@@ -45,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		List<String> userRolesStr = new ArrayList<String>();
 		//user.getUserRoles().forEach(role -> userRoles.add(role.getRole().getRoleName()));
 		user.getUserRoles().forEach(userRole -> {
-			if (userRole.getRole().getApplication().getApplicationName().equals(appName)) {
+			if (userRole.getRole().getApplication().getRealm().equals(realm)) {
 				userRolesStr.add(userRole.getRole().getRoleName());
 			}
 		});

@@ -27,7 +27,7 @@ angular.module('bmauth.authentication', [])
 			$http.get(auth.loginPath, {
 				params: {
 					"rememberMe": credentials.rememberMe,
-					"appName": credentials.appName
+					"realm": credentials.realm
 				},
 				headers: headers
 			}).success(function(data) {

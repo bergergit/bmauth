@@ -22,6 +22,8 @@ public class ApplicationRest implements Serializable {
 	private Boolean mandatoryContract;
 
 	private String applicationName;
+	
+	private String realm;
 
 	// Boolen to String when create JSON => "true"
 	@JsonSerialize(using=ToStringSerializer.class)
@@ -99,6 +101,14 @@ public class ApplicationRest implements Serializable {
 	public void setRolesRest(List<RoleRest> rolesRest) {
 		this.rolesRest = rolesRest;
 	}
+	
+	public String getRealm() {
+		return realm;
+	}
+
+	public void setRealm(String realm) {
+		this.realm = realm;
+	}
 
 	@Override
 	public String toString() {
@@ -106,7 +116,4 @@ public class ApplicationRest implements Serializable {
 				+ mandatoryContract + ", applicationName=" + applicationName + ", testMode=" + testMode + ", url=" + url
 				+ ", onlineContractsRest=" + onlineContractsRest + ", rolesRest=" + rolesRest + "]";
 	}
-	
-	
-
 }

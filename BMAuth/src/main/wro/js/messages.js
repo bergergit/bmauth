@@ -4,6 +4,8 @@ bmauth_translations.en = {
 
 	// Common text
 	"btn.ok": "OK",
+	"btn.new": "Novo",
+	"btn.save": "Salvar",
 	"btn.cancel": "Cancelar",
 	"btn.save": "Salvar",
 	"btn.send": "Enviar",
@@ -80,7 +82,6 @@ bmauth_translations.en = {
 		"role.form.column.name": "Nome",
 		"role.form.header.delete.success" : "Role removida",
 		"role.form.header.save.success" : "Role adicionada",
-
 		"contract.form.header": "Contratos",
 		"contract.form.column.Id": "Id",
 		"contract.form.column.version": "Versão",

@@ -1,5 +1,7 @@
 package com.bergermobile.persistence.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -31,6 +33,9 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query("select user from User as user inner join user.userRoles as userRoles inner join userRoles.role as role inner join role.application as application where user.email = :email and application.applicationId = :applicationId")	
 	public User findByEmailAndApplicationId(@Param("email") String email, @Param("applicationId") Integer applicationId);
+    
+    @Query("select user from User as user inner join user.userRoles as userRoles inner join userRoles.role as role inner join role.application as application where application.applicationName = :applicationName")	
+	public List<User> findByApplicationName(@Param("applicationName") String applicationName);
 
     @Query("select user from User as user inner join user.userRoles as userRoles inner join userRoles.role as role inner join role.application as application where user.userId = :userId and application.applicationId = :applicationId")	
 	public User findByUserIdAndApplicationId(@Param("userId") Integer userId, @Param("applicationId") Integer applicationId);

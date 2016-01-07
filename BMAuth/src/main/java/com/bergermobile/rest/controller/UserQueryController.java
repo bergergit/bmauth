@@ -1,5 +1,7 @@
 package com.bergermobile.rest.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,18 @@ public class UserQueryController {
 	public DataTableBase<UserRest> findAllUsers(@ModelAttribute DataTableCriterias criterias) {
 
 		return userService.findAllUsers(criterias);
+
+	}
+	
+	/**
+	 * Find all users by AppName
+	 * @param criterias
+	 * @return
+	 */
+	@RequestMapping(value = "/users/appname/{appName}")
+	public List<UserRest> findUsersByAppName(@PathVariable String appName) {
+
+		return userService.findByApplicationName(appName);
 
 	}
 

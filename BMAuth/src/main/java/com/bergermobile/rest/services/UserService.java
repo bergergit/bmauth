@@ -1,5 +1,7 @@
 package com.bergermobile.rest.services;
 
+import java.util.List;
+
 import javassist.NotFoundException;
 
 import com.bergermobile.rest.domain.ApplicationRest;
@@ -21,6 +23,8 @@ public interface UserService {
 	public UserRest findByEmail(String email);
 
 	public UserRest findByEmailAndApplicationId(String email, Integer applicationId);
+	
+	public List<UserRest> findByApplicationName(String appName);
 	
 	public UserRest findByUserIdAndApplicationId(Integer userId, Integer applicationId);
 

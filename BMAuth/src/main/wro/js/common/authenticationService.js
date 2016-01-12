@@ -1,6 +1,6 @@
-angular.module('bmauth.authentication', [])
+angular.module('bmauth.authentication', ['ngCookies'])
 
-.factory('auth',['$http', '$location','$rootScope', function($http, $location, $rootScope) {
+.factory('auth',['$http', '$location','$rootScope','$cookies', function($http, $location, $rootScope, $cookies) {
 
 	var auth = {
 
@@ -14,7 +14,8 @@ angular.module('bmauth.authentication', [])
 		data: {},
 
 		/**
-		 * Will authenticate user using the internal login service, with basic authentication
+		 * Will authenticate user using the internal login service, with basic
+		 * authentication
 		 */
 		authenticate: function(credentials, callback) {
 
@@ -22,7 +23,8 @@ angular.module('bmauth.authentication', [])
 				authorization : "Basic " + btoa(credentials.username + ":" + credentials.password)
 			} : {};
 			
-			//console.debug('credentials', credentials.username, credentials.password);
+			// console.debug('credentials', credentials.username,
+			// credentials.password);
 
 			$http.get(auth.loginPath, {
 				params: {
@@ -33,12 +35,16 @@ angular.module('bmauth.authentication', [])
 			}).success(function(data) {
 				console.debug('bmauth.authentication - data', data);
 				auth.data = data;
+				
+				// adding data in a session cookie
+				$cookies.putObject('bmauth-data', data);
+				
 				if (data.name) {
 					auth.authenticated = true;
 				} else {
 					auth.authenticated = false;
 				}
-				//$location.path(auth.homePath);
+				// $location.path(auth.homePath);
 				callback && callback(auth.authenticated);
 			}).error(function() {
 				auth.authenticated = false;
@@ -49,9 +55,23 @@ angular.module('bmauth.authentication', [])
 
 		clear : function() {
 			auth.authenticated = false;
+			auth.data = null;
+			$cookies.remove('bmauth-data');
 			$location.path(auth.homePath);
 			$http.post(auth.logoutPath, {});
 			
+		},
+		
+		/**
+		 * Searches if the logged in user has this role
+		 */
+		hasRole : function(role) {
+			if (auth.isAnonymoys()) return false;
+			return (_.indexOf(auth.data.roles, role.toUpperCase()) > -1);
+		},
+		
+		isAnonymous : function() {
+			return (!auth.data || _.isEmpty(auth.data));
 		},
 
 		init : function(homePath, loginPath, logoutPath) {
@@ -60,11 +80,17 @@ angular.module('bmauth.authentication', [])
 			auth.loginPath = loginPath;
 			auth.logoutPath = logoutPath;
 			
-			//auth.authenticate();
+			// auth.authenticate();
 			
 			$rootScope.$on('$routeChangeStart', function() {
-				//enter();
+				// enter();
 	        });
+			
+			// try to recover data from session cookie
+			var tempData = $cookies.getObject('bmauth-data');
+			if (tempData) {
+				auth.data = tempData;
+			}
 
 			// redirects user to home page if not authenticated
 			var enter = function() {

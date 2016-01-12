@@ -50,8 +50,10 @@
 		</div>
 	</div> 
 	
-	<hr/>
-	<a href="" class="btn btn-primary btn-block" id="signIn" ng-click="vm.signupForm()">
-		<strong>{{ 'login.btn.register' | translate }}</strong>
-	</a>
+	<div ng-show="showSignUp">
+		<hr/>
+		<a href="" class="btn btn-primary btn-block" id="signIn" ng-click="vm.signupForm()">
+			<strong>{{ 'login.btn.register' | translate }}</strong>
+		</a>
+	</div>
 </form>

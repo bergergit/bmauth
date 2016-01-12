@@ -10,6 +10,7 @@ angular.module("bmauth.main", [])
 		signedInUri: '@',
 		showFacebook: '=',
 		showGoogle: '=',
+		showSignUp: '='
 	};
 	
 	directive.controllerAs = 'vm';
@@ -61,6 +62,7 @@ angular.module("bmauth.main", [])
 
 		if ($scope.showFacebook === undefined) $scope.showFacebook = true;
 		if ($scope.showGoogle === undefined) $scope.showGoogle = true;
+		if ($scope.showSignUp === undefined) $scope.showSignUp = true;
 		
 	    vm.signup = new userService({
 			"loginType": "3"
@@ -98,7 +100,6 @@ angular.module("bmauth.main", [])
 	     * Cancel. Takes to home again
 	     */
 		vm.cancel = function() {
-			console.debug("botao cancelar");
 			if ($location.path().substring(0, 7) == "/reset/") {
 				$location.path(directive.context + 'fragments/home/login.html');
 			} else {

@@ -19,11 +19,11 @@
     	<js>webjar:angular-datatables/${angular-datatables.version}/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js</js>
     	
     	<js>webjar:bootstrap/${bootstrap.version}/js/bootstrap.min.js</js>
+    	<js>webjar:angular-ui-bootstrap/${angular-ui-bootstrap.version}/ui-bootstrap-tpls.min.js</js>
 	</group>
 
 	<group name="bmauth">
 		<css>file:${project.basedir}/src/main/wro/less/main.less</css>
-		<js>webjar:angular-ui-bootstrap/${angular-ui-bootstrap.version}/ui-bootstrap-tpls.min.js</js>
 		<js minimize="false">file:${project.basedir}/src/main/wro/js/**.js</js>
 	</group>
 	

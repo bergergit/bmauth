@@ -5,6 +5,7 @@ angular.module('bmauth.authentication', ['ngCookies'])
 	var auth = {
 
 		authenticated : false,
+		showFlash: false,
 
 		loginPath : '/bmauth/user',
 		logoutPath : '/bmauth/logout',
@@ -28,8 +29,8 @@ angular.module('bmauth.authentication', ['ngCookies'])
 
 			$http.get(auth.loginPath, {
 				params: {
-					"rememberMe": credentials.rememberMe,
-					"realm": credentials.realm
+					"rememberMe": credentials && credentials.rememberMe ? credentials.rememberMe : null,
+					"realm": credentials && credentials.realm ? credentials.realm : null
 				},
 				headers: headers
 			}).success(function(data) {
@@ -54,19 +55,20 @@ angular.module('bmauth.authentication', ['ngCookies'])
 		},
 
 		clear : function() {
+			if (auth.authenticated) {
+				$http.post(auth.logoutPath, {});	
+			}
+			$location.path(auth.homePath);
 			auth.authenticated = false;
 			auth.data = null;
 			$cookies.remove('bmauth-data');
-			$location.path(auth.homePath);
-			$http.post(auth.logoutPath, {});
-			
 		},
 		
 		/**
 		 * Searches if the logged in user has this role
 		 */
 		hasRole : function(role) {
-			if (auth.isAnonymoys()) return false;
+			if (auth.isAnonymous()) return false;
 			return (_.indexOf(auth.data.roles, role.toUpperCase()) > -1);
 		},
 		
@@ -80,11 +82,15 @@ angular.module('bmauth.authentication', ['ngCookies'])
 			auth.loginPath = loginPath;
 			auth.logoutPath = logoutPath;
 			
-			// auth.authenticate();
-			
-			$rootScope.$on('$routeChangeStart', function() {
-				// enter();
+			$rootScope.$on('$includeContentLoaded', function() {
+			    auth.showFlash = false;
+			});
+
+			/*
+			$rootScope.$on('$routeChangeSuccess', function() {
+				//enter();
 	        });
+	        */
 			
 			// try to recover data from session cookie
 			var tempData = $cookies.getObject('bmauth-data');

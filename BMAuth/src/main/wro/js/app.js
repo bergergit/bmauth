@@ -46,7 +46,7 @@ angular.module('bmauth', [
 	}).otherwise({redirectTo: '/'});
 	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-	
+
 	// translation configuration
 	//$translateProvider.useSanitizeValueStrategy('escape');
 	$translateProvider.useSanitizeValueStrategy('escapeParameters');

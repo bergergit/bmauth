@@ -6,10 +6,10 @@
 		<css>webjar:angular-datatables/${angular-datatables.version}/dist/plugins/bootstrap/datatables.bootstrap.min.css</css>
 		<js>webjar:jquery/${jquery.version}/jquery.min.js</js>
 		<js>webjar:datatables/${datatables.version}/js/jquery.dataTables.min.js</js>
-		<js>webjar:angularjs/${angular.version}/angular.min.js</js>
-    	<js>webjar:angularjs/${angular.version}/angular-route.min.js</js>
+		<js minimize="false">webjar:angularjs/${angular.version}/angular.js</js>
     	<js>webjar:angularjs/${angular.version}/angular-resource.min.js</js>
     	<js>webjar:angularjs/${angular.version}/angular-cookies.min.js</js>
+		<js>webjar:angularjs/${angular.version}/angular-route.min.js</js>
     	<js>webjar:angularjs/${angular.version}/angular-animate.min.js</js>
     	<js>webjar:angularjs/${angular.version}/angular-sanitize.min.js</js>
     	<js>webjar:underscorejs/${underscore.version}/underscore-min.js</js>
@@ -17,13 +17,17 @@
     	<js>webjar:angular-translate-loader-url/${angular-translate-loader-url}/angular-translate-loader-url.min.js</js>
     	<js>webjar:angular-datatables/${angular-datatables.version}/dist/angular-datatables.js</js>
     	<js>webjar:angular-datatables/${angular-datatables.version}/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js</js>
-    	
     	<js>webjar:bootstrap/${bootstrap.version}/js/bootstrap.min.js</js>
     	<js>webjar:angular-ui-bootstrap/${angular-ui-bootstrap.version}/ui-bootstrap-tpls.min.js</js>
 	</group>
 
 	<group name="bmauth">
 		<css>file:${project.basedir}/src/main/wro/less/main.less</css>
+		<js minimize="false">file:${project.basedir}/src/main/wro/js-main/**.js</js>
+	</group>
+	
+	<group name="bmauth-admin" abstract="true">
+		<css>file:${project.basedir}/src/main/wro/less/bmauth-admin.less</css>
 		<js minimize="false">file:${project.basedir}/src/main/wro/js/**.js</js>
 	</group>
 	
@@ -34,6 +38,7 @@
 	<group name="app">
 		<group-ref>libs</group-ref>
 		<group-ref>bmauth</group-ref>
+		<group-ref>bmauth-admin</group-ref>
 	</group>
 	
 </groups>

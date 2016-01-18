@@ -1,4 +1,4 @@
-angular.module('bmauth.authentication', ['ngCookies'])
+angular.module('bmauth.main')
 
 .factory('auth',['$http', '$location','$rootScope','$cookies', function($http, $location, $rootScope, $cookies) {
 

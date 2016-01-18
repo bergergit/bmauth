@@ -1,66 +1,13 @@
-var bmauth_translations = {};
+var bmauth_translations_admin = {};
 
-bmauth_translations.en = {
-
-	// Common text
-	"btn.ok": "OK",
-	"btn.new": "Novo",
-	"btn.save": "Salvar",
-	"btn.cancel": "Cancelar",
-	"btn.send": "Enviar",
-	"btn.yes": "Sim",
-	"btn.no": "Não",
-	"text.yes": "Sim",
-	"text.no": "Não",
+bmauth_translations_admin.en = {
 	
-	// Field errors
-	"fieldErrors": {
-		"message": "O campo {{field}} {{message}}.",
-		"NotBlank": "não pode estar em branco",
-		"NotNull": "não pode ser nulo",
-		"email": "Email inválido.",
-		"required": "Campo obrigatório.",
-		"bmauthPasswordMatch": "As senhas não coindicem."
-			
-	},
-
 	// Remove modals
 	"remove_modal": {
 		"header.remove": "Remover",
 		"text.are_you_sure": "Tem certeza que deseja remover <strong>{{name}}</strong> (ID: {{id}})?"
 	},
 
-	// Login screen
-	"login": {
-		"header": "Entre com o seu login.",
-		"header.or": "Ou use:",
-		"error.loginError": "Nome ou senha incorretos.",
-		"error.social.loginError": "Erro interno ao fazer login.",
-		"error.authorizationError": "Usuário não autorizado no módulo administrativo.",
-		"btn.facebook.signin": "Entre com o Facebook",
-		"btn.google.signin": "Entre com o Google",
-		"btn.login": "Login",
-		"btn.register": "Criar cadastro",
-		"form.placeholder.email": "@:signup.label.email",
-		"form.placeholder.password": "@:signup.label.password",
-		"form.label.user": "Usuário",
-		"form.label.password": "Senha",
-		"form.label.remember": "Lembrar de mim",
-		"form.label.forgot_password": "Esqueci minha senha",
-		"form.msg.forgotMyPasswordCreated": "Procedimento enviado para seu e-mail"
-	},
-	
-	// Signup screen
-	"signup": {
-		"header": "Cadastro",
-		"header.success": "Usuário criado",
-		"label.name": "Nome",
-		"label.document_type": "CPF ou CNPJ",
-		"label.email": "E-mail",
-		"label.password": "Senha",
-		"label.repeat_password": "Digite a senha novamente",
-		"btn.register": "Cadastrar"
-	},
 	
 	// Applications screens
 	"application": {

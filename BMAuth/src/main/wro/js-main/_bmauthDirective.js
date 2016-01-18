@@ -1,6 +1,6 @@
-angular.module("bmauth.main", [])
+angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 
-.directive("bmAuth", function($location) {
+.directive('bmAuth', function($location) {
 	var directive = {};
 	//directive.restrict = 'AE';
 	

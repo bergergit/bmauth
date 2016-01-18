@@ -1,4 +1,4 @@
-angular.module("bmauth.main")
+angular.module('bmauth.main')
 
 /**
  * Deals with form errors and decorates the elements when they are there.

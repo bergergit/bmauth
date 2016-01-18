@@ -4,14 +4,10 @@ angular.module('bmauth', [
   'ngRoute',
   'pascalprecht.translate',
   'datatables',
-  'googleplus',
-  'facebook',
+  'bmauth.main',
   'bmauth.applications',
   'bmauth.users',
   'bmauth.navigation',
-  'bmauth.authentication',
-  'bmauth.main',
-  'bmauth.common',
   'ngSanitize'
  ]) 
 
@@ -50,7 +46,9 @@ angular.module('bmauth', [
 	// translation configuration
 	//$translateProvider.useSanitizeValueStrategy('escape');
 	$translateProvider.useSanitizeValueStrategy('escapeParameters');
-    $translateProvider.translations('en', bmauth_translations.en);
+	$translateProvider.translations('en', bmauth_translations_admin.en);
+	$translateProvider.translations('en', bmauth_translations.en);
+    
 	
 	$translateProvider.preferredLanguage('en');
 	$translateProvider.fallbackLanguage('en');

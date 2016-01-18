@@ -1,4 +1,4 @@
-angular.module('bmauth.users')
+angular.module('bmauth.main')
 
 .factory('userService', [ '$resource','$rootScope', function($resource, $rootScope) {
 	return $resource($rootScope.authContext + 'bmauth/users/:userId');

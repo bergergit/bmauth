@@ -1,4 +1,4 @@
-angular.module('bmauth.common', [])
+angular.module('bmauth.main')
 
 .factory('formUtils', ['$translate', function($translate) {
 	var formUtils = {

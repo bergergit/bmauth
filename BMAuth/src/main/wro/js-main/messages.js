@@ -10,6 +10,7 @@ bmauth_translations.en = {
 	"btn.send": "Enviar",
 	"btn.yes": "Sim",
 	"btn.no": "Não",
+	"btn.add": "Adicionar",
 	"text.yes": "Sim",
 	"text.no": "Não",
 	

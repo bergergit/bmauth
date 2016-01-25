@@ -1,6 +1,6 @@
 angular.module('bmauth.main')
 
-.factory('auth',['$http', '$location','$rootScope','$cookies', function($http, $location, $rootScope, $cookies) {
+.factory('auth',['$http', '$location','$rootScope','$cookies','$route', function($http, $location, $rootScope, $cookies, $route) {
 
 	var auth = {
 
@@ -35,6 +35,7 @@ angular.module('bmauth.main')
 				headers: headers
 			}).success(function(data) {
 				console.debug('bmauth.authentication - data', data);
+				console.debug('$cookies.get(header) - auth', $cookies.get("XSRF-TOKEN"));
 				auth.data = data;
 				
 				// adding data in a session cookie
@@ -56,12 +57,14 @@ angular.module('bmauth.main')
 
 		clear : function() {
 			if (auth.authenticated) {
-				$http.post(auth.logoutPath, {});	
+				$http.post(auth.logoutPath, {});
 			}
-			$location.path(auth.homePath);
+			//$location.path(auth.homePath);
 			auth.authenticated = false;
 			auth.data = null;
 			$cookies.remove('bmauth-data');
+			document.location = auth.homePath;
+			//$route.reload();
 		},
 		
 		/**

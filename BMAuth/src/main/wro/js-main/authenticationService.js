@@ -34,8 +34,7 @@ angular.module('bmauth.main')
 				},
 				headers: headers
 			}).success(function(data) {
-				console.debug('bmauth.authentication - data', data);
-				console.debug('$cookies.get(header) - auth', $cookies.get("XSRF-TOKEN"));
+				//console.debug('bmauth.authentication - data', data);
 				auth.data = data;
 				auth.showFlash = false;
 				
@@ -56,19 +55,19 @@ angular.module('bmauth.main')
 
 		},
 
-		clear : function() {
+		clear : function(avoidPost) {
 			var sessionStr = auth.showFlash ? "?session" : "";
-			if (auth.authenticated) {
+			var reload = false;
+			if (auth.authenticated && !avoidPost) {
 				$http.post(auth.logoutPath, {});
-				document.location = auth.homePath + sessionStr;
-				//sessionStr = "?session";
+				reload = true;
 			}
-			//$location.path(auth.homePath);
 			auth.authenticated = false;
 			auth.data = null;
 			$cookies.remove('bmauth-data');
-			//document.location = auth.homePath + sessionStr;
-			//$route.reload();
+			if (reload) {
+				document.location = auth.homePath + sessionStr;
+			}
 		},
 		
 		/**
@@ -90,7 +89,6 @@ angular.module('bmauth.main')
 			auth.logoutPath = logoutPath;
 			
 			$rootScope.$on('$includeContentLoaded', function() {
-				console.debug('$includeContentLoaded');
 			    auth.showFlash = false;
 			});
 

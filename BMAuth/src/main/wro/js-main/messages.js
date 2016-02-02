@@ -7,6 +7,7 @@ bmauth_translations.en = {
 	"btn.new": "Novo",
 	"btn.save": "Salvar",
 	"btn.cancel": "Cancelar",
+	"btn.delete": "Remover",
 	"btn.send": "Enviar",
 	"btn.yes": "Sim",
 	"btn.no": "Não",

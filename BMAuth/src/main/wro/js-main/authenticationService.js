@@ -66,6 +66,8 @@ angular.module('bmauth.main')
 			auth.data = null;
 			$cookies.remove('bmauth-data');
 			if (reload) {
+				//TODO - uncomment
+				
 				document.location = auth.homePath + sessionStr;
 			}
 		},

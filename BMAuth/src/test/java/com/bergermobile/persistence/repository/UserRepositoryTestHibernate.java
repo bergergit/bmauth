@@ -2,9 +2,6 @@
 
 package com.bergermobile.persistence.repository;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.BmAuthApplication;
-import com.bergermobile.persistence.domain.ContractUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
@@ -26,9 +22,10 @@ public class UserRepositoryTestHibernate {
 
 	@Autowired
 	private OnlineContractRepository onlineContractRepository;
-/*
+
 	@Test
 	public void testThatGetOnlineContract() {
+		/*
 
 		System.out.println("Inicio: 1, 2");
 		ContractUser tem = onlineContractRepository.findByUserIdAndApplicationId(1, 2);
@@ -45,7 +42,7 @@ public class UserRepositoryTestHibernate {
 		System.out.println("Inicio: 4, 2");
 		tem = onlineContractRepository.findByUserIdAndApplicationId(4, 2);
 		assertEquals(tem, null);
-
+		*/
 	}
-*/
+
 }

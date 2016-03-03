@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import com.bergermobile.persistence.domain.Active;
 import com.bergermobile.persistence.domain.Application;
@@ -13,6 +15,10 @@ import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
+import com.bergermobile.rest.domain.DataTableCriterias;
+import com.bergermobile.rest.domain.DataTableCriterias.ColumnCriterias;
+import com.bergermobile.rest.domain.DataTableCriterias.OrderCriterias;
+import com.bergermobile.rest.domain.DataTableCriterias.SearchCriterias;
 import com.bergermobile.rest.services.RestConversionService;
 
 public class PersistenceFixture {
@@ -127,13 +133,17 @@ public class PersistenceFixture {
 	
 	public static User internalUser1WithRoles(String... roles) {
 		User user = internalUser1();
+		List<UserRole> userRoleList = new ArrayList<>();
 		for (String roleStr : roles) {
 			Role role = new Role();
 			role.setRoleName(roleStr);
 			UserRole userRole = new UserRole();
 			userRole.setRole(role);
-			user.addUserRole(userRole);
+			userRoleList.add(userRole);
+			//user.addUserRole(userRole);
 		}
+		user.setUserRoles(userRoleList);
+		
 		return user;
 	}
 	
@@ -149,11 +159,15 @@ public class PersistenceFixture {
 	}
 	
 	public static User userWithRoles(User user, Role... roles) {
+		List<UserRole> userRoleList = new ArrayList<>();
 		for (Role role : roles) {
 			UserRole userRole = new UserRole();
 			userRole.setRole(role);
-			user.addUserRole(userRole);
+			userRoleList.add(userRole);
+			//user.addUserRole(userRole);
 		}
+		user.setUserRoles(userRoleList);
+		
 		return user;
 	}
 
@@ -206,7 +220,7 @@ public class PersistenceFixture {
 		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.GOOGLE_PLUS.getValue());
-		user.setUsername("token:12345");
+		user.setUsername("token:12345g");
 		user.setUserType(User.UserType.CPF.getValue());
 		user.setDocumentNumber("123.456.786-00");
 		user.setName("Google Plus User Active");
@@ -239,7 +253,7 @@ public class PersistenceFixture {
 		Timestamp timestamp = RestConversionService.timestamp();
 
 		user.setLoginType(User.LoginType.GOOGLE_PLUS.getValue()); // Google+
-		user.setUsername("token:67890");
+		user.setUsername("token:67890g");
 		user.setUserType(User.UserType.CPF.getValue());
 		user.setDocumentNumber("098.765.543-11");
 		user.setName("Google Plus User Inactive");
@@ -455,6 +469,28 @@ public class PersistenceFixture {
 
 		return contract;
 
+	}
+	
+	public static DataTableCriterias userDataTableCriterias() {
+		DataTableCriterias dtc = new DataTableCriterias();
+		
+		Map<SearchCriterias, String> search = new Hashtable<>();
+		search.put(DataTableCriterias.SearchCriterias.value, "");
+		dtc.setSearch(search);
+		
+		List<Map<OrderCriterias, String>> order = new ArrayList<>();
+		dtc.setOrder(order);
+		
+		List<Map<ColumnCriterias, String>> columns = new ArrayList<>();
+		Map<ColumnCriterias, String> columnCriteria = new Hashtable<>();
+		columnCriteria.put(ColumnCriterias.name, "userId");
+		columns.add(columnCriteria);
+		dtc.setColumns(columns);
+		
+		dtc.setStart(0);
+		dtc.setLength(10);
+		
+		return dtc;
 	}
 
 }

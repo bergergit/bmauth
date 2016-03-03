@@ -42,12 +42,13 @@ public class ApplicationServiceTest {
 
 		List<ApplicationRest> applicationList = applicationService.findAllApplications();
 
-		assertEquals(applicationList.size(), 1);
+		// BMAuth application is added by default...
+		assertEquals(2, applicationList.size());
 
 	}
 
 	@Test
-	public void testIfDublicateApplicationNameCheckWorks() {
+	public void testIfDuplicateApplicationNameCheckWorks() {
 
 		ApplicationRest applicationRest1 = RestConversionService
 				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
@@ -75,7 +76,9 @@ public class ApplicationServiceTest {
 		applicationService.save(applicationRest);
 
 		List<ApplicationRest> applicationList = applicationService.findAllApplications();
-		assertEquals(applicationList.size(), 1);
+		
+		// BMAuth application is added by default...
+		assertEquals(2, applicationList.size());
 
 	}
 

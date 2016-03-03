@@ -6,10 +6,34 @@
 	<groupId>com.bergermobile</groupId>
 	<artifactId>bmauth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>BMAuth</name>
 	<description>Berger Mobile Authentication module</description>
+	
+	<profiles>
+		<profile>
+			<id>bmauth-dev</id>
+			<properties>
+				<environment>bmauth-dev</environment>
+				<debug-level>TRACE</debug-level>
+				<spring.jpa.show-sql>true</spring.jpa.show-sql>
+				<spring.datasource.url>jdbc:mysql://localhost/BM_Auth</spring.datasource.url>
+				<spring.datasource.username>bmauth</spring.datasource.username>
+				<spring.datasource.password>bmauth</spring.datasource.password>
+				<spring.redis.host>localhost</spring.redis.host>
+				<spring.redis.port>6379</spring.redis.port>
+				<bmauth.url.init>http://localhost:8081</bmauth.url.init>
+		    </properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>environment</name>
+					<value>dev</value>
+				</property>
+			</activation>
+		</profile>
+	</profiles>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -104,13 +128,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<version>4.0.2.RELEASE</version>
-			<scope>test</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -262,7 +286,7 @@
 						<groupId>org.webjars.bower</groupId>
 						<artifactId>angular-mocks</artifactId>
 						<version>${angular.version}</version>
-						<scope>test</scope>
+						<scope>compile</scope>
 					</dependency>
 					<dependency>
 					    <groupId>org.webjars.npm</groupId>

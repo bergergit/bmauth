@@ -1,10 +1,7 @@
 package com.bergermobile.rest.services;
 
-import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.application1;
-import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.internalUser1;
-import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.roleAdmin;
-import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.roleUser;
-import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.userWithRoles;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.*;
+
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -33,7 +30,6 @@ import com.bergermobile.persistence.repository.ApplicationRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.rest.domain.DataTableBase;
-import com.bergermobile.rest.domain.DataTableCriterias;
 import com.bergermobile.rest.domain.UserRest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,8 +59,8 @@ public class UserServiceTest {
 		userRepository.save(PersistenceFixture.facebookUserInactive());
 		userRepository.save(PersistenceFixture.googlePlusUserActive());
 		userRepository.save(PersistenceFixture.googlePlusUserInactive());
-
-		DataTableBase<UserRest> listUser = userService.findAllUsers(new DataTableCriterias());
+		
+		DataTableBase<UserRest> listUser = userService.findAllUsers(userDataTableCriterias());
 
 		assertEquals(5, listUser.getData().size());	// the application creates a new admin user for default, if this table is empty
 

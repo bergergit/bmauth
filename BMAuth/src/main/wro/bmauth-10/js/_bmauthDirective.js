@@ -21,19 +21,26 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 		directive.init(scope, $location);
 	}
 	
+	/**
+	 * Initializes base template URLs and set the 1st page.
+	 */
 	directive.init = function($scope, $location) { 
+		$scope.loginUrl = directive.context + 'bmauth-10/login.html';
+		$scope.signupUrl = directive.context + 'bmauth-10/signup.html';
+		$scope.signupFormUrl = directive.context + 'bmauth-10/signupForm.html';
+		$scope.forgotPassword = directive.context + 'bmauth-10/forgotPassword.html';
+		$scope.resetMyPassword = directive.context + 'bmauth-10/resetPasswordForm.html';
+		$scope.signingContract = directive.context + 'bmauth-10/signingContractForm.html';
+
+		
+		
 		if ($location.path().match("/reset/*")) {
-			$scope.contentUrl = directive.context + 'fragments/home/resetPasswordForm.html';
+			$scope.contentUrl = $scope.resetMyPassword;
 		} else {
-			// $scope.contentUrl = directive.context + 'fragments/home/signingContractForm.html';
-						$scope.contentUrl = directive.context + 'fragments/home/login.html';
+			// $scope.contentUrl = directive.context + 'fragments/directive/signingContractForm.html';
+			$scope.contentUrl = $scope.loginUrl;
 		}
 
-		//$scope.contentUrl = directive.context + 'fragments/home/login.html';
-		$scope.signupFormUrl = directive.context + 'fragments/home/signupForm.html';
-		$scope.forgotPassword = directive.context + 'fragments/home/forgotPassword.html';
-		$scope.resetMyPassword = directive.context + 'fragments/home/resetPasswordForm.html';
-		$scope.signingContract = directive.context + 'fragments/home/signingContractForm.html';
 	}
 	
 	/**
@@ -47,7 +54,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 			if (_.indexOf(auth.data.roles, 'ROLE_BMAUTH-ADMIN') > -1) {
 				$location.path('/applications');
 			} else {
-				console.debug('autorization error');
+				//console.debug('autorization error');
 				vm.authorizationError = true;
 			}
 		}
@@ -85,11 +92,11 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 		 * Sign up form
 		 */
 		vm.signupForm = function() {
-			$scope.contentUrl = directive.context + "fragments/home/signup.html";
+			$scope.contentUrl = $scope.signupUrl;
 		}
 
 		vm.forgotMyPasswordCall = function() {
-			$scope.contentUrl = directive.context + "fragments/home/forgotPassword.html";
+			$scope.contentUrl = $scope.forgotPassword;
 		}
 
 		vm.authenticated = function() {
@@ -101,7 +108,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 	     */
 		vm.cancel = function() {
 			if ($location.path().substring(0, 7) == "/reset/") {
-				$location.path(directive.context + 'fragments/home/login.html');
+				$location.path($scope.loginUrl);
 			} else {
 				directive.init($scope, $location);
 			}
@@ -129,10 +136,10 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 	    	data.appId = Facebook.appId;
 	    	$http.post(directive.context + 'bmauth/users/facebook', data)
 	    		.then(function(response) {
-		    		console.debug("Facebook User saved! We are good to go to signed in experience");
+		    		//console.debug("Facebook User saved! We are good to go to signed in experience");
 		    		directive.signinRedirect($location, $scope, auth, vm); 
 				}, function(response) {
-					console.debug("Error saving facebook user");
+					//console.debug("Error saving facebook user");
 					vm.socialLoginError = true;
 				});
 	    }
@@ -143,7 +150,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 		vm.facebookLogin = function() {
 			//console.debug('init option', Facebook.getInitOption('appId'));
 			Facebook.login(function(response) {
-				console.debug("Facebook response", response);
+				//console.debug("Facebook response", response);
 				if (response.status === 'connected') {
 					// Logged into your app and Facebook.
 					authenticateFacebook($http, response);
@@ -160,10 +167,9 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 		 * Google login
 		 */
 		vm.googleLogin = function() {
-			console.debug("Google login clicked!");
 			//console.debug('Google', GooglePlus.prototype.login);
 			GooglePlus.login().then(function (authResult) {
-				console.debug("AuthResult", authResult);
+				//console.debug("AuthResult", authResult);
 	            authenticateGoogle($http, authResult);
 
 	        }, function (err) {
@@ -173,13 +179,13 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 		
 		function authenticateGoogle($http, data) {
 			var googleData = {accessToken: data.access_token, clientId: data.client_id}
-			console.debug("Will post google data", googleData, directive.context + 'bmauth/users/google')
+			//console.debug("Will post google data", googleData, directive.context + 'bmauth/users/google')
 	    	$http.post(directive.context + 'bmauth/users/google', googleData)
 	    		.then(function(response) {
-		    		console.debug("Google User saved! We are good to go to signed in experience");
+		    		//console.debug("Google User saved! We are good to go to signed in experience");
 		    		directive.signinRedirect($location, $scope, auth, vm); 
 				}, function(response) {
-					console.debug("Error saving Google user");
+					//console.debug("Error saving Google user");
 					vm.socialLoginError = true;
 				});
 	    }
@@ -190,7 +196,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 	    
 		// saves the user with a post, and redirects to signed in experience
 		vm.submitSignup = function(screen) {
-			 console.debug('Will submit', vm.signup);
+			 //console.debug('Will submit', vm.signup);
 			 if (screen.form.$valid) {
 				 vm.signup.$save(function(response) {
 					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
@@ -201,26 +207,26 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 						 vm.userCreated = true;
 					 }
 
-					 console.debug('return after user created', $scope.signedInUri);
+					 //console.debug('return after user created', $scope.signedInUri);
 					 
 				 }, function(error) {
-					 console.debug("Error on save");
+					 //console.debug("Error on save");
 					 formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
 				 });
 			 }
 		}
 		
 		vm.submitForgotMyPasswordForm = function() {
-			console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
+			//console.debug('Will submit forgotMyPassword', vm.forgotMyPassword);
 			
 			 vm.forgotMyPassword.$save(function(response) {
-					console.debug("Forgot my password Success on save");
+					//console.debug("Forgot my password Success on save");
 					vm.emailInvalido = false;
 					vm.showError = false;
 					vm.forgotMyPasswordCreated = true;
 					directive.init($scope, $location);
 			 }, function(response) {
-				 console.debug("Error on save token");
+				 //console.debug("Error on save token");
 				 
 				 if(response.status == 404){
 					 vm.emailInvalido = true;
@@ -234,14 +240,14 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 		}
 
 		vm.submitResetMyPasswordForm = function(screen) {
-			console.debug('Will submit resetMyPassword', vm.resetMyPassword);
+			//console.debug('Will submit resetMyPassword', vm.resetMyPassword);
 			if (screen.form.$valid) {
 				 vm.resetMyPassword.$save(function(response) {
-						console.debug("reset my password Success on save");
+						//console.debug("reset my password Success on save");
 						vm.showError = false;
-						$location.path(directive.context + 'fragments/home/login.html');
+						$location.path($scope.loginUrl);
 				 }, function(response) {
-					 console.debug("Error on save token");
+					 //console.debug("Error on save token");
 					 vm.showError = true;
 					 vm.error = "Error: " + response.status + " - " + response.statusText;  
 	
@@ -255,7 +261,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
 				 
 				 });
 			} else {
-				console.debug("Forms is not valid")
+				//console.debug("Forms is not valid")
 			}
 		}
 		

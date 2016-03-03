@@ -95,5 +95,20 @@ public class ApplicationServiceImpl implements ApplicationService {
 		applicationRepository.delete(applicationId);
 
 	}
+	
+	/**
+	 * Find all Apps belonging to that Username
+	 */
+	public List<ApplicationRest> findAppsByUserId(Integer userId) {
+		List<Application> applicationList = applicationRepository.findByUserId(userId);
+		List<ApplicationRest> applicationsRestList = new ArrayList<>();
+		for (Application application : applicationList) {
+			ApplicationRest applicationRest = new ApplicationRest();
+			BeanUtils.copyProperties(application, applicationRest);
+			applicationsRestList.add(applicationRest);
+		}
+		
+		return applicationsRestList;
+	}
 
 }

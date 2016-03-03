@@ -1,6 +1,5 @@
 package com.bergermobile.rest.controller;
 
-import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -12,8 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bergermobile.rest.services.ApplicationService;
 import com.bergermobile.rest.services.UserService;
 import com.bergermobile.security.CustomUserDetailsService;
+import com.bergermobile.security.SecurityUser;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET)
@@ -38,7 +38,7 @@ public class AuthenticationController {
 	private ApplicationService applicationService;
 	
 	@RequestMapping("/user")
-	public Map<String, Object> user(Principal user, HttpServletRequest request) throws NotFoundException {
+	public Map<String, Object> user(@AuthenticationPrincipal SecurityUser user, HttpServletRequest request) throws NotFoundException {
 		LOG.debug("Trying to retrieve user " + user);
 		
 		// if remember me is checked, session will be longer
@@ -49,8 +49,9 @@ public class AuthenticationController {
 		
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		if (user != null) {
-			map.put("name", user.getName());
-			map.put("roles", AuthorityUtils.authorityListToSet(((Authentication) user).getAuthorities()));
+			//map.put("username", user.getName());
+			map.put("id", user.getUserId());
+			map.put("roles", AuthorityUtils.authorityListToSet(user.getAuthorities()));
 			//map.put("mandatoryContract", userService.getMustSignTheContract(user.get))
 		}
 		return map;

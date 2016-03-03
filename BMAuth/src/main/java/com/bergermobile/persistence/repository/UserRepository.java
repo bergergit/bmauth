@@ -23,7 +23,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	public User findByEmail(String email);
 	
 	/**
-	 * This will only retrieve usernames that belong to that type and 
+	 * This will only retrieve usernames that belong to that type
 	 * @param email
 	 * @param applicationId
 	 * @return

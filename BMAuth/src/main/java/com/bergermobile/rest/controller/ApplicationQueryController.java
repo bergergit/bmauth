@@ -38,5 +38,18 @@ public class ApplicationQueryController {
 		return applicationService.findByApplicationName(applicationName);
 
 	}
+	
+	
+	/**
+	 * Find all Apps belonging to that USerID
+	 * @param criterias
+	 * @return
+	 */
+	@RequestMapping(value = "/applications/userid/{userId}")
+	public List<ApplicationRest> findAppsByUsername(@PathVariable Integer userId) {
+
+		return applicationService.findAppsByUserId(userId);
+
+	}
 
 }

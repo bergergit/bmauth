@@ -21,14 +21,14 @@
     	<js>webjar:angular-ui-bootstrap/${angular-ui-bootstrap.version}/ui-bootstrap-tpls.min.js</js>
 	</group>
 
-	<group name="bmauth">
-		<css>file:${project.basedir}/src/main/wro/less/main.less</css>
-		<js minimize="false">file:${project.basedir}/src/main/wro/js-main/**.js</js>
+	<group name="bmauth-10">
+		<css>/bmauth-10/less/bmauth.less</css>
+		<js minimize="false">/bmauth-10/js/**.js</js>
 	</group>
 	
 	<group name="bmauth-admin" abstract="true">
-		<css>file:${project.basedir}/src/main/wro/less/bmauth-admin.less</css>
-		<js minimize="false">file:${project.basedir}/src/main/wro/js/**.js</js>
+		<css>/less/bmauth-admin.less</css>
+		<js minimize="false">/js/**.js</js>
 	</group>
 	
 	<group name="test">
@@ -37,7 +37,7 @@
 
 	<group name="app">
 		<group-ref>libs</group-ref>
-		<group-ref>bmauth</group-ref>
+		<group-ref>bmauth-10</group-ref>
 		<group-ref>bmauth-admin</group-ref>
 	</group>
 	

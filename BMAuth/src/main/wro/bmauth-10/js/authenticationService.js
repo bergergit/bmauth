@@ -41,7 +41,7 @@ angular.module('bmauth.main')
 				// adding data in a session cookie
 				$cookies.putObject('bmauth-data', data);
 				
-				if (data.name) {
+				if (data.id) {
 					auth.authenticated = true;
 				} else {
 					auth.authenticated = false;
@@ -67,8 +67,10 @@ angular.module('bmauth.main')
 			$cookies.remove('bmauth-data');
 			if (reload) {
 				//TODO - uncomment
-				
 				document.location = auth.homePath + sessionStr;
+
+				
+				//$location.path(auth.homePath + sessionStr);
 			}
 		},
 		

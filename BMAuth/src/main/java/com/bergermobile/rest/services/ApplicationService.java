@@ -15,5 +15,7 @@ public interface ApplicationService {
 	public void save(ApplicationRest applicationRest);
 
 	public void delete(int applicationId);
+	
+	public List<ApplicationRest> findAppsByUserId(Integer userId);
 
 }

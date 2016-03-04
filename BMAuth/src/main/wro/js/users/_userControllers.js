@@ -94,7 +94,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 		},
 		loginType: function(data, type, full) {
 			return $translate.instant('user.loginType.' + data);
-		},
+		}
 	}
 	
 	// Datatable exposed Options

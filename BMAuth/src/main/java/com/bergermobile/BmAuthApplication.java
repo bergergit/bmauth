@@ -16,6 +16,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.session.data.redis.config.ConfigureRedisAction;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import com.bergermobile.persistence.domain.Application;
@@ -40,6 +41,15 @@ public class BmAuthApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BmAuthApplication.class, args);
+	}
+	
+	/**
+	 * @see <a href="http://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent>http://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent</a>
+	 * @return
+	 */
+	@Bean
+	public static ConfigureRedisAction configureRedisAction() {
+	    return ConfigureRedisAction.NO_OP;
 	}
 	
 	@Bean
@@ -91,6 +101,7 @@ public class BmAuthApplication {
 			app.setMandatoryContract(false);
 			app.setTestMode(false);
 			app.setUrl(environment.getProperty("bmauth.url.init"));
+			app.setRealm("bmauth");
 			app = applicationRepository.save(app);
 			
 			User user = new User();

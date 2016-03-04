@@ -6,7 +6,7 @@
 		<css>webjar:angular-datatables/${angular-datatables.version}/dist/plugins/bootstrap/datatables.bootstrap.min.css</css>
 		<js>webjar:jquery/${jquery.version}/jquery.min.js</js>
 		<js>webjar:datatables/${datatables.version}/js/jquery.dataTables.min.js</js>
-		<js minimize="false">webjar:angularjs/${angular.version}/angular.js</js>
+		<js minimize="${minimize-code}">webjar:angularjs/${angular.version}/angular.js</js>
     	<js>webjar:angularjs/${angular.version}/angular-resource.min.js</js>
     	<js>webjar:angularjs/${angular.version}/angular-cookies.min.js</js>
 		<js>webjar:angularjs/${angular.version}/angular-route.min.js</js>
@@ -23,16 +23,16 @@
 
 	<group name="bmauth-10">
 		<css>/bmauth-10/less/bmauth.less</css>
-		<js minimize="false">/bmauth-10/js/**.js</js>
+		<js minimize="${minimize-code}">/bmauth-10/js/**.js</js>
 	</group>
 	
 	<group name="bmauth-admin" abstract="true">
 		<css>/less/bmauth-admin.less</css>
-		<js minimize="false">/js/**.js</js>
+		<js minimize="${minimize-code}">/js/**.js</js>
 	</group>
 	
 	<group name="test">
-		<js minimize="false">webjar:angularjs/${angular.version}/angular-mocks.js</js>
+		<js minimize="${minimize-code}">webjar:angularjs/${angular.version}/angular-mocks.js</js>
 	</group>
 
 	<group name="app">

@@ -39,7 +39,7 @@ angular.module('bmauth.applications', ['datatables', 'datatables.bootstrap', 'ng
 					            	                                                 "language": "pt_BR"}]}],
 					            "rolesRest": [
 					                          {"roleId": -1,"roleName": "ADMIN"},
-					                          {"roleId": -1,"roleName": "USER"},
+					                          {"roleId": -1,"roleName": "USER"}
 					                          ]}));
 			  });
 	}

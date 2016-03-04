@@ -1,4 +1,4 @@
-angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook',])
+angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook'])
 
 .directive('bmAuth', function($location) {
 	var directive = {};

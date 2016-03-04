@@ -5,7 +5,7 @@
 
 	<groupId>com.bergermobile</groupId>
 	<artifactId>bmauth</artifactId>
-	<version>0.1</version>
+	<version>0.5</version>
 	<packaging>war</packaging>
 
 	<name>BMAuth</name>
@@ -23,6 +23,7 @@
 				<spring.redis.host>localhost</spring.redis.host>
 				<spring.redis.port>6379</spring.redis.port>
 				<bmauth.url.init>http://localhost:8081</bmauth.url.init>
+				<minimize-code>false</minimize-code>
 		    </properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>

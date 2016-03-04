@@ -1,6 +1,6 @@
 angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook'])
 
-.directive('bmAuth', function($location) {
+.directive('bmAuth', ['$location', function($location) {
 	var directive = {};
 	//directive.restrict = 'AE';
 	
@@ -268,4 +268,4 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook'])
 	}];
 	
 	return directive;
-});
+}]);

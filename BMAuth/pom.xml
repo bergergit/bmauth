@@ -5,7 +5,7 @@
 
 	<groupId>com.bergermobile</groupId>
 	<artifactId>bmauth</artifactId>
-	<version>0.6</version>
+	<version>0.7</version>
 	<packaging>war</packaging>
 
 	<name>BMAuth</name>
@@ -35,7 +35,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.6.RELEASE</version>
+		<version>1.2.8.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -139,7 +139,23 @@
 			<artifactId>javax.mail</artifactId>
 		</dependency>
 		
+		 <dependency>
+	        <groupId>com.zaxxer</groupId>
+	        <artifactId>HikariCP</artifactId>
+	    </dependency>
+		
 	</dependencies>
+	
+	<repositories>
+	    <repository>
+	        <id>spring-snapshots</id>
+	        <name>Spring Snapshots</name>
+	        <url>http://repo.spring.io/snapshot</url>
+	        <snapshots>
+	            <enabled>true</enabled>
+	        </snapshots>
+	    </repository>
+    </repositories>
 	
 	<build>
 		<plugins>

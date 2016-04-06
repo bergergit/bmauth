@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.bergermobile.commons.domain.BaseTable;
+
 /**
  * The persistent class for the Application database table.
  * 

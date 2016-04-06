@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.bergermobile.commons.domain.BaseTable;
+
 /**
  * The persistent class for the user database table.
  * 

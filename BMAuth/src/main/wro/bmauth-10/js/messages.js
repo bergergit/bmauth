@@ -25,6 +25,10 @@ bmauth_translations.en = {
 		"bmauthPasswordMatch": "As senhas não coindicem."
 			
 	},
+	
+	"navigation": {
+		"exit": "Sair"
+	},
 
 	// BMAuth directive
 	"login": {

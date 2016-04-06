@@ -1,6 +1,6 @@
 angular.module('bmauth.main')
 
-.factory('auth',['$http', '$location','$rootScope','$cookies','$route', function($http, $location, $rootScope, $cookies, $route) {
+.factory('auth',['$http', '$location','$rootScope','$cookies','$route','$routeParams', function($http, $location, $rootScope, $cookies, $route, $routeParams) {
 
 	var auth = {
 
@@ -77,9 +77,14 @@ angular.module('bmauth.main')
 		/**
 		 * Searches if the logged in user has this role
 		 */
-		hasRole : function(role) {
+		hasRole : function(roles) {
 			if (auth.isAnonymous()) return false;
-			return (_.indexOf(auth.data.roles, role.toUpperCase()) > -1);
+			var hasRole = false;
+			angular.forEach(roles, function(role) {
+				hasRole = (_.indexOf(auth.data.roles, role.toUpperCase()) > -1) || hasRole;
+			});
+			return hasRole;
+			
 		},
 		
 		isAnonymous : function() {
@@ -96,11 +101,20 @@ angular.module('bmauth.main')
 			    auth.showFlash = false;
 			});
 
-			/*
+			var reset = function() {
+				if ($routeParams.reset || $location.search().reset) {
+					auth.clear(true);
+					$location.search('reset', null);
+				}
+			}
+			
 			$rootScope.$on('$routeChangeSuccess', function() {
-				//enter();
+				reset();
 	        });
-	        */
+			$rootScope.$on('$stateChangeSuccess', function() {
+				reset();
+	        });
+	        
 			
 			// try to recover data from session cookie
 			var tempData = $cookies.getObject('bmauth-data');

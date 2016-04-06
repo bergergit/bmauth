@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bergermobile.rest.services.ApplicationService;
 import com.bergermobile.rest.services.UserService;
 import com.bergermobile.security.CustomUserDetailsService;
-import com.bergermobile.security.SecurityUser;
+import com.bergermobile.commons.security.SecurityUser;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET)

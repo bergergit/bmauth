@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.bergermobile.commons.domain.BaseTable;
+
 /**
  * The persistent class for the user_role database table.
  * 

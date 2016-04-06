@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.bergermobile.commons.domain.BaseTable;
+
 /**
  * The persistent class for the log database table.
  * 

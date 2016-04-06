@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.bergermobile.commons.security.SecurityUser;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.repository.UserRepository;
 

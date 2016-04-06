@@ -1,7 +1,11 @@
 package com.bergermobile.persistence.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.bergermobile.commons.domain.BaseTable;
+
 import java.sql.Timestamp;
 
 /**

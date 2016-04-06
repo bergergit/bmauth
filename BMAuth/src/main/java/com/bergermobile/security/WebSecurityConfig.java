@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+
+import com.bergermobile.commons.security.CsrfHeaderFilter;
 
 
 /**
@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				//.authenticationDetailsSource(customAuthenticationDetailsSource)
 			.and()
             	.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-            	.csrf().csrfTokenRepository(csrfTokenRepository());
+            	.csrf().csrfTokenRepository(CsrfHeaderFilter.csrfTokenRepository());
 			
 		// @formatter:on
 	}
@@ -65,13 +65,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customUserDetailsService).passwordEncoder(bcryptEncoder);
 		//auth.authenticationProvider(customAuthenticationProvider);
-	}
-	
-	
-	private CsrfTokenRepository csrfTokenRepository() {
-		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-		repository.setHeaderName("X-XSRF-TOKEN");
-		return repository;
 	}
 	
 }

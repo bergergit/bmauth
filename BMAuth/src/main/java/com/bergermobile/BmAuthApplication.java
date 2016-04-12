@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.session.data.redis.config.ConfigureRedisAction;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 
 import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.Role;
@@ -29,7 +30,7 @@ import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.rest.services.SerializableResourceBundleMessageSource;
 
 @SpringBootApplication
-@EnableRedisHttpSession
+//@EnableRedisHttpSession
 @EnableAsync
 public class BmAuthApplication {
 
@@ -42,6 +43,13 @@ public class BmAuthApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BmAuthApplication.class, args);
 	}
+	
+	/*
+	@Bean
+	public HeaderHttpSessionStrategy sessionStrategy() {
+		return new HeaderHttpSessionStrategy();
+	}
+	*/
 	
 	/**
 	 * @see <a href="http://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent>http://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent</a>

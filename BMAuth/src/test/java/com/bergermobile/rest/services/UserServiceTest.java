@@ -1,7 +1,11 @@
 package com.bergermobile.rest.services;
 
-import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.*;
-
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.application1;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.internalUser1;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.roleAdmin;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.roleUser;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.userDataTableCriterias;
+import static com.bergermobile.persistence.domain.fixture.PersistenceFixture.userWithRoles;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,6 +19,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -22,6 +27,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.BmAuthApplication;
+import com.bergermobile.commons.rest.DataTableBase;
 import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
@@ -29,14 +35,13 @@ import com.bergermobile.persistence.domain.fixture.PersistenceFixture;
 import com.bergermobile.persistence.repository.ApplicationRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.persistence.repository.UserRepository;
-import com.bergermobile.rest.domain.DataTableBase;
 import com.bergermobile.rest.domain.UserRest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
 @WebAppConfiguration
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
+@Rollback(true)
+//@TransactionConfiguration(defaultRollback = true)
 @ActiveProfiles("dev")
 public class UserServiceTest {
 

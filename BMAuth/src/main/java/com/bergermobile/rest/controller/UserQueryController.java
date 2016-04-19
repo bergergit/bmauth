@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bergermobile.rest.domain.DataTableBase;
-import com.bergermobile.rest.domain.DataTableCriterias;
+import com.bergermobile.commons.rest.DataTableBase;
+import com.bergermobile.commons.rest.DataTableCriterias;
 import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.UserService;
 

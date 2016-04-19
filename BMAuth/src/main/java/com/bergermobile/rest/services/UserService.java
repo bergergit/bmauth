@@ -4,9 +4,9 @@ import java.util.List;
 
 import javassist.NotFoundException;
 
+import com.bergermobile.commons.rest.DataTableBase;
+import com.bergermobile.commons.rest.DataTableCriterias;
 import com.bergermobile.rest.domain.ApplicationRest;
-import com.bergermobile.rest.domain.DataTableBase;
-import com.bergermobile.rest.domain.DataTableCriterias;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;

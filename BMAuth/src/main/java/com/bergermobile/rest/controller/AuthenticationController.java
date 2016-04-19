@@ -11,16 +11,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bergermobile.commons.security.SecurityUser;
 import com.bergermobile.rest.services.ApplicationService;
 import com.bergermobile.rest.services.UserService;
 import com.bergermobile.security.CustomUserDetailsService;
-import com.bergermobile.commons.security.SecurityUser;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET)

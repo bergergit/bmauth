@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import javassist.NotFoundException;
+
 import javax.transaction.Transactional;
 
 import org.apache.commons.logging.Log;
@@ -29,18 +31,17 @@ import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Service;
 
+import com.bergermobile.commons.rest.DataTableBase;
+import com.bergermobile.commons.rest.DataTableCriterias;
+import com.bergermobile.commons.rest.PageService;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.persistence.repository.UserRoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
-import com.bergermobile.rest.domain.DataTableBase;
-import com.bergermobile.rest.domain.DataTableCriterias;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.UserRest;
-
-import javassist.NotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {

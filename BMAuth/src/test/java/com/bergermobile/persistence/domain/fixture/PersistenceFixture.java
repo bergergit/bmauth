@@ -8,6 +8,10 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import com.bergermobile.commons.rest.DataTableCriterias;
+import com.bergermobile.commons.rest.DataTableCriterias.ColumnCriterias;
+import com.bergermobile.commons.rest.DataTableCriterias.OrderCriterias;
+import com.bergermobile.commons.rest.DataTableCriterias.SearchCriterias;
 import com.bergermobile.persistence.domain.Active;
 import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.domain.LanguageContract;
@@ -15,10 +19,6 @@ import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
-import com.bergermobile.rest.domain.DataTableCriterias;
-import com.bergermobile.rest.domain.DataTableCriterias.ColumnCriterias;
-import com.bergermobile.rest.domain.DataTableCriterias.OrderCriterias;
-import com.bergermobile.rest.domain.DataTableCriterias.SearchCriterias;
 import com.bergermobile.rest.services.RestConversionService;
 
 public class PersistenceFixture {

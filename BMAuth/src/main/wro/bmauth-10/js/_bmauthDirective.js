@@ -150,16 +150,16 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 					// The person is not logged into Facebook, so we're not sure if
 					// they are logged into this app or not.
 				}
-		      });
+		    }, {scope: 'public_profile,email'});
 		};
 		
 		function authenticateFacebook($http, data) {
 	    	data.appId = Facebook.appId;
-	    	//data.realm = $scope.realm;
-	    	$http.post(directive.context + 'bmauth/users/facebook', data, {realm: $scope.realm})
+	    	data.realm = $scope.realm;
+	    	$http.post(directive.context + 'bmauth/users/facebook', data, {params: {realm: $scope.realm}})
 	    		.then(function(response) {
 		    		//console.debug("Facebook User saved! We are good to go to signed in experience");
-		    		directive.signinRedirect($location, $scope, auth, vm); 
+		    		auth.userEndpoint(directive.signinRedirect($location, $scope, auth, vm)); 
 				}, function(response) {
 					//console.debug("Error saving facebook user");
 					vm.socialLoginError = true;
@@ -183,10 +183,10 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		function authenticateGoogle($http, data) {
 			var googleData = {accessToken: data.access_token, clientId: data.client_id, realm: $scope.realm }
 			//console.debug("Will post google data", googleData, directive.context + 'bmauth/users/google')
-	    	$http.post(directive.context + 'bmauth/users/google', googleData)
+	    	$http.post(directive.context + 'bmauth/users/google', googleData, {params: {realm: $scope.realm}})
 	    		.then(function(response) {
 		    		//console.debug("Google User saved! We are good to go to signed in experience");
-		    		directive.signinRedirect($location, $scope, auth, vm); 
+	    			auth.userEndpoint(directive.signinRedirect($location, $scope, auth, vm)); 
 				}, function(response) {
 					//console.debug("Error saving Google user");
 					vm.socialLoginError = true;
@@ -206,8 +206,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
 					 if ($scope.signedInUri) {
 						//console.debug("Success on save");
-						auth.authenticate(vm.signup);
-						directive.signinRedirect($location, $scope, auth, vm); 
+						auth.authenticate(vm.signup, directive.signinRedirect($location, $scope, auth, vm));
 					 } else {
 						 vm.userCreated = true;
 					 }

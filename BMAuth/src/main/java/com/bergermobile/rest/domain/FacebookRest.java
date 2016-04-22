@@ -12,6 +12,7 @@ public class FacebookRest {
 	private String appId;
 	private AuthResponse authResponse;
 	private String status;
+	private String realm;
 	
 	public String getAppId() {
 		return appId;
@@ -35,6 +36,14 @@ public class FacebookRest {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getRealm() {
+		return realm;
+	}
+
+	public void setRealm(String realm) {
+		this.realm = realm;
 	}
 
 	public class AuthResponse {
@@ -74,7 +83,7 @@ public class FacebookRest {
 		public void setUserID(String userID) {
 			this.userID = userID;
 		}
-
+		
 	}
 
 }

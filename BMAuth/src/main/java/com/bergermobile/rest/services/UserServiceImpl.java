@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 	 * we create this user in the DB, and then authenticate
 	 */
 	@Override
-	public void saveFacebook(FacebookRest facebookRest) {
+	public User saveFacebook(FacebookRest facebookRest) {
 		// look for existent user
 		User facebookUser = userRepository.findByLoginTypeAndUsername(User.LoginType.FACEBOOK.getValue(),
 				facebookRest.getAuthResponse().getUserID());
@@ -194,6 +194,8 @@ public class UserServiceImpl implements UserService {
 			LOG.debug("No Facebook user found for Facebok userid: " + facebookRest.getAuthResponse().getUserID());
 			facebookUser = saveFacebookInformation(facebookRest);
 		}
+		
+		return facebookUser;
 	}
 
 	/**
@@ -202,7 +204,7 @@ public class UserServiceImpl implements UserService {
 	 * create this user in the DB, and then authenticate
 	 */
 	@Override
-	public void saveGoogle(GoogleRest googleRest) {
+	public User saveGoogle(GoogleRest googleRest) {
 		LOG.debug("Verifying google user for token " + googleRest.getAccessToken() + ", clientId: "
 				+ googleRest.getClientId());
 
@@ -219,8 +221,10 @@ public class UserServiceImpl implements UserService {
 		User googleUser = userRepository.findByLoginTypeAndUsername(User.LoginType.GOOGLE_PLUS.getValue(), username);
 		if (googleUser == null) {
 			LOG.debug("No Google user found for id " + username + ". Saving new");
-			googleUser = saveGoogleInformation(google);
+			googleUser = saveGoogleInformation(google, googleRest.getRealm());
 		}
+		
+		return googleUser;
 	}
 
 	@Override
@@ -261,6 +265,8 @@ public class UserServiceImpl implements UserService {
 		facebookUser.setName(facebook.userOperations().getUserProfile().getName());
 
 		LOG.debug("Saving Facebook user " + facebookUser);
+		
+		setUserRole(facebookUser, facebookRest.getRealm());
 
 		return userRepository.save(facebookUser);
 	}
@@ -270,7 +276,7 @@ public class UserServiceImpl implements UserService {
 	 * and saves the result in the Database
 	 */
 	// @Async
-	public User saveGoogleInformation(Google google) {
+	public User saveGoogleInformation(Google google, String realm) {
 		// create the user object
 		User googleUser = new User();
 		googleUser.setUsername(google.plusOperations().getGoogleProfile().getId());
@@ -281,6 +287,8 @@ public class UserServiceImpl implements UserService {
 		googleUser.setName(google.plusOperations().getGoogleProfile().getDisplayName());
 
 		LOG.debug("Saving Google user " + googleUser);
+		
+		setUserRole(googleUser, realm);
 
 		return userRepository.save(googleUser);
 	}

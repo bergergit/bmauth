@@ -10,6 +10,7 @@ public class GoogleRest {
 
 	private String clientId;
 	private String accessToken;
+	private String realm;
 
 	public String getClientId() {
 		return clientId;
@@ -26,5 +27,14 @@ public class GoogleRest {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
+	
+	public String getRealm() {
+		return realm;
+	}
+
+	public void setRealm(String realm) {
+		this.realm = realm;
+	}
+
 
 }

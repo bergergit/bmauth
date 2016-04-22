@@ -33,26 +33,41 @@ angular.module('bmauth.main')
 					"realm": credentials && credentials.realm ? credentials.realm : null
 				},
 				headers: headers
-			}).success(function(data) {
-				console.debug('bmauth.authentication - data', data);
-				auth.data = data;
-				auth.showFlash = false;
-				
-				// adding data in a session cookie
-				$cookies.putObject('bmauth-data', data);
-				
-				if (data.id) {
-					auth.authenticated = true;
-				} else {
-					auth.authenticated = false;
-				}
-				// $location.path(auth.homePath);
-				callback && callback(auth.authenticated);
-			}).error(function() {
+			}).then(function(result) {
+				auth.authenticationSuccess(result.data, callback);
+			}, function() {
 				auth.authenticated = false;
 				callback && callback(false);
 			});
-
+		},
+		
+		authenticationSuccess: function(data, callback) {
+			console.debug('bmauth.authentication - data', data);
+			auth.data = data;
+			auth.showFlash = false;
+			
+			// adding data in a session cookie
+			$cookies.putObject('bmauth-data', data);
+			
+			if (data.id) {
+				auth.authenticated = true;
+			} else {
+				auth.authenticated = false;
+			}
+			// $location.path(auth.homePath);
+			callback && callback(auth.authenticated);
+		},
+		
+		userEndpoint: function(callback) {
+			$http.get(auth.loginPath).then(
+				function(result) {
+					auth.authenticationSuccess(result.data, callback);
+				},
+				function(error) {
+					auth.authenticated = false;
+					console.error("Error retrieving user endpoint", error);
+				}
+			);
 		},
 
 		clear : function(avoidPost) {

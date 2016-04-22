@@ -33,8 +33,8 @@ public interface UserService {
 	
 	public User save(UserRest userRest, boolean saveRoles);
 	
-	public void saveFacebook(FacebookRest userRest);
-	public void saveGoogle(GoogleRest googleRest);
+	public User saveFacebook(FacebookRest userRest);
+	public User saveGoogle(GoogleRest googleRest);
 
 	public void delete(int userId);
 	

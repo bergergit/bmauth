@@ -103,7 +103,8 @@ public class UserCommandController {
 	@RequestMapping(value = "/users/facebook", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public void saveFacebookUser(@RequestBody FacebookRest facebookRest) {
-		userService.saveFacebook(facebookRest);
+		User user = userService.saveFacebook(facebookRest);
+		logUserIn(user.getUsername());
 	}
 
 	/**
@@ -118,7 +119,8 @@ public class UserCommandController {
 	@ResponseStatus(HttpStatus.OK)
 	public void saveGoogleUser(@RequestBody GoogleRest googleRest) {
 		LOG.debug("UserCommandController. SaveGoogleUser for token " + googleRest.getAccessToken());
-		userService.saveGoogle(googleRest);
+		User user = userService.saveGoogle(googleRest);
+		logUserIn(user.getUsername());
 	}
 
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)

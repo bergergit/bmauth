@@ -33,7 +33,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 		LOG.debug("Trying BMAuth login with username " +  username);
 		
 		String realm = request.getParameter("realm");
-		User user = userRepository.findByLoginTypeAndUsernameAndRealm((Short)User.LoginType.INTERNAL.getValue(), username, realm);
+		//User user = userRepository.findByLoginTypeAndUsernameAndRealm((Short)User.LoginType.INTERNAL.getValue(), username, realm);
+		User user = userRepository.findByUsernameAndRealm(username, realm);
 		if(user == null){
 			LOG.debug("UserName " + username + " not found");
 			throw new UsernameNotFoundException("UserName " + username + " not found");

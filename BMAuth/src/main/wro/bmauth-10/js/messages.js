@@ -54,6 +54,7 @@ bmauth_translations.en = {
 	"signup": {
 		"header": "Cadastro",
 		"header.success": "Usuário criado",
+		"header.conflict": "Este email já está cadastrado no sistema.",
 		"label.name": "Nome",
 		"label.document_type": "CPF ou CNPJ",
 		"label.email": "E-mail",

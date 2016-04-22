@@ -65,7 +65,9 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 
 		var vm = this;
 		vm.userCreated = false;
+		vm.conflict = false;
 		directive.context = $rootScope.authContext;
+		
 
 		if ($scope.showFacebook === undefined) $scope.showFacebook = true;
 		if ($scope.showGoogle === undefined) $scope.showGoogle = true;
@@ -131,18 +133,6 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 	            }
 	        })
 	    };
-	    
-	    function authenticateFacebook($http, data) {
-	    	data.appId = Facebook.appId;
-	    	$http.post(directive.context + 'bmauth/users/facebook', data)
-	    		.then(function(response) {
-		    		//console.debug("Facebook User saved! We are good to go to signed in experience");
-		    		directive.signinRedirect($location, $scope, auth, vm); 
-				}, function(response) {
-					//console.debug("Error saving facebook user");
-					vm.socialLoginError = true;
-				});
-	    }
 
 	    /**
 		 * Facebook login
@@ -163,6 +153,19 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		      });
 		};
 		
+		function authenticateFacebook($http, data) {
+	    	data.appId = Facebook.appId;
+	    	//data.realm = $scope.realm;
+	    	$http.post(directive.context + 'bmauth/users/facebook', data, {realm: $scope.realm})
+	    		.then(function(response) {
+		    		//console.debug("Facebook User saved! We are good to go to signed in experience");
+		    		directive.signinRedirect($location, $scope, auth, vm); 
+				}, function(response) {
+					//console.debug("Error saving facebook user");
+					vm.socialLoginError = true;
+				});
+	    }
+		
 		/**
 		 * Google login
 		 */
@@ -178,7 +181,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		};
 		
 		function authenticateGoogle($http, data) {
-			var googleData = {accessToken: data.access_token, clientId: data.client_id}
+			var googleData = {accessToken: data.access_token, clientId: data.client_id, realm: $scope.realm }
 			//console.debug("Will post google data", googleData, directive.context + 'bmauth/users/google')
 	    	$http.post(directive.context + 'bmauth/users/google', googleData)
 	    		.then(function(response) {
@@ -198,10 +201,12 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		vm.submitSignup = function(screen) {
 			 //console.debug('Will submit', vm.signup);
 			 if (screen.form.$valid) {
-				 vm.signup.$save(function(response) {
+				 vm.signup.realm = $scope.realm; 
+				 vm.signup.$save({realm: $scope.realm}, function(response) {
 					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
 					 if ($scope.signedInUri) {
 						//console.debug("Success on save");
+						auth.authenticate(vm.signup);
 						directive.signinRedirect($location, $scope, auth, vm); 
 					 } else {
 						 vm.userCreated = true;
@@ -210,8 +215,12 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 					 //console.debug('return after user created', $scope.signedInUri);
 					 
 				 }, function(error) {
-					 //console.debug("Error on save");
-					 formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
+					 //console.debug("Error on save", error);
+					 if (error.status === 409) { 
+						 vm.conflict = true;
+					 } else {
+					 	formUtils.handleFormErrors(error, 'formErrors', 'signup.label');
+					 }
 				 });
 			 }
 		}

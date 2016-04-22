@@ -34,8 +34,12 @@ import org.springframework.stereotype.Service;
 import com.bergermobile.commons.rest.DataTableBase;
 import com.bergermobile.commons.rest.DataTableCriterias;
 import com.bergermobile.commons.rest.PageService;
+import com.bergermobile.persistence.domain.Application;
+import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
+import com.bergermobile.persistence.repository.ApplicationRepository;
+import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.persistence.repository.UserRoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
@@ -50,6 +54,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
+	
+	@Autowired
+	private ApplicationRepository applicationRepository;
 
 	@Autowired
 	private UserRoleRepository userRoleRepository;
@@ -103,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void save(UserRest userRest, boolean saveRoles) {
+	public User save(UserRest userRest, boolean saveRoles) {
 		LOG.debug("Saving userId " + userRest.getUserId());
 
 		User user = new User();
@@ -136,9 +146,38 @@ public class UserServiceImpl implements UserService {
 
 			// store new roles (from json)
 			user.setUserRoles(conversionService.simpleUserRolesToUserRoles(userRest.getSimpleUserRoles(), user));
+		} else {
+			// new users get automatically associated with USER role
+			if (user.getUserId() == null) {
+				setUserRole(user, userRest.getRealm());
+			}
 		}
 
-		user = userRepository.save(user);
+		return userRepository.save(user);
+	}
+
+	/**
+	 * Sets default USER role for this new User, for all Applications of the given real
+	 * @param user the new user
+	 * @param real the signup realm
+	 */
+	private void setUserRole(User user, String realm) {
+		List<UserRole> userRolesList = new ArrayList<UserRole>();
+		for (Application application : applicationRepository.findByRealm(realm)) {
+			Role role = roleRepository.findByRoleNameAndApplication("USER", application);
+			if (role == null) {
+				// no User role? Create one
+				role = new Role();
+				role.setApplication(application);
+				role.setRoleName("USER");
+				roleRepository.save(role);
+			}
+			UserRole userRole = new UserRole();
+			userRole.setRole(role);
+			userRole.setUser(user);
+			userRolesList.add(userRole);
+		}
+		user.setUserRoles(userRolesList);
 	}
 
 	/**

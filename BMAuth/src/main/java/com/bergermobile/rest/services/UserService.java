@@ -6,6 +6,7 @@ import javassist.NotFoundException;
 
 import com.bergermobile.commons.rest.DataTableBase;
 import com.bergermobile.commons.rest.DataTableCriterias;
+import com.bergermobile.persistence.domain.User;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
@@ -30,7 +31,7 @@ public interface UserService {
 
 	public UserRest findByName(String name);
 	
-	public void save(UserRest userRest, boolean saveRoles);
+	public User save(UserRest userRest, boolean saveRoles);
 	
 	public void saveFacebook(FacebookRest userRest);
 	public void saveGoogle(GoogleRest googleRest);

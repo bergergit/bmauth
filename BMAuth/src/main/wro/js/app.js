@@ -62,7 +62,7 @@ angular.module('bmauth', [
 }])
 
 .run(['DTDefaultOptions','$translate','$rootScope','auth', function(DTDefaultOptions, $translate, $rootScope, auth) {
-    //DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-' + $translate.use() + '.json');
+    DTDefaultOptions.setLanguageSource('fragments/lang/dtlang-pt_br.json');
     $rootScope.authContext='';
     
     auth.init('/', 'user', 'logout');

@@ -34,7 +34,7 @@ angular.module('bmauth.main')
 				},
 				headers: headers
 			}).success(function(data) {
-				//console.debug('bmauth.authentication - data', data);
+				console.debug('bmauth.authentication - data', data);
 				auth.data = data;
 				auth.showFlash = false;
 				

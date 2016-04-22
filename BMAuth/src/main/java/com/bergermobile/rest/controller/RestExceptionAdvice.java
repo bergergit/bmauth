@@ -9,6 +9,7 @@ import javassist.NotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -41,6 +42,12 @@ public class RestExceptionAdvice {
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public void notFoundException(NotFoundException e) {
 		LOG.info("User email not found for resetting password: " + e.getMessage());
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	@ResponseStatus(HttpStatus.CONFLICT)
+	public void conflictException(DataIntegrityViolationException e) {
+		LOG.info("User already exist. " + e.getLocalizedMessage());
 	}
 
 	@ExceptionHandler(FormValidationException.class)

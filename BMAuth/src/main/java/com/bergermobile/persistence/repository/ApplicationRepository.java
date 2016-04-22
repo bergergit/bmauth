@@ -14,6 +14,8 @@ public interface ApplicationRepository extends CrudRepository<Application, Integ
 
 	public Application findByApplicationName(String applicationName);
 	
+	public List<Application> findByRealm(String realm);
+	
 	@Query("select distinct application from Application as application inner join application.roles as applicationRoles inner join applicationRoles.userRoles as userRoles inner join userRoles.user as user where user.userId = :userId")
 	public List<Application> findByUserId(@Param("userId") Integer userId);
 }

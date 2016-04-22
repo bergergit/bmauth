@@ -48,6 +48,8 @@ public class UserRest implements Serializable {
 
 	private List<RoleRest> userRolesRest;
 	
+	private String realm;
+	
 	/** 
 	 * Intended to simply contain the RoleID with true values, for the roles the user belongs to
 	 */
@@ -174,16 +176,14 @@ public class UserRest implements Serializable {
 	public void setSimpleUserRoles(Map<Integer, Boolean> simpleUserRoles) {
 		this.simpleUserRoles = simpleUserRoles;
 	}
-	/*
-	public Map<Integer, Boolean> getSimpleUserApplications() {
-		return simpleUserApplications;
+	
+	public String getRealm() {
+		return realm;
 	}
 
-	public void setSimpleUserApplications(
-			Map<Integer, Boolean> simpleUserApplications) {
-		this.simpleUserApplications = simpleUserApplications;
+	public void setRealm(String realm) {
+		this.realm = realm;
 	}
-	*/
 
 	@Override
 	public int hashCode() {

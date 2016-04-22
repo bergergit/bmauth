@@ -11,6 +11,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bergermobile.persistence.domain.User;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.ForgotPasswordRestparameters;
@@ -30,6 +36,7 @@ import com.bergermobile.rest.services.EmailService;
 import com.bergermobile.rest.services.FormValidationException;
 import com.bergermobile.rest.services.SerializableResourceBundleMessageSource;
 import com.bergermobile.rest.services.UserService;
+import com.bergermobile.security.CustomUserDetailsService;
 
 @RestController
 @RequestMapping(value = "/bmauth")
@@ -48,7 +55,10 @@ public class UserCommandController {
 
 	@Autowired
 	private ApplicationService applicationService;
-
+	
+	@Autowired
+	CustomUserDetailsService userDetailService;
+	
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void saveUser(@Valid @RequestBody UserRest userRest, BindingResult result, HttpServletRequest request)
@@ -57,15 +67,29 @@ public class UserCommandController {
 		if (result.hasErrors()) {
 			throw new FormValidationException(userRest.getUserId(), result);
 		}
+		
+		User user;
 
 		// we are very smart, and will only allow saving of the roles if user is
 		// bmauth-admin. Or else, a hacker may, you know... screw us up
 		if (request.isUserInRole("ROLE_BMAUTH-ADMIN")) {
-			userService.save(userRest, true);
+			user = userService.save(userRest, true);
 		} else {
-			userService.save(userRest, false);
+			user = userService.save(userRest, false);
 		}
-
+		
+		logUserIn(user.getUsername());
+	}
+	
+	/**
+	 * If user is anonymous, log user in with the received login authenticaton
+	 */
+	private void logUserIn(String username) {
+		if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
+		    UserDetails userDetails = userDetailService.loadUserByUsername(username);
+		    Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+		    SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
 	}
 
 	/**

@@ -2,6 +2,9 @@
 		{{ 'signup.header.success' | translate }}
 	</div>
 	<div class="alert alert-danger hidden" id="formErrors"></div>
+	<div class="alert alert-danger" ng-show="vm.conflict">
+		{{ 'signup.header.conflict' | translate }}
+	</div>
 
 	<fieldset>
 		<legend>{{ 'signup.header' | translate}}</legend>

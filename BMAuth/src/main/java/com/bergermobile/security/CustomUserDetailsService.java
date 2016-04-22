@@ -40,7 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		LOG.debug("Found the login user " +  user);
 		
-		// adding the ROLES of this user, that belongs to this appName
+		// adding the ROLES of this user, that belongs to this realm
 		List<String> userRolesStr = new ArrayList<String>();
 		//user.getUserRoles().forEach(role -> userRoles.add(role.getRole().getRoleName()));
 		user.getUserRoles().forEach(userRole -> {
@@ -48,7 +48,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 				userRolesStr.add(userRole.getRole().getRoleName());
 			}
 		});
-		
 		
 		return new SecurityUser(user.getUserId(), user.getUsername(), user.getPassword(), user.getActive(), userRolesStr);
 	}

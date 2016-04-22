@@ -15,4 +15,6 @@ public interface RoleRepository extends CrudRepository<Role, Integer> {
 
 	public List<Role> findByApplication(Application application);
 	
+	public Role findByRoleNameAndApplication(String roleName, Application application);
+	
 }

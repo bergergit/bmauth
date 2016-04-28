@@ -128,7 +128,7 @@ angular.module('bmauth.users', ['datatables', 'datatables.bootstrap', 'ngResourc
 	
 	// Datatable exposed Columns
 	vm.dtColumns = [
-        //DTColumnBuilder.newColumn('userId').withTitle($translate('user.form.label.id')).withOption('width', '100px'),
+        DTColumnBuilder.newColumn('userId').withTitle($translate('user.form.label.id')).withOption('width', '100px'),
         DTColumnBuilder.newColumn('name').withTitle($translate('user.form.label.name')),
         DTColumnBuilder.newColumn('email').withTitle($translate('user.form.label.email')),
         DTColumnBuilder.newColumn('loginType').withTitle($translate('user.form.label.type')).renderWith(renderer.loginType),

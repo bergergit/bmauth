@@ -20,7 +20,10 @@ angular.module('datatables')
 	        // Unbind first in order to avoid any duplicate handler (see https://github.com/l-lin/angular-datatables/issues/87)
 	        $('td', nRow).unbind('click');
 	        // bind row click
-	        $('td', nRow).bind('click', function() {
+	        $('td', nRow).bind('click', function(event) {
+	        	// ignoring event for elements with 'no-click' class
+	        	if ($(event.target).hasClass('no-click')) return;
+	        	
 	            dtUtils.$scope.$apply(function() {
 	            	dtUtils.instance.dtClickHandler(aData, iDisplayIndexFull);
 	            });
@@ -30,6 +33,10 @@ angular.module('datatables')
 	        // bind delete button click
 	        $('button', nRow).bind('click', function(event) {
 	            event.stopPropagation();
+	            
+	            // ignoring event for elements with 'no-click' class
+	        	if ($(event.target).hasClass('no-click')) return;
+	            
 	            dtUtils.$scope.$apply(function() {
 	            	dtUtils.instance.dtDeleteHandler(aData, iDisplayIndexFull); 
 	            });

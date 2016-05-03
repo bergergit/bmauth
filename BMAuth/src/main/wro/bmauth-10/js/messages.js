@@ -47,7 +47,8 @@ bmauth_translations.en = {
 		"form.label.password": "Senha",
 		"form.label.remember": "Lembrar de mim",
 		"form.label.forgot_password": "Esqueci minha senha",
-		"form.msg.forgotMyPasswordCreated": "Procedimento enviado para seu e-mail"
+		"form.msg.forgotMyPasswordCreated": "Procedimento enviado para seu e-mail",
+		"form.msg.passwordReset": "Senha redefinida. Favor efetuar o login."
 	},
 	
 	// BMAuth directive (Signup)
@@ -61,6 +62,19 @@ bmauth_translations.en = {
 		"label.password": "Senha",
 		"label.repeat_password": "Digite a senha novamente",
 		"btn.register": "Cadastrar"
+	},
+	
+	"forgotPassword": { 
+		"form.header": "Redefina sua senha",
+		"form.label.email": "Digite seu email",
+		"form.emailInvalido": "E-mail não encontrado para essa aplicação"
+	},
+
+	"resetPassword": { 
+		"form.header": "Redefina sua senha",		
+		"label.password": "Senha",
+		"label.repeat_password": "Digite a senha novamente",
+		"message.error.400": "Solicitação de reset de senha expirada"
 	}
 };
 

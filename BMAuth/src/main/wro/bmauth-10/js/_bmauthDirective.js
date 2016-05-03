@@ -60,8 +60,8 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		}
 	}
 	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 'resetMyPasswordService', '$routeParams','$translate',
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService, resetMyPasswordService, $routeParams, $translate) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 'resetMyPasswordService', '$routeParams','$translate','$stateParams',
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService, resetMyPasswordService, $routeParams, $translate, $stateParams) {
 
 		var vm = this;
 		vm.userCreated = false;
@@ -85,8 +85,8 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 	    vm.resetMyPassword = new resetMyPasswordService({
 	    	"password" : "", 
 	    	"password2": "",
-	    	"token": $routeParams.token,
-	    	"userId": $routeParams.userid
+	    	"token": $routeParams.token || $stateParams.token,
+	    	"userId": $routeParams.userid || $stateParams.userid
 	    });	    
 	    
 	    
@@ -253,9 +253,11 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 				 vm.resetMyPassword.$save(function(response) {
 						//console.debug("reset my password Success on save");
 						vm.showError = false;
-						$location.path($scope.loginUrl);
+						vm.resetOK = true;
+						//$location.path(auth.homePath);
+						$scope.contentUrl = $scope.loginUrl;
 				 }, function(response) {
-					 //console.debug("Error on save token");
+					 console.debug("Error on reset password", response);
 					 vm.showError = true;
 					 vm.error = "Error: " + response.status + " - " + response.statusText;  
 	

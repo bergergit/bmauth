@@ -8,7 +8,8 @@ angular.module('bmauth', [
   'bmauth.applications',
   'bmauth.users',
   'bmauth.navigation',
-  'ngSanitize'
+  'ngSanitize',
+  'ui.router'
  ]) 
 
 .config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider','bmauthFormErrorsConfigProvider', 

@@ -53,13 +53,6 @@ bmauth_translations_admin.en = {
 		"contract.form.label.htmlContract": "Contrato HTML",
 		"contract.form.label.language": "Idioma"
 	},
-
-	"resetPassword": { 
-		"form.header": "Reset sua senha",		
-		"label.password": "Senha",
-		"label.repeat_password": "Digite a senha novamente",
-		"message.error.400": "Solicitação de reset de senha expirada"
-	},
 	
 	// Users screens
 	"user": {
@@ -79,12 +72,6 @@ bmauth_translations_admin.en = {
 	"signingContract": { 
 		"form.header": "Assinatura de Contrato",
 		"form.label.agreement": "Estou de acordo com os termos do contrato acima"
-	},
-	
-	"forgotPassword": { 
-		"form.header": "Reset sua senha",
-		"form.label.email": "Digite seu email",
-		"form.emailInvalido": "E-mail não encontrado para essa aplicação"
 	}
 	
 };

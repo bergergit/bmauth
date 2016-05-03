@@ -9,6 +9,9 @@
 	<div class="alert alert-success" ng-show="vm.forgotMyPasswordCreated">
 		{{ 'login.form.msg.forgotMyPasswordCreated' | translate }}
 	</div>
+	<div class="alert alert-success" ng-show="vm.resetOK">
+		{{ 'login.form.msg.passwordReset' | translate }}
+	</div>
 
 	<a class="btn btn-primary btn-block btn-lg" id="facebookSignup" ng-click="vm.facebookLogin()" ng-show="showFacebook">
 		<i class="fa fa-facebook-square"></i> 
@@ -45,7 +48,7 @@
 		</div>
 		<div class="col-sm-6">
 			<div class="checkbox">
-				<p class="text-right"><a ng-click="vm.forgotMyPasswordCall()">{{ 'login.form.label.forgot_password' | translate }}</a></p>
+				<p class="text-right"><a href="#" ng-click="vm.forgotMyPasswordCall()">{{ 'login.form.label.forgot_password' | translate }}</a></p>
 			</div>
 		</div>
 	</div> 

@@ -154,11 +154,11 @@ public class UserCommandController {
 		String emailBody = userService.generateBodyMailForgotMyPassword(userRest, applicationRest, link);
 
 		// send e-mail
-		try {
+		//try {
 			emailService.send(appName, userRest.getEmail(), subject, emailBody);
-		} catch (Exception e) {
-			LOG.error("UserCommandController. generateToken sending email " + e.getMessage());
-		}
+		//} catch (Exception e) {
+		//	LOG.error("UserCommandController. generateToken sending email " + e.getMessage());
+		//}
 
 	}
 

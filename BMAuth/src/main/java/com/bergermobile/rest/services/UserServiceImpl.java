@@ -1,9 +1,8 @@
 package com.bergermobile.rest.services;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -420,7 +418,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String generateBodyMailForgotMyPassword(UserRest userRest, ApplicationRest applicationRest, String link) {
 
+		
 		// Get Path
+		/*
 		File currentDirectory = new File(new File(".").getAbsolutePath());
 		String localPath = null;
 
@@ -429,13 +429,20 @@ public class UserServiceImpl implements UserService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 
 		// Read the HTML of the body mail
 		StringBuilder contentBuilder = new StringBuilder();
 		try {
+			/*
 			BufferedReader in = new BufferedReader(
 					new FileReader(localPath + "/src/main/resources/static/fragments/home/forgotPasswordEmail_"
 							+ LocaleContextHolder.getLocale() + ".html"));
+			*/
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					getClass().getResourceAsStream("/static/bmauth-10/forgotPasswordEmail_en.html"), "UTF-8"));
+			
 			String str;
 			while ((str = in.readLine()) != null) {
 				contentBuilder.append(str);
@@ -445,13 +452,6 @@ public class UserServiceImpl implements UserService {
 		}
 
 		String content = contentBuilder.toString();
-
-		// If we want to take a message from
-		// drawing.point=Circle: Point is: ({0}, {1}) // messages.properties
-		// System.out.println("msg : " +
-		// this.messageBundle.getMessage("drawing.point", new Object[] {
-		// userRest.getEmail(), userRest.getName() },
-		// LocaleContextHolder.getLocale()));
 
 		// replace de values
 		return MessageFormat.format(content, userRest.getName(), applicationRest.getApplicationName(), link).toString();

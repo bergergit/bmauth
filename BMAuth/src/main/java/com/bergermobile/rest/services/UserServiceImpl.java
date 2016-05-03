@@ -150,6 +150,8 @@ public class UserServiceImpl implements UserService {
 			// new users get automatically associated with USER role
 			if (user.getUserId() == null) {
 				setUserRole(user, userRest.getRealm());
+			} else {
+				user.setUserRoles(userRepository.findOne(user.getUserId()).getUserRoles());
 			}
 		}
 

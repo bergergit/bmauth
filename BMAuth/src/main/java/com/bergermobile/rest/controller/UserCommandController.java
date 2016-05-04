@@ -62,7 +62,7 @@ public class UserCommandController {
 	
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	@PreAuthorize("(#userRest.userId == principal.userId and hasRole('ROLE_USER')) or hasRole('ROLE_BMAUTH-ADMIN')")
+	@PreAuthorize("#userRest.userId == null or (#userRest.userId == principal.userId and hasRole('ROLE_USER')) or hasRole('ROLE_BMAUTH-ADMIN')")
 	public void saveUser(@Valid @RequestBody UserRest userRest, BindingResult result, HttpServletRequest request)
 			throws FormValidationException {
 
@@ -137,8 +137,8 @@ public class UserCommandController {
 			HttpServletRequest httpServletRequest) throws MessagingException, NotFoundException {
 
 		// Check if this email has access to the application
-		String appName = forgotPasswordRestparameters.getAppName();
-		ApplicationRest applicationRest = applicationService.findByApplicationName(appName);
+		//String appName = forgotPasswordRestparameters.getAppName();
+		ApplicationRest applicationRest = applicationService.findByApplicationName(forgotPasswordRestparameters.getAppName());
 		UserRest userRest = userService.findByEmailAndApplicationId(forgotPasswordRestparameters.getEmail(),
 				applicationRest.getApplicationId());
 
@@ -155,7 +155,7 @@ public class UserCommandController {
 
 		// send e-mail
 		//try {
-			emailService.send(appName, userRest.getEmail(), subject, emailBody);
+			emailService.send(applicationRest.getApplicationName(), userRest.getEmail(), subject, emailBody);
 		//} catch (Exception e) {
 		//	LOG.error("UserCommandController. generateToken sending email " + e.getMessage());
 		//}

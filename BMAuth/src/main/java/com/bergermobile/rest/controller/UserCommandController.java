@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -63,7 +64,7 @@ public class UserCommandController {
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PreAuthorize("#userRest.userId == null or (#userRest.userId == principal.userId and hasRole('ROLE_USER')) or hasRole('ROLE_BMAUTH-ADMIN')")
-	public void saveUser(@Valid @RequestBody UserRest userRest, BindingResult result, HttpServletRequest request)
+	public void saveUser(@Valid @RequestBody @P("userRest") UserRest userRest, BindingResult result, HttpServletRequest request)
 			throws FormValidationException {
 
 		if (result.hasErrors()) {

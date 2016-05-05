@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -90,7 +91,7 @@ public class UserCommandController {
 	 * Logs the user, as soon as new registration was made (saved new user)
 	 */
 	private void logUserIn(String username) {
-		if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
+		if (SecurityContextHolder.getContext().getAuthentication() == null || SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
 		    UserDetails userDetails = userDetailService.loadUserByUsername(username);
 		    Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 		    SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -190,10 +191,10 @@ public class UserCommandController {
 	 * @param result
 	 * @param request
 	 */
-	@RequestMapping(value = "/users/signContract/{appName}", method = RequestMethod.POST)
+	@RequestMapping(value = "/users/signContract", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("isAuthenticated()")
-	public void signContract(@PathVariable String appName) {
+	public void signContract(@RequestParam String appName) {
 		userService.signContract(appName);
 		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = securityUser.getUsername();

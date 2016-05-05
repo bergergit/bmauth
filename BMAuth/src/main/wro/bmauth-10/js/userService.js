@@ -13,7 +13,7 @@ angular.module('bmauth.main')
 }])
 
 .factory('contractService', [ '$resource','$rootScope', function($resource, $rootScope) {
-	return $resource($rootScope.authContext + 'bmauth/users/signContract/:appName');
+	return $resource($rootScope.authContext + 'bmauth/users/signContract');
 }])
 
 .factory('latestContractService', [ '$resource','$rootScope', function($resource, $rootScope) {

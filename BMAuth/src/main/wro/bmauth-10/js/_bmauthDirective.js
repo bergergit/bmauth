@@ -133,6 +133,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 	    	vm.error = false;
 	    	vm.credentials.realm = $scope.realm;
 	    	vm.credentials.appName = $scope.appName;
+	    	console.debug("will login with credentials ", vm.credentials);
 	        auth.authenticate(vm.credentials, function(authenticated) {
 	            if (authenticated) {
 	                console.log("Login succeeded");
@@ -149,6 +150,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		 * Facebook login
 		 */
 		vm.facebookLogin = function() {
+			vm.isFacebook = true;
 			//console.debug('init option', Facebook.getInitOption('appId'));
 			Facebook.login(function(response) {
 				//console.debug("Facebook response", response);
@@ -192,6 +194,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		 * Google login
 		 */
 		vm.googleLogin = function() {
+			vm.isGoogle = true;
 			//console.debug('Google', GooglePlus.prototype.login);
 			GooglePlus.login().then(function (authResult) {
 				//console.debug("AuthResult", authResult);
@@ -205,7 +208,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		function authenticateGoogle($http, data) {
 			var googleData = {accessToken: data.access_token, clientId: data.client_id, realm: $scope.realm, appName: $scope.appName }
 			//console.debug("Will post google data", googleData, directive.context + 'bmauth/users/google')
-	    	$http.post(directive.context + 'bmauth/users/google', googleData, {params: {realm: $scope.realm}})
+	    	$http.post(directive.context + 'bmauth/users/google', googleData, {params: {realm: $scope.realm, appName: $scope.appName}})
 	    		.then(function(response) {
 		    		//console.debug("Google User saved! We are good to go to signed in experience");
 	    			//auth.userEndpoint(vm.signinRedirect($location, $scope, auth, vm));
@@ -229,7 +232,9 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
 					 if ($scope.signedInUri) {
 						//console.debug("Success on save");
-						auth.authenticate(vm.signup, vm.signinRedirect($location, $scope, auth, vm));
+						//auth.authenticate(vm.signup, vm.signinRedirect($location, $scope, auth, vm));
+						vm.credentials = vm.signup;
+						vm.login();
 					 } else {
 						 vm.userCreated = true;
 					 }
@@ -304,9 +309,17 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		vm.submitSigningContract = function(screen) {
 			if (vm.signingContract.aceptedSigningContract) {
 				var thisContractService = new contractService();
-				thisContractService.$save({appName: $scope.appName}, function(response) {
+				thisContractService.$save({appName: $scope.appName, realm: $scope.realm}, function(response) {
 					//auth.userEndpoint(vm.signinRedirect($location, $scope, auth, vm));
-					vm.login();
+					if (vm.isGoogle) { 
+						vm.googleLogin();
+					} else if (vm.isFacebook) {
+						vm.facebookLogin();
+					} else {
+						vm.login();
+						//vm.userEndpoint();
+						//auth.userEndpoint(vm.signinRedirect($location, $scope, auth, vm));
+					}
 				}, function(error) {
 					console.error("Error accepting contract", error);
 				});

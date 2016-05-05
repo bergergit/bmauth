@@ -57,7 +57,7 @@ public class User extends BaseTable implements Serializable {
 	private String username;
 
 	// bi-directional many-to-one association to ContractUser
-	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST }, orphanRemoval = true)
 	private List<ContractUser> contractUsers;
 
 	// bi-directional many-to-one association to UserRole //

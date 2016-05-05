@@ -158,6 +158,10 @@ public class UserServiceImpl implements UserService {
 			if (userRoles != null) {
 				userRoleRepository.delete(userRoles);
 			}
+			
+			if (user.getUserId() != null) {
+				user.setContractUsers(userRepository.findOne(user.getUserId()).getContractUsers());
+			}
 
 			// store new roles (from json)
 			user.setUserRoles(conversionService.simpleUserRolesToUserRoles(userRest.getSimpleUserRoles(), user));

@@ -12,8 +12,10 @@ angular.module('bmauth', [
   'ui.router'
  ]) 
 
-.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider','bmauthFormErrorsConfigProvider', 
-         function($routeProvider, $translateProvider, $locationProvider, $httpProvider, bmauthFormErrorsConfigProvider) {
+.config(['$routeProvider', '$translateProvider', '$locationProvider', '$httpProvider','bmauthFormErrorsConfigProvider','$compileProvider', 
+         function($routeProvider, $translateProvider, $locationProvider, $httpProvider, bmauthFormErrorsConfigProvider, $compileProvider) {
+	$compileProvider.debugInfoEnabled(false);
+	
 	// routes configuration
 	$routeProvider.when('/', { 
 		  templateUrl: 'fragments/home/home.html',

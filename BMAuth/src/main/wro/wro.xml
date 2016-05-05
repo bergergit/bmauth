@@ -10,9 +10,7 @@
     	<js>webjar:angularjs/@angular.version@/angular-resource.min.js</js>
     	<js>webjar:angularjs/@angular.version@/angular-cookies.min.js</js>
 		<js>webjar:angularjs/@angular.version@/angular-route.min.js</js>
-		<js>webjar:angular-ui-router/@angular-ui-router.version@/angular-ui-router.js</js>
     	<js>webjar:angularjs/@angular.version@/angular-animate.min.js</js>
-    	<js>webjar:angularjs/@angular.version@/angular-sanitize.min.js</js>
     	<js>webjar:underscorejs/@underscore.version@/underscore-min.js</js>
     	<js>webjar:angular-translate/@angular-translate.version@/angular-translate.min.js</js>
     	<js>webjar:angular-translate-loader-url/@angular-translate-loader-url@/angular-translate-loader-url.min.js</js>
@@ -23,6 +21,8 @@
 	</group>
 
 	<group name="bmauth-10">
+		<js>webjar:angularjs/@angular.version@/angular-sanitize.min.js</js>
+		<js>webjar:angular-ui-router/@angular-ui-router.version@/angular-ui-router.js</js>
 		<css>/bmauth-10/less/bmauth.less</css>
 		<js minimize="@minimize-code@">/bmauth-10/js/**.js</js>
 	</group>

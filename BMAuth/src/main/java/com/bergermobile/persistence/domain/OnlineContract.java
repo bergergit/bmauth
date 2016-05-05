@@ -134,4 +134,33 @@ public class OnlineContract extends BaseTable implements Serializable {
 				+ ", description=" + description + ", application=" + application + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime
+				* result
+				+ ((onlineContractId == null) ? 0 : onlineContractId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OnlineContract other = (OnlineContract) obj;
+		if (onlineContractId == null) {
+			if (other.onlineContractId != null)
+				return false;
+		} else if (!onlineContractId.equals(other.onlineContractId))
+			return false;
+		return true;
+	}
+	
+	
+
 }

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bergermobile.commons.security.SecurityUser;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
@@ -85,7 +86,8 @@ public class UserCommandController {
 	}
 	
 	/**
-	 * If user is anonymous, log user in with the received login authenticaton
+	 * 
+	 * Logs the user, as soon as new registration was made (saved new user)
 	 */
 	private void logUserIn(String username) {
 		if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
@@ -178,7 +180,25 @@ public class UserCommandController {
 		UserRest userRest = userService.findByUserId(resetPasswordRestParameters.getUserId());
 		userRest.setPassword(resetPasswordRestParameters.getPassword());
 		userService.save(userRest, false);
-
+	}
+	
+	/**
+	 * This will effectively make the SIGNED IN user, sign the latest contract of the application
+	 * Only the actual signed in user can sign the contract, making it a good official way to make sure
+	 * it's the real user, signing the contract
+	 * @param userRest
+	 * @param result
+	 * @param request
+	 */
+	@RequestMapping(value = "/users/signContract/{appName}", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("isAuthenticated()")
+	public void signContract(@PathVariable String appName) {
+		userService.signContract(appName);
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = securityUser.getUsername();
+		SecurityContextHolder.clearContext();
+		logUserIn(username);
 	}
 
 }

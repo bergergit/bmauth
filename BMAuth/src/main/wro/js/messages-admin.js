@@ -66,13 +66,6 @@ bmauth_translations_admin.en = {
 		"loginType.1": "Facebook",
 		"loginType.2": "Google+",
 		"loginType.3": "Interno"
-			
-	},
-
-	"signingContract": { 
-		"form.header": "Assinatura de Contrato",
-		"form.label.agreement": "Estou de acordo com os termos do contrato acima"
 	}
-	
 };
 

@@ -1,20 +1,19 @@
-<form class="form-horizontal form-signing" role="form" ng-submit="vm.submitSigningContract(this)" name="form">
+<form class="form-horizontal" role="form" ng-submit="vm.submitSigningContract(this)" name="form">
+	<div class="alert alert-danger" ng-show="vm.signingContractRequired">
+		{{ 'signingContract.requiredMessage' | translate }}
+	</div>
+	
 	<fieldset>
 		<legend>{{ 'signingContract.form.header' | translate}}</legend>
 
-		<div class="form-group">
-  			<textarea class="form-control" type="text" rows="30" disabled ng-model="vm.signingContract.htmlContract"></textarea>
-		</div>
-
-			<input type="checkbox" ng-model="vm.signingContract.aceptedSigningContract"/> {{ 'signingContract.form.label.agreement' | translate}}<br/>
+		<pre class="contract-scroll border" ng-bind-html="vm.signingContract.htmlContract"></pre>
+		
+		<br/><br/>
+		<input type="checkbox" ng-model="vm.signingContract.aceptedSigningContract"/> {{ 'signingContract.form.label.agreement' | translate}}<br/>
 
 		<hr/>
-		<div class="col-md-8">
+		<div class="col-md-6 col-md-offset-3">
 			<button type="submit" class="btn btn-lg btn-primary btn-block">{{ 'btn.ok' | translate}}</button>
 		</div>
-		<div class="col-md-4">
-			<button class="btn btn-lg btn-primary btn-block" ng-click="vm.cancel()">{{ 'btn.cancel' | translate}}</button>
-		</div>
-		<pre> {{vm.signingContract  | json}}</pre>
-		</fieldset>
+	</fieldset>
 </form>

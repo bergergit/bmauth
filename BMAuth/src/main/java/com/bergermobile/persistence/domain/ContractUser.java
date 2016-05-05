@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "contract_user")
+@Table(name = "contract_user", uniqueConstraints=@UniqueConstraint(columnNames={"user_user_id","online_contract_online_contract_id"}))
 public class ContractUser extends BaseTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 

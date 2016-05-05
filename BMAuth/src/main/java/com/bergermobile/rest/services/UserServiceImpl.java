@@ -3,23 +3,28 @@ package com.bergermobile.rest.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javassist.NotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
@@ -32,17 +37,23 @@ import org.springframework.stereotype.Service;
 import com.bergermobile.commons.rest.DataTableBase;
 import com.bergermobile.commons.rest.DataTableCriterias;
 import com.bergermobile.commons.rest.PageService;
+import com.bergermobile.commons.security.SecurityUser;
 import com.bergermobile.persistence.domain.Application;
+import com.bergermobile.persistence.domain.ContractUser;
+import com.bergermobile.persistence.domain.LanguageContract;
+import com.bergermobile.persistence.domain.OnlineContract;
 import com.bergermobile.persistence.domain.Role;
 import com.bergermobile.persistence.domain.User;
 import com.bergermobile.persistence.domain.UserRole;
 import com.bergermobile.persistence.repository.ApplicationRepository;
+import com.bergermobile.persistence.repository.OnlineContractRepository;
 import com.bergermobile.persistence.repository.RoleRepository;
 import com.bergermobile.persistence.repository.UserRepository;
 import com.bergermobile.persistence.repository.UserRoleRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
+import com.bergermobile.rest.domain.LanguageContractRest;
 import com.bergermobile.rest.domain.UserRest;
 
 @Service
@@ -61,6 +72,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRoleRepository userRoleRepository;
+	
+	@Autowired
+	private OnlineContractRepository onlineContractRepository;
 
 	@Autowired
 	private Environment environment;
@@ -79,6 +93,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	PageService pageService;
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	@Override
 	/**
@@ -398,6 +415,21 @@ public class UserServiceImpl implements UserService {
 
 		return token;
 	}
+	
+	@Override
+	public boolean hasSignedLatestContract(User user, String appName) {
+		Application application = applicationRepository.findByApplicationName(appName);
+		if (application != null) {
+			if (!application.getMandatoryContract()) return true;
+			List<OnlineContract> onlineContractList = onlineContractRepository.getLatestByApplication(application);
+			// if no contract found, we consider it is not mandatory
+			if (onlineContractList == null || onlineContractList.isEmpty()) {
+				return true;
+			}
+			return user.hasThisContract(onlineContractList.get(0)); 
+		}
+		return false;
+	}
 
 	/**
 	 * Checks if this token is valid
@@ -417,29 +449,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String generateBodyMailForgotMyPassword(UserRest userRest, ApplicationRest applicationRest, String link) {
-
-		
-		// Get Path
-		/*
-		File currentDirectory = new File(new File(".").getAbsolutePath());
-		String localPath = null;
-
-		try {
-			localPath = currentDirectory.getCanonicalPath().toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-
 		// Read the HTML of the body mail
 		StringBuilder contentBuilder = new StringBuilder();
 		try {
-			/*
-			BufferedReader in = new BufferedReader(
-					new FileReader(localPath + "/src/main/resources/static/fragments/home/forgotPasswordEmail_"
-							+ LocaleContextHolder.getLocale() + ".html"));
-			*/
-			
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					getClass().getResourceAsStream("/static/bmauth-10/forgotPasswordEmail_en.html"), "UTF-8"));
 			
@@ -458,4 +470,72 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public User findByUsernameAndRealm(String username, String realm) {
+		return userRepository.findByUsernameAndRealm(username, realm);
+	}
+
+	@Override
+	public void signContract(String appName) {
+		// getting signed in user
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findOne(securityUser.getUserId());
+		Application application = applicationRepository.findByApplicationName(appName);
+		if (application != null) {
+			List<OnlineContract> onlineContractList = onlineContractRepository.getLatestByApplication(application);
+			if (onlineContractList != null && !onlineContractList.isEmpty()) {
+				OnlineContract onlineContract = onlineContractList.get(0);
+				ContractUser contractUser = new ContractUser();
+				contractUser.setOnlineContract(onlineContract);
+				
+				// setting the fields we can get from the user
+				contractUser.setSignedDate(new Timestamp(new Date().getTime()));
+				contractUser.setIp(request.getRemoteAddr());
+				contractUser.setHeaders(request.getHeader("User-Agent"));
+				
+				user.addContractUser(contractUser);
+			}
+			
+			userRepository.save(user);
+		}
+	}
+	
+	/**
+	 * Returns the latests Language Contract for this Application
+	 * It will try to match the language of the current Locale
+	 * If it doesn't find a matching Locale, returns the English Contract
+	 * And if no English found, return the only one available.
+	 */
+	@Override
+	public LanguageContractRest getLatestContract(String appName) {
+		Application application = applicationRepository.findByApplicationName(appName);
+		if (application != null) {
+			List<OnlineContract> onlineContractList = onlineContractRepository.getLatestByApplication(application);
+			if (onlineContractList != null && !onlineContractList.isEmpty()) {
+				OnlineContract onlineContract = onlineContractList.get(0);
+				// now we try to match a contract with user language
+				
+				List<LanguageContract> languageContracts = onlineContract.getLanguageContract();
+				if (languageContracts != null && languageContracts.size() == 1) {
+					return conversionService.setLanguageContractToLanguageContractRest(languageContracts.get(0));
+				}
+				
+				String locale = LocaleContextHolder.getLocale().toString();
+				int enContractIndex = 0;
+				for (int i = 0; i < languageContracts.size(); i++) {
+					LanguageContract languageContract = languageContracts.get(i);
+					if (languageContract.getLanguage() != null && languageContract.getLanguage().equals(locale)) {
+						return conversionService.setLanguageContractToLanguageContractRest(languageContract);
+					}
+					if (languageContract.getLanguage() != null && languageContract.getLanguage().toLowerCase().equals("en")) {
+						enContractIndex = i;
+					}
+				}
+				// no matching language found
+				return conversionService.setLanguageContractToLanguageContractRest(languageContracts.get(enContractIndex)); 
+			}
+		}
+		return new LanguageContractRest();
+	}
+	
 }

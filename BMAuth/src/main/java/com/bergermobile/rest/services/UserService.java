@@ -10,6 +10,7 @@ import com.bergermobile.persistence.domain.User;
 import com.bergermobile.rest.domain.ApplicationRest;
 import com.bergermobile.rest.domain.FacebookRest;
 import com.bergermobile.rest.domain.GoogleRest;
+import com.bergermobile.rest.domain.LanguageContractRest;
 import com.bergermobile.rest.domain.UserRest;
 
 public interface UserService {
@@ -43,5 +44,13 @@ public interface UserService {
 	public boolean validateUserToken(Integer userId, String token);
 	
 	public String generateBodyMailForgotMyPassword(UserRest userRest, ApplicationRest applicationRest, String link);
+
+	public User findByUsernameAndRealm(String username, String realm);
+	
+	public boolean hasSignedLatestContract(User user, String appName);
+
+	public void signContract(String appName);
+
+	public LanguageContractRest getLatestContract(String appName);
 	
 }

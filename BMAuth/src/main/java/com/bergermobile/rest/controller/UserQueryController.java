@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bergermobile.commons.rest.DataTableBase;
 import com.bergermobile.commons.rest.DataTableCriterias;
 import com.bergermobile.commons.security.SecurityUser;
+import com.bergermobile.rest.domain.LanguageContractRest;
 import com.bergermobile.rest.domain.UserRest;
 import com.bergermobile.rest.services.UserService;
 
@@ -65,6 +66,11 @@ public class UserQueryController {
 	@RequestMapping(value = "/token/check_token/{token}/{userId}")
 	public boolean validateToken(@PathVariable String token, @PathVariable int userId) {
 		return userService.validateUserToken(userId, token);
+	}
+	
+	@RequestMapping(value = "/user/latestContract/{appName}")
+	public LanguageContractRest getLatestContract(@PathVariable String appName) {
+		return userService.getLatestContract(appName);
 	}
 
 }

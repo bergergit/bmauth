@@ -24,13 +24,13 @@ angular.module('bmauth.main')
 				authorization : "Basic " + btoa(credentials.username + ":" + credentials.password)
 			} : {};
 			
-			// console.debug('credentials', credentials.username,
-			// credentials.password);
+			// console.debug('credentials', credentials.username, credentials.password);
 
 			$http.get(auth.loginPath, {
 				params: {
 					"rememberMe": credentials && credentials.rememberMe ? credentials.rememberMe : null,
-					"realm": credentials && credentials.realm ? credentials.realm : null
+					"realm": credentials && credentials.realm ? credentials.realm : null,
+					"appName": credentials && credentials.appName ? credentials.appName : null
 				},
 				headers: headers
 			}).then(function(result) {

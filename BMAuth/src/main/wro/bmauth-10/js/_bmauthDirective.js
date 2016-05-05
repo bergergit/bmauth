@@ -1,4 +1,4 @@
-angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','ngRoute'])
+angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','ngSanitize'])
 
 .directive('bmAuth', ['$location', function($location) {
 	var directive = {};
@@ -43,31 +43,13 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 
 	}
 	
-	/**
-	 * Redirects to the signed in URI (if provided). Or else, redirects to BM Auth admin IF user
-	 * has the right privileges.
-	 */
-	directive.signinRedirect = function($location, $scope, auth, vm) {
-		if ($scope.signedInUri) {
-			$location.path($scope.signedInUri);
-		} else {
-			if (_.indexOf(auth.data.roles, 'ROLE_BMAUTH-ADMIN') > -1) {
-				$location.path('/applications');
-			} else {
-				//console.debug('autorization error');
-				vm.authorizationError = true;
-			}
-		}
-	}
-	
-	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 'resetMyPasswordService', '$routeParams','$translate','$stateParams',
-	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService, resetMyPasswordService, $routeParams, $translate, $stateParams) {
+	directive.controller = ['$scope','$rootScope','$location','$http','auth','userService','Facebook','GooglePlus','formUtils','forgotMyPasswordService', 'resetMyPasswordService', '$routeParams','$translate','$stateParams','contractService','latestContractService',
+	                        function ($scope, $rootScope, $location, $http, auth, userService, Facebook, GooglePlus, formUtils, forgotMyPasswordService, resetMyPasswordService, $routeParams, $translate, $stateParams, contractService, latestContractService) {
 
 		var vm = this;
 		vm.userCreated = false;
 		vm.conflict = false;
 		directive.context = $rootScope.authContext;
-		
 
 		if ($scope.showFacebook === undefined) $scope.showFacebook = true;
 		if ($scope.showGoogle === undefined) $scope.showGoogle = true;
@@ -89,6 +71,34 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 	    	"userId": $routeParams.userid || $stateParams.userid
 	    });	    
 	    
+	    /**
+		 * Redirects to the signed in URI (if provided). Or else, redirects to BM Auth admin IF user
+		 * has the right privileges.
+		 */
+		vm.signinRedirect = function($location, $scope, auth, vm) {
+			// so it's mandatory for the user to sign in the contract
+			if (auth.hasRole(['ROLE_CONTRACT'])) {
+				vm.displayContract();
+				return;
+			}
+			if ($scope.signedInUri) {
+				$location.path($scope.signedInUri);
+			} else {
+				if (_.indexOf(auth.data.roles, 'ROLE_BMAUTH-ADMIN') > -1) {
+					$location.path('/applications');
+				} else {
+					//console.debug('autorization error');
+					vm.authorizationError = true;
+				}
+			}
+		}
+		
+		vm.displayContract = function() {
+			vm.signingContract = latestContractService.get({appName: $scope.appName}, function(result) {
+				$scope.contentUrl = $scope.signingContract;	
+			});
+			
+		}
 	    
 		/**
 		 * Sign up form
@@ -122,11 +132,12 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 	    vm.login = function() {
 	    	vm.error = false;
 	    	vm.credentials.realm = $scope.realm;
+	    	vm.credentials.appName = $scope.appName;
 	        auth.authenticate(vm.credentials, function(authenticated) {
 	            if (authenticated) {
 	                console.log("Login succeeded");
 	                vm.error = false;
-	                directive.signinRedirect($location, $scope, auth, vm);
+	                vm.signinRedirect($location, $scope, auth, vm);
 	            } else {
 	                console.log("Login failed");
 	                vm.error = true;
@@ -156,15 +167,26 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		function authenticateFacebook($http, data) {
 	    	data.appId = Facebook.appId;
 	    	data.realm = $scope.realm;
-	    	$http.post(directive.context + 'bmauth/users/facebook', data, {params: {realm: $scope.realm}})
+	    	$http.post(directive.context + 'bmauth/users/facebook', data, {params: {realm: $scope.realm, appName: $scope.appName}})
 	    		.then(function(response) {
-		    		//console.debug("Facebook User saved! We are good to go to signed in experience");
-		    		auth.userEndpoint(directive.signinRedirect($location, $scope, auth, vm)); 
+		    		//console.debug('authenticateFacebook response', response);
+		    		//auth.userEndpoint(vm.signinRedirect($location, $scope, auth, vm));
+	    			vm.userEndpoint();
 				}, function(response) {
 					//console.debug("Error saving facebook user");
 					vm.socialLoginError = true;
 				});
 	    }
+		
+		vm.userEndpoint = function() {
+			auth.userEndpoint(function(response) {
+				if (auth.hasRole(['ROLE_CONTRACT'])) {
+					vm.displayContract();
+					return;
+				}
+				vm.signinRedirect($location, $scope, auth, vm); 
+			});
+		}
 		
 		/**
 		 * Google login
@@ -181,12 +203,13 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 		};
 		
 		function authenticateGoogle($http, data) {
-			var googleData = {accessToken: data.access_token, clientId: data.client_id, realm: $scope.realm }
+			var googleData = {accessToken: data.access_token, clientId: data.client_id, realm: $scope.realm, appName: $scope.appName }
 			//console.debug("Will post google data", googleData, directive.context + 'bmauth/users/google')
 	    	$http.post(directive.context + 'bmauth/users/google', googleData, {params: {realm: $scope.realm}})
 	    		.then(function(response) {
 		    		//console.debug("Google User saved! We are good to go to signed in experience");
-	    			auth.userEndpoint(directive.signinRedirect($location, $scope, auth, vm)); 
+	    			//auth.userEndpoint(vm.signinRedirect($location, $scope, auth, vm));
+	    			vm.userEndpoint();
 				}, function(response) {
 					//console.debug("Error saving Google user");
 					vm.socialLoginError = true;
@@ -206,7 +229,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 					 // will redirect user after sign up if there is a redirectUri. Else, just display a 'user created' message 
 					 if ($scope.signedInUri) {
 						//console.debug("Success on save");
-						auth.authenticate(vm.signup, directive.signinRedirect($location, $scope, auth, vm));
+						auth.authenticate(vm.signup, vm.signinRedirect($location, $scope, auth, vm));
 					 } else {
 						 vm.userCreated = true;
 					 }
@@ -272,6 +295,23 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 				 });
 			} else {
 				//console.debug("Forms is not valid")
+			}
+		}
+		
+		/**
+		 * Submits the contract acceptance
+		 */
+		vm.submitSigningContract = function(screen) {
+			if (vm.signingContract.aceptedSigningContract) {
+				var thisContractService = new contractService();
+				thisContractService.$save({appName: $scope.appName}, function(response) {
+					//auth.userEndpoint(vm.signinRedirect($location, $scope, auth, vm));
+					vm.login();
+				}, function(error) {
+					console.error("Error accepting contract", error);
+				});
+			} else {
+				vm.signingContractRequired = true;
 			}
 		}
 		

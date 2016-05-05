@@ -124,21 +124,6 @@ public class RestConversionService {
 		return simpleUserRole;
 	}
 	
-	/** 
-	 * Intended to simply contain the ApplicationID with true values, for the roles the user belongs to
-	 */
-	/*
-	public static Map<Integer, Boolean> setSimpleUserApplications(List<UserRole> userRoleList) {
-		Map<Integer, Boolean> simpleUserRole = new HashMap<Integer, Boolean>(); 
-		for (UserRole userRole : userRoleList) {
-			try {
-				simpleUserRole.put(userRole.getRole().getApplication().getApplicationId(), true);
-			} catch (NullPointerException npe) {}
-		}
-		return simpleUserRole;
-	}
-	*/
-
 	private static List<Role> setRolesRestToRoles(List<RoleRest> rolesRestList, Application application) {
 
 		List<Role> roleList = new ArrayList<Role>();
@@ -222,6 +207,13 @@ public class RestConversionService {
 
 		return onlineContractList;
 
+	}
+	
+	public LanguageContractRest setLanguageContractToLanguageContractRest(LanguageContract languageContract) {
+		LanguageContractRest languageContractRest = new LanguageContractRest();
+		BeanUtils.copyProperties(languageContract, languageContractRest);
+		
+		return languageContractRest;
 	}
 
 	/**

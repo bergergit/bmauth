@@ -75,6 +75,13 @@ bmauth_translations.en = {
 		"label.password": "Senha",
 		"label.repeat_password": "Digite a senha novamente",
 		"message.error.400": "Solicitação de reset de senha expirada"
+	},
+	
+
+	"signingContract": { 
+		"form.header": "Assinatura de Contrato",
+		"form.label.agreement": "Estou de acordo com os termos do contrato acima",
+		"requiredMessage": "A assinatura do contrato é obrigatória para usar esse sistema."
 	}
 };
 

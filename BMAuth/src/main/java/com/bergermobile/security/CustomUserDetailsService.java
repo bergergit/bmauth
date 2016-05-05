@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.bergermobile.commons.security.SecurityUser;
 import com.bergermobile.persistence.domain.User;
-import com.bergermobile.persistence.repository.UserRepository;
+import com.bergermobile.rest.services.UserService;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -26,29 +26,35 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private HttpServletRequest request;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 		
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		LOG.debug("Trying BMAuth login with username " +  username);
 		
 		String realm = request.getParameter("realm");
+		String appName = request.getParameter("appName");
 		//User user = userRepository.findByLoginTypeAndUsernameAndRealm((Short)User.LoginType.INTERNAL.getValue(), username, realm);
-		User user = userRepository.findByUsernameAndRealm(username, realm);
+		User user = userService.findByUsernameAndRealm(username, realm);
 		if(user == null){
 			LOG.debug("UserName " + username + " not found");
 			throw new UsernameNotFoundException("UserName " + username + " not found");
 		}
 		LOG.debug("Found the login user " +  user);
 		
-		// adding the ROLES of this user, that belongs to this realm
 		List<String> userRolesStr = new ArrayList<String>();
-		//user.getUserRoles().forEach(role -> userRoles.add(role.getRole().getRoleName()));
-		user.getUserRoles().forEach(userRole -> {
-			if (userRole.getRole().getApplication().getRealm().equals(realm)) {
-				userRolesStr.add(userRole.getRole().getRoleName());
-			}
-		});
+		
+		// adding the ROLES of this user, that belongs to this realm, ONLY if he has already accepted the contract
+		if (userService.hasSignedLatestContract(user, appName)) {
+			user.getUserRoles().forEach(userRole -> {
+				if (userRole.getRole().getApplication().getRealm().equals(realm)) {
+					userRolesStr.add(userRole.getRole().getRoleName());
+				}
+			});
+		} else {
+			// if contract required, CONTRACT is the only ROLE this user will get
+			userRolesStr.add("CONTRACT");
+		}
 		
 		return new SecurityUser(user.getUserId(), user.getUsername(), user.getPassword(), user.getActive(), userRolesStr);
 	}

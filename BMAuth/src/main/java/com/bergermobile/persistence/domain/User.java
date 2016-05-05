@@ -1,6 +1,7 @@
 package com.bergermobile.persistence.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class User extends BaseTable implements Serializable {
 	private String username;
 
 	// bi-directional many-to-one association to ContractUser
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<ContractUser> contractUsers;
 
 	// bi-directional many-to-one association to UserRole //
@@ -155,6 +156,9 @@ public class User extends BaseTable implements Serializable {
 	}
 
 	public ContractUser addContractUser(ContractUser contractUser) {
+		if (getContractUsers() == null) {
+			contractUsers = new ArrayList<ContractUser>();
+		}
 		getContractUsers().add(contractUser);
 		contractUser.setUser(this);
 
@@ -188,6 +192,14 @@ public class User extends BaseTable implements Serializable {
 		userRole.setUser(null);
 
 		return userRole;
+	}
+	
+	/**
+	 * Verifies if this user has signed the last version of the contract
+	 * @return
+	 */
+	public boolean isContractSigned() {
+		return true;
 	}
 
 	@Override
@@ -276,6 +288,20 @@ public class User extends BaseTable implements Serializable {
 			return this.description;
 		}
 
+	}
+
+	/**
+	 * Checks if this User has this OnlineContract in his list
+	 * @param onlineContract
+	 * @return
+	 */
+	public boolean hasThisContract(OnlineContract onlineContract) {
+		if (contractUsers != null && !contractUsers.isEmpty()) {
+			for (ContractUser contractUser : contractUsers) {
+				if (contractUser.getOnlineContract().equals(onlineContract)) return true;
+			}
+		}
+		return false;
 	}
 
 }

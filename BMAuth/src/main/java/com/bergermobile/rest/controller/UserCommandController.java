@@ -35,6 +35,7 @@ import com.bergermobile.rest.domain.ForgotPasswordRestparameters;
 import com.bergermobile.rest.domain.GoogleRest;
 import com.bergermobile.rest.domain.ResetPasswordRestParameters;
 import com.bergermobile.rest.domain.UserRest;
+import com.bergermobile.rest.domain.UserRest.LoginType;
 import com.bergermobile.rest.services.ApplicationService;
 import com.bergermobile.rest.services.EmailService;
 import com.bergermobile.rest.services.FormValidationException;
@@ -146,7 +147,7 @@ public class UserCommandController {
 		UserRest userRest = userService.findByEmailAndApplicationId(forgotPasswordRestparameters.getEmail(),
 				applicationRest.getApplicationId());
 
-		if (userRest == null) {
+		if (userRest == null || userRest.getLoginType() == UserRest.LoginType.INTERNAL.ordinal()) {
 			throw new NotFoundException("email not found for this application");
 		}
 

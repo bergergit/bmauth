@@ -47,7 +47,14 @@ angular.module('bmauth.main')
 			auth.showFlash = false;
 			
 			// adding data in a session cookie
-			$cookies.putObject('bmauth-data', data);
+			
+			
+			var now = new Date();
+	        now.setHours(now.getHours() + 2);
+			//now.setSeconds(now.getSeconds() + 20);
+			
+	        $cookies.putObject('bmauth-data', data, {expires: now});
+			
 			
 			if (data.id) {
 				auth.authenticated = true;

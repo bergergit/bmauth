@@ -42,7 +42,7 @@ angular.module('bmauth.main')
 		},
 		
 		authenticationSuccess: function(data, callback) {
-			console.debug('bmauth.authentication - data', data);
+			//console.debug('bmauth.authentication - data', data);
 			auth.data = data;
 			auth.showFlash = false;
 			

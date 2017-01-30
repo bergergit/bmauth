@@ -133,7 +133,7 @@ angular.module('bmauth.main', ['ngCookies','ngRoute','googleplus', 'facebook','n
 	    	vm.error = false;
 	    	vm.credentials.realm = $scope.realm;
 	    	vm.credentials.appName = $scope.appName;
-	    	console.debug("will login with credentials ", vm.credentials);
+	    	//console.debug("will login with credentials ", vm.credentials);
 	        auth.authenticate(vm.credentials, function(authenticated) {
 	            if (authenticated) {
 	                console.log("Login succeeded");

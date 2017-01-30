@@ -270,15 +270,15 @@ public class PersistenceFixture {
 
 	}
 
-	public static Application megaFunkSystem() {
+	public static Application bmStreamingSystem() {
 
 		Application application = new Application();
 
 		// Take current time
 		Timestamp timestamp = RestConversionService.timestamp();
 
-		application.setApplicationName("Mega Funk");
-		application.setUrl("www.megafunk.com.br");
+		application.setApplicationName("BMStreaming");
+		application.setUrl("www.bmstreaming.com.br");
 		application.setTestMode(Active.YES.getValue());
 		application.setMandatoryContract(Active.YES.getValue());
 		application.setActive(Active.YES.getValue());

@@ -32,7 +32,6 @@ public class EmailService{
 		try {
 			helper.setFrom(environment.getProperty("spring.mail.username"), from);
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		helper.setTo(to);

@@ -22,9 +22,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.BmAuthApplication;
 import com.bergermobile.commons.rest.DataTableBase;
@@ -41,7 +39,6 @@ import com.bergermobile.rest.domain.UserRest;
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
 @WebAppConfiguration
 @Rollback(true)
-//@TransactionConfiguration(defaultRollback = true)
 @ActiveProfiles("dev")
 public class UserServiceTest {
 

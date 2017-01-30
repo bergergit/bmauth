@@ -11,9 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.security.web.FilterChainProxy;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
 @WebAppConfiguration
 @Transactional
-@TransactionConfiguration(defaultRollback = true)
+@Rollback(true)
 @ActiveProfiles("dev")
 public class RolesSecurityTest {
 

@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +25,7 @@ import com.bergermobile.rest.domain.ApplicationRest;
 @SpringApplicationConfiguration(classes = { BmAuthApplication.class })
 @WebAppConfiguration
 @Transactional
-@TransactionConfiguration(defaultRollback = true)
+@Rollback(true)
 @ActiveProfiles("dev")
 public class ApplicationServiceTest {
 
@@ -38,7 +38,7 @@ public class ApplicationServiceTest {
 	@Test
 	public void testIfFindAllReturnsAllApplications() {
 
-		applicationRepository.save(PersistenceFixture.megaFunkSystem());
+		applicationRepository.save(PersistenceFixture.bmStreamingSystem());
 
 		List<ApplicationRest> applicationList = applicationService.findAllApplications();
 
@@ -51,10 +51,10 @@ public class ApplicationServiceTest {
 	public void testIfDuplicateApplicationNameCheckWorks() {
 
 		ApplicationRest applicationRest1 = RestConversionService
-				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
+				.applicationToApplicationRest(PersistenceFixture.bmStreamingSystem());
 
 		ApplicationRest applicationRest2 = RestConversionService
-				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
+				.applicationToApplicationRest(PersistenceFixture.bmStreamingSystem());
 
 		applicationService.save(applicationRest1);
 
@@ -71,7 +71,7 @@ public class ApplicationServiceTest {
 	public void testIfSaveWorks() {
 
 		ApplicationRest applicationRest = RestConversionService
-				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
+				.applicationToApplicationRest(PersistenceFixture.bmStreamingSystem());
 
 		applicationService.save(applicationRest);
 
@@ -86,7 +86,7 @@ public class ApplicationServiceTest {
 	public void testIfDeleteWorks() {
 
 		ApplicationRest applicationRest = RestConversionService
-				.applicationToApplicationRest(PersistenceFixture.megaFunkSystem());
+				.applicationToApplicationRest(PersistenceFixture.bmStreamingSystem());
 
 		applicationService.save(applicationRest);
 

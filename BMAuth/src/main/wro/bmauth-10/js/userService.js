@@ -4,6 +4,10 @@ angular.module('bmauth.main')
 	return $resource($rootScope.authContext + 'bmauth/users/:userId');
 }])
 
+.factory('userServiceByAppname', [ '$resource','$rootScope', function($resource, $rootScope) {
+	return $resource($rootScope.authContext + 'bmauth/users/appname/:appname');
+}])
+
 .factory('forgotMyPasswordService', [ '$resource','$rootScope', function($resource, $rootScope) {
 	return $resource($rootScope.authContext + 'bmauth/token/generate_token');
 }])

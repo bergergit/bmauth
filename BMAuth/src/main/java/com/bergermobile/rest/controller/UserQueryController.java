@@ -3,12 +3,18 @@ package com.bergermobile.rest.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bergermobile.commons.rest.DataTableBase;
@@ -24,7 +30,10 @@ public class UserQueryController {
 
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	private PagedResourcesAssembler<UserRest> assembler;
+	
 	@RequestMapping(value = "/users")
 	public DataTableBase<UserRest> findAllUsers(@ModelAttribute DataTableCriterias criterias) {
 
@@ -40,6 +49,17 @@ public class UserQueryController {
 	@RequestMapping(value = "/users/appname/{appName}")
 	public List<UserRest> findUsersByAppName(@PathVariable String appName) {
 		return userService.findByApplicationName(appName);
+	}
+	
+	@RequestMapping(value = "/users/appname/{appName}/hateoas", produces = "application/json")
+	@ResponseBody
+	public PagedResources<Resource<UserRest>> findUsersByAppNameHateoas(@PathVariable String appName) {
+		
+		List<UserRest> content = userService.findByApplicationName(appName);
+		
+		Page<UserRest> page = new PageImpl<UserRest>(content);
+		
+		return assembler.toResource(page);
 	}
 
 	@RequestMapping(value = "/users/{userId}")

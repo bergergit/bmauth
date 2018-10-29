@@ -18,7 +18,7 @@
 				<environment>bmauth-dev</environment>
 				<debug-level>TRACE</debug-level>
 				<spring.jpa.show-sql>true</spring.jpa.show-sql>
-				<spring.datasource.url>jdbc:mysql://localhost/BM_Auth</spring.datasource.url>
+				<spring.datasource.url>jdbc:mysql://localhost/bmauth</spring.datasource.url>
 				<spring.datasource.username>bmauth</spring.datasource.username>
 				<spring.datasource.password>bmauth</spring.datasource.password>
 				<spring.redis.host>localhost</spring.redis.host>

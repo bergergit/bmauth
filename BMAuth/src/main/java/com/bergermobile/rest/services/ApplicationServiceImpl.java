@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bergermobile.persistence.domain.Application;
 import com.bergermobile.persistence.repository.ApplicationRepository;
-import com.bergermobile.persistence.repository.OnlineContractRepository;
 import com.bergermobile.rest.domain.ApplicationRest;
 
 @Service
@@ -19,8 +18,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Autowired
 	private ApplicationRepository applicationRepository;
 
-	@Autowired
-	private OnlineContractRepository onlineContractRepository;
+//	@Autowired
+//	private OnlineContractRepository onlineContractRepository;
 	
 	@Override
 	public List<ApplicationRest> findAllApplications() {

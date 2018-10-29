@@ -3,8 +3,6 @@ package com.bergermobile.rest.controller;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javassist.NotFoundException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -18,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bergermobile.commons.security.SecurityUser;
-import com.bergermobile.rest.services.ApplicationService;
-import com.bergermobile.rest.services.UserService;
 import com.bergermobile.security.CustomUserDetailsService;
+
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET)
@@ -31,11 +29,11 @@ public class AuthenticationController {
 	@Autowired
     private Environment environment;
 
-	@Autowired
-    private UserService userService;
+//	@Autowired
+    //private UserService userService;
 	
-	@Autowired
-	private ApplicationService applicationService;
+//	@Autowired
+//	private ApplicationService applicationService;
 	
 	@RequestMapping("/user")
 	public Map<String, Object> user(@AuthenticationPrincipal SecurityUser user, HttpServletRequest request) throws NotFoundException {
